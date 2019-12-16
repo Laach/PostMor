@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.mdhgroup2.postmor.About.AboutFragment"
+        android:label="about_fragment"
+        tools:layout="@layout/about_fragment" />
+    <fragment
+        android:id="@+id/boxFragment"
+        android:name="com.mdhgroup2.postmor.Box.BoxFragment"
+        android:label="box_fragment"
+        tools:layout="@layout/box_fragment" />
+    <fragment
+        android:id="@+id/composeFragment"
+        android:name="com.mdhgroup2.postmor.Compose.ComposeFragment"
+        android:label="compose_fragment"
+        tools:layout="@layout/compose_fragment" />
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.mdhgroup2.postmor.Contacts.ContactsFragment"
+        android:label="contacts_fragment"
+        tools:layout="@layout/contacts_fragment" >
+        <action
+            android:id="@+id/action_contactsFragment_to_userToUserFragment"
+            app:destination="@id/userToUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mdhgroup2.postmor.Home.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_tutorialFragment"
+            app:destination="@+id/tutorialFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_composeFragment"
+            app:destination="@id/composeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_boxFragment"
+            app:destination="@id/boxFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.mdhgroup2.postmor.Register.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mdhgroup2.postmor.Settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.mdhgroup2.postmor.SignIn.SignInFragment"
+        android:label="sign_in_fragment"
+        tools:layout="@layout/sign_in_fragment" >
+        <action
+            android:id="@+id/action_signInFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tutorialFragment"
+        android:name="com.mdhgroup2.postmor.Tutorial.TutorialFragment"
+        android:label="tutorial_fragment"
+        tools:layout="@layout/tutorial_fragment" >
+        <action
+            android:id="@+id/action_tutorialFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userToUserFragment"
+        android:name="com.mdhgroup2.postmor.UserToUser.UserToUserFragment"
+        android:label="user_to_user_fragment"
+        tools:layout="@layout/user_to_user_fragment" />
+</navigation>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PostMor</string>
+
+    <!-- home fragment -->
+    <string name="home_box_button_title">Box</string>
+    <string name="home_compose_button_title">Compose</string>
+    <string name="home_contacts_button_title">Contacts</string>
+
 </resources>
