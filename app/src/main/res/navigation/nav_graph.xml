@@ -35,10 +35,10 @@
         tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_tutorialFragment"
-            app:destination="@+id/tutorialFragment" />
+            app:destination="@id/registration_graph" />
         <action
             android:id="@+id/action_homeFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
+            app:destination="@id/registration_graph" />
         <action
             android:id="@+id/action_homeFragment_to_composeFragment"
             app:destination="@id/composeFragment" />
@@ -47,19 +47,11 @@
             app:destination="@id/contactsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_boxFragment"
-            app:destination="@id/boxFragment" />
+            app:destination="@+id/boxFragment"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.mdhgroup2.postmor.Register.RegisterFragment"
-        android:label="register_fragment"
-        tools:layout="@layout/register_fragment" >
-        <action
-            android:id="@+id/action_registerFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -71,26 +63,39 @@
             app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.mdhgroup2.postmor.SignIn.SignInFragment"
-        android:label="sign_in_fragment"
-        tools:layout="@layout/sign_in_fragment" >
-        <action
-            android:id="@+id/action_signInFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/tutorialFragment"
-        android:name="com.mdhgroup2.postmor.Tutorial.TutorialFragment"
-        android:label="tutorial_fragment"
-        tools:layout="@layout/tutorial_fragment" >
-        <action
-            android:id="@+id/action_tutorialFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/userToUserFragment"
         android:name="com.mdhgroup2.postmor.UserToUser.UserToUserFragment"
         android:label="user_to_user_fragment"
         tools:layout="@layout/user_to_user_fragment" />
+    <navigation
+        android:id="@+id/registration_graph"
+        app:startDestination="@id/signInFragment" >
+        <fragment
+            android:id="@+id/tutorialFragment"
+            android:name="com.mdhgroup2.postmor.Tutorial.TutorialFragment"
+            android:label="tutorial_fragment"
+            tools:layout="@layout/tutorial_fragment">
+            <action
+                android:id="@+id/action_tutorialFragment_to_signInFragment"
+                app:destination="@id/signInFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/signInFragment"
+            android:name="com.mdhgroup2.postmor.SignIn.SignInFragment"
+            android:label="sign_in_fragment"
+            tools:layout="@layout/sign_in_fragment">
+            <action
+                android:id="@+id/action_signInFragment_to_registerFragment"
+                app:destination="@id/registerFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.mdhgroup2.postmor.Register.RegisterFragment"
+            android:label="register_fragment"
+            tools:layout="@layout/register_fragment">
+            <action
+                android:id="@+id/action_registerFragment_to_homeFragment2"
+                app:destination="@id/homeFragment" />
+        </fragment>
+    </navigation>
 </navigation>
