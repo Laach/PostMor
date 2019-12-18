@@ -25,13 +25,11 @@ public class HomeFragment extends Fragment {
         return new HomeFragment();
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-
-        Button boxButton = view.findViewById(R.id.boxButton);
-        boxButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToBoxFragment()));
 
 
 
@@ -43,6 +41,13 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        View view = getView();
+        Button boxButton = view.findViewById(R.id.boxButton);
+        Button composeButton = view.findViewById(R.id.composeButton);
+        Button contactsButton = view.findViewById(R.id.contactsButton);
+        boxButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToBoxFragment()));
+        composeButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToComposeFragment()));
+        contactsButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToContactsFragment()));
         // TODO: Use the ViewModel
     }
 

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,10 @@ import com.mdhgroup2.postmor.R;
 public class ContactsFragment extends Fragment {
 
     private ContactsViewModel mViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
@@ -25,7 +31,19 @@ public class ContactsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.contacts_fragment, container, false);
+        View view = inflater.inflate(R.layout.contacts_fragment, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.contactsRecyclerView);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(container.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new ContactsAdapter();
+        recyclerView.setAdapter(mAdapter);
+
+        return view;
     }
 
     @Override
