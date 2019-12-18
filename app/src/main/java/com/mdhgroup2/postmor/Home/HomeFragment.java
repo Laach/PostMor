@@ -31,15 +31,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         Button boxButton = view.findViewById(R.id.boxButton);
-        boxButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                NavDirections action = HomeFragmentDirections.actionHomeFragmentToBoxFragment();
-                Navigation.findNavController(v).navigate(action);
-            }
-        });
+        boxButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToBoxFragment()));
+
 
 
 
