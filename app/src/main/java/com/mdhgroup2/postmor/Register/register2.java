@@ -17,11 +17,17 @@ import com.mdhgroup2.postmor.R;
 public class register2 extends Fragment {
 
     private Register2ViewModel mViewModel;
+    private static final String KEY_POSITION = "position";
 
-    public static register2 newInstance() {
-        return new register2();
+    public static register2 newInstance(int position) {
+        register2 reg = new register2();
+        Bundle args = new Bundle();
+
+        args.putInt(KEY_POSITION, position);
+        reg.setArguments(args);
+
+        return(reg);
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
