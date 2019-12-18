@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -20,6 +21,7 @@ import com.mdhgroup2.postmor.R;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel mViewModel;
+    NavController navController;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -33,6 +35,10 @@ public class HomeFragment extends Fragment {
 
 
 
+        boxButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                navController = Navigation.findNavController(v);
 
         return view;
     }
