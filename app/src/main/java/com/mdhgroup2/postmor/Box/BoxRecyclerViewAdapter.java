@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdhgroup2.postmor.R;
 
-import java.util.Date;
-
-class BoxItemsAdapter extends RecyclerView.Adapter {
+class BoxAdapter extends RecyclerView.Adapter {
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BoxItemsAdapter() {
+    public BoxAdapter() {
     }
 
     private String[] mDataset = {"Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper"};;
@@ -47,8 +45,8 @@ class BoxItemsAdapter extends RecyclerView.Adapter {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public BoxItemsAdapter.BoxItemsViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                 int viewType) {
+    public BoxAdapter.BoxItemsViewHolder onCreateViewHolder(ViewGroup parent,
+                                                            int viewType) {
         // create a new view
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.box_item, parent, false);
