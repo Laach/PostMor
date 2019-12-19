@@ -32,14 +32,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-
-
-
-        boxButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                navController = Navigation.findNavController(v);
-
         return view;
     }
 
@@ -48,6 +40,7 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = getView();
+        navController = Navigation.findNavController(view);
         Button boxButton = view.findViewById(R.id.boxButton);
         Button composeButton = view.findViewById(R.id.composeButton);
         Button contactsButton = view.findViewById(R.id.contactsButton);

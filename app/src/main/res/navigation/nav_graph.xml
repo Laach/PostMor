@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@+id/homeFragment">
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.mdhgroup2.postmor.About.AboutFragment"
@@ -23,7 +23,7 @@
         android:id="@+id/contactsFragment"
         android:name="com.mdhgroup2.postmor.Contacts.ContactsFragment"
         android:label="contacts_fragment"
-        tools:layout="@layout/contacts_fragment" >
+        tools:layout="@layout/contacts_fragment">
         <action
             android:id="@+id/action_contactsFragment_to_userToUserFragment"
             app:destination="@id/userToUserFragment" />
@@ -59,7 +59,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.mdhgroup2.postmor.Settings.SettingsFragment"
         android:label="settings_fragment"
-        tools:layout="@layout/settings_fragment" >
+        tools:layout="@layout/settings_fragment">
         <action
             android:id="@+id/action_settingsFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
@@ -71,7 +71,7 @@
         tools:layout="@layout/user_to_user_fragment" />
     <navigation
         android:id="@+id/registration_graph"
-        app:startDestination="@id/signInFragment" >
+        app:startDestination="@id/signInFragment">
         <fragment
             android:id="@+id/tutorialFragment"
             android:name="com.mdhgroup2.postmor.Tutorial.TutorialFragment"
