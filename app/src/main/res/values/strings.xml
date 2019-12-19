@@ -24,6 +24,10 @@
     <string name="box_tab_all">All</string>
     <string name="box_tab_inbox">Inbox</string>
     <string name="box_tab_outbox">Outbox</string>
+    <string name="box_button_reply">Reply</string>
+    <string name="box_to_text">To</string>
+    <string name="box_from_text">From</string>
+
 
     <!-- compose fragment -->
 
