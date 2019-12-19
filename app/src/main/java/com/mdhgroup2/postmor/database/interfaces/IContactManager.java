@@ -8,6 +8,7 @@ import java.util.List;
 public interface IContactManager {
     UserCard findByAddress(String address);
     List<Contact> getContacts();
+    void addContact(int ID);
     void deleteContact(int ID);
     UserCard getUserCard(int ID);
 
