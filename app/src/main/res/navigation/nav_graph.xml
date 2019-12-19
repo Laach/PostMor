@@ -44,7 +44,10 @@
             app:destination="@id/composeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_contactsFragment"
-            app:destination="@id/contactsFragment" />
+            app:destination="@id/contactsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_boxFragment"
             app:destination="@+id/boxFragment" />

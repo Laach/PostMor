@@ -21,6 +21,9 @@
     <string name="home_contacts_button_title">Contacts</string>
 
     <!-- box fragment -->
+    <string name="box_tab_all">All</string>
+    <string name="box_tab_inbox">Inbox</string>
+    <string name="box_tab_outbox">Outbox</string>
 
     <!-- compose fragment -->
 
