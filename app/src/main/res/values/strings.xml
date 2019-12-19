@@ -1,9 +1,57 @@
 <resources>
     <string name="app_name">PostMor</string>
 
+    <!-- buttons -->
+    <string name="next_button">next</string>
+    <string name="previous_button">previous</string>
+    <string name="later_button">later</string>
+    <string name="finish_button">finish</string>
+
+    <!-- text fields -->
+    <string name="enter_email_label">Email:</string>
+    <string name="enter_firstname_label">First Name:</string>
+    <string name="enter_email_clue">Ex: johndoe@gmail.com</string>
+    <string name="enter_firstname_clue">Ex: John</string>
+    <string name="enter_password_label">Password:</string>
+    <string name="confirm_password_label">Confirm password:</string>
+
     <!-- home fragment -->
     <string name="home_box_button_title">Box</string>
     <string name="home_compose_button_title">Compose</string>
     <string name="home_contacts_button_title">Contacts</string>
+
+    <!-- box fragment -->
+    <string name="box_tab_all">All</string>
+    <string name="box_tab_inbox">Inbox</string>
+    <string name="box_tab_outbox">Outbox</string>
+
+    <!-- compose fragment -->
+
+    <!-- contacts fragment -->
+
+    <!-- register fragment -->
+    <string name="register_1_description">In postmor, your real name and generated "home address" are used to send you letters.</string>
+    <string name="register_1_regenerate_button_title">Regenerate</string>
+    <string name="register_1_address_explanation_text">Choose an address</string>
+
+    <string name="register_2_description">Choose a profile picture</string>
+    <string name="register_2_upload_button_title">Upload</string>
+
+    <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
+    <string name="password_validity_feedback">* Please enter a password</string>
+
+    <!-- settings fragment -->
+
+    <!-- sign in fragment -->
+    <string name="sign_in_description">Sign in with an already existing account</string>
+    <string name="register_hint_text">Don\'t have an account?</string>
+    <string name="register_button_text">Register</string>
+    <string name="sign_in_confirm_button">Sign in</string>
+
+    <!-- tutorial fragment -->
+
+    <!-- user to user fragment -->
+
+    <!-- about fragment -->
 
 </resources>
