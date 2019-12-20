@@ -6,6 +6,8 @@
     <string name="previous_button">previous</string>
     <string name="later_button">later</string>
     <string name="finish_button">finish</string>
+    <string name="confirm_button">confirm</string>
+    <string name="send_button">send</string>
 
     <!-- text fields -->
     <string name="enter_email_label">Email:</string>
@@ -30,6 +32,16 @@
 
 
     <!-- compose fragment -->
+    <string name="compose_type_text">Type a letter</string>
+    <string name="compose_handwrite_text">Write by hand</string>
+    <string name="compose_or_text">or</string>
+    <string name="compose_to_text">To:</string>
+    <string name="compose_choose_recipient">Choose recipient</string>
+    <string name="compose_pick_from_contacts">Pick from contacts</string>
+    <string name="compose_enter_their_address_label">Enter their address</string>
+    <string name="compose_address_hint">Ex: Masksnöskottargatan 123</string>
+    <string name="compose_choose_pictures">Choose pictures</string>
+    <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
 
     <!-- contacts fragment -->
 
