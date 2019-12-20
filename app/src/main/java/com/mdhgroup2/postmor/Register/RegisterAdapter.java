@@ -1,8 +1,5 @@
 package com.mdhgroup2.postmor.Register;
 
-import com.mdhgroup2.postmor.Register.register1;
-import com.mdhgroup2.postmor.Register.register2;
-import com.mdhgroup2.postmor.Register.register3;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
