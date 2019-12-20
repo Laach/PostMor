@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.mdhgroup2.postmor.R;
 
@@ -44,9 +45,11 @@ public class HomeFragment extends Fragment {
         Button boxButton = view.findViewById(R.id.boxButton);
         Button composeButton = view.findViewById(R.id.composeButton);
         Button contactsButton = view.findViewById(R.id.contactsButton);
+        ImageButton settingsButton = view.findViewById(R.id.settingsButton);
         boxButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToBoxFragment()));
         composeButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToComposeFragment()));
         contactsButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToContactsFragment()));
+        settingsButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToSettingsFragment()));
         // TODO: Use the ViewModel
     }
 

@@ -1,0 +1,163 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c40091cf44f2aab3385fe1fd4a4af438",
+    "entities": [
+      {
+        "tableName": "Messages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER NOT NULL, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `SenderPublicKey` TEXT, PRIMARY KEY(`InternalMessageID`))",
+        "fields": [
+          {
+            "fieldPath": "InternalMessageID",
+            "columnName": "InternalMessageID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ExternalMessageID",
+            "columnName": "ExternalMessageID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "UserID",
+            "columnName": "UserID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "WrittenBy",
+            "columnName": "WrittenBy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "IsDraft",
+            "columnName": "IsDraft",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "IsOutgoing",
+            "columnName": "IsOutgoing",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "IsRead",
+            "columnName": "IsRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TimeStamp",
+            "columnName": "TimeStamp",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "DeliveryTime",
+            "columnName": "DeliveryTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SenderPublicKey",
+            "columnName": "SenderPublicKey",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "InternalMessageID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "InternalMsgID",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Num` INTEGER NOT NULL, PRIMARY KEY(`Num`))",
+        "fields": [
+          {
+            "fieldPath": "Num",
+            "columnName": "Num",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "Num"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Name` TEXT, `Address` TEXT, `PublicKey` TEXT, `IsFriend` INTEGER NOT NULL, `ProfilePicture` TEXT, PRIMARY KEY(`ID`))",
+        "fields": [
+          {
+            "fieldPath": "ID",
+            "columnName": "ID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Address",
+            "columnName": "Address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PublicKey",
+            "columnName": "PublicKey",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "IsFriend",
+            "columnName": "IsFriend",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ProfilePicture",
+            "columnName": "ProfilePicture",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [
+      {
+        "viewName": "MsgCard",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID as UserID, WrittenBy as SenderID, Name as Name, Address as Address, ProfilePicture as Picture, IsFriend as IsFriend, TimeStamp as DateStamp, InternalMessageID as MsgID FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c40091cf44f2aab3385fe1fd4a4af438')"
+    ]
+  }
+}
