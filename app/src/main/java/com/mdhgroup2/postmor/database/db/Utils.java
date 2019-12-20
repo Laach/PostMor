@@ -16,4 +16,10 @@ public class Utils {
         c.set(2019, 12, 19, hour, minute, second);
         return c.getTime();
     }
+
+    public static Date makeDateTime(int year, int month, int day, int hour, int minute, int second){
+        Calendar c = new GregorianCalendar();
+        c.set(year, month, day, hour, minute, second);
+        return c.getTime();
+    }
 }
