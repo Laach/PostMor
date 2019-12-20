@@ -7,22 +7,30 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.mdhgroup2.postmor.About.AboutFragment"
-        android:label="about_fragment"
+        android:label="About"
         tools:layout="@layout/about_fragment" />
     <fragment
         android:id="@+id/boxFragment"
         android:name="com.mdhgroup2.postmor.Box.BoxFragment"
-        android:label="box_fragment"
+        android:label="Box"
         tools:layout="@layout/box_fragment" />
     <fragment
         android:id="@+id/composeFragment"
         android:name="com.mdhgroup2.postmor.Compose.ComposeFragment"
-        android:label="compose_fragment"
-        tools:layout="@layout/compose_fragment" />
+        android:label="Compose"
+        tools:layout="@layout/compose_fragment" >>
+        <action
+            android:id="@+id/action_composeFragment_to_compose2Handwritten"
+            app:destination="@id/compose2Handwritten" />
+        <action
+            android:id="@+id/action_composeFragment_to_compose2Typed"
+            app:destination="@id/compose2Typed" />
+    </fragment>
+
     <fragment
         android:id="@+id/contactsFragment"
         android:name="com.mdhgroup2.postmor.Contacts.ContactsFragment"
-        android:label="contacts_fragment"
+        android:label="Contacts"
         tools:layout="@layout/contacts_fragment">
         <action
             android:id="@+id/action_contactsFragment_to_userToUserFragment"
@@ -31,7 +39,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mdhgroup2.postmor.Home.HomeFragment"
-        android:label="home_fragment"
+        android:label="Home"
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_tutorialFragment"
@@ -58,7 +66,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.mdhgroup2.postmor.Settings.SettingsFragment"
-        android:label="settings_fragment"
+        android:label="Settings"
         tools:layout="@layout/settings_fragment">
         <action
             android:id="@+id/action_settingsFragment_to_aboutFragment"
@@ -67,7 +75,7 @@
     <fragment
         android:id="@+id/userToUserFragment"
         android:name="com.mdhgroup2.postmor.UserToUser.UserToUserFragment"
-        android:label="user_to_user_fragment"
+        android:label="User to user"
         tools:layout="@layout/user_to_user_fragment" />
     <navigation
         android:id="@+id/registration_graph"
@@ -75,7 +83,7 @@
         <fragment
             android:id="@+id/tutorialFragment"
             android:name="com.mdhgroup2.postmor.Tutorial.TutorialFragment"
-            android:label="tutorial_fragment"
+            android:label="Tutorial"
             tools:layout="@layout/tutorial_fragment">
             <action
                 android:id="@+id/action_tutorialFragment_to_signInFragment"
@@ -84,7 +92,7 @@
         <fragment
             android:id="@+id/signInFragment"
             android:name="com.mdhgroup2.postmor.SignIn.SignInFragment"
-            android:label="sign_in_fragment"
+            android:label="Sign in"
             tools:layout="@layout/sign_in_fragment">
             <action
                 android:id="@+id/action_signInFragment_to_registerFragment"
@@ -93,11 +101,21 @@
         <fragment
             android:id="@+id/registerFragment"
             android:name="com.mdhgroup2.postmor.Register.RegisterFragment"
-            android:label="register_fragment"
+            android:label="Reqister"
             tools:layout="@layout/register_fragment">
             <action
                 android:id="@+id/action_registerFragment_to_homeFragment2"
                 app:destination="@id/homeFragment" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/compose2Handwritten"
+        android:name="com.mdhgroup2.postmor.Compose.Compose2Handwritten"
+        android:label="compose2_handwritten_fragment"
+        tools:layout="@layout/compose2_handwritten_fragment" />
+    <fragment
+        android:id="@+id/compose2Typed"
+        android:name="com.mdhgroup2.postmor.Compose.Compose2Typed"
+        android:label="compose2_typed_fragment"
+        tools:layout="@layout/compose2_typed_fragment" />
 </navigation>
