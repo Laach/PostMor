@@ -7,15 +7,16 @@ import androidx.room.DatabaseView;
 import java.util.Date;
 
 @DatabaseView("SELECT " +
-        "Users.ID as UserID, " +
-        "WrittenBy as SenderID, " +
-        "Name as Name, " +
-        "Address as Address, " +
-        "ProfilePicture as Picture, " +
-        "IsFriend as IsFriend, " +
-        "TimeStamp as DateStamp, " +
+        "Users.ID          as UserID, " +
+        "WrittenBy         as SenderID, " +
+        "Name              as Name, " +
+        "Address           as Address, " +
+        "ProfilePicture    as Picture, " +
+        "IsFriend          as IsFriend, " +
+        "TimeStamp         as DateStamp, " +
         "InternalMessageID as MsgID " +
         "FROM Users INNER JOIN Messages on Users.ID = Messages.UserID")
+
 public class MsgCard {
     public String UserID;
     public String SenderID;
