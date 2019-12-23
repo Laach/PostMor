@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Address address 12"
+        android:text="@string/box_address"
         app:layout_constraintStart_toEndOf="@+id/profilePictureImageView"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Name LastName"
+        android:text="@string/box_name"
         app:layout_constraintStart_toEndOf="@+id/profilePictureImageView"
         app:layout_constraintTop_toTopOf="@+id/toOrFrom" />
 
@@ -40,6 +40,7 @@
         android:layout_width="86dp"
         android:layout_height="67dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/box_profile_pic_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toOrFrom"
         tools:srcCompat="@tools:sample/avatars" />
@@ -60,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Date 11/11/11"
+        android:text="@string/box_date"
         app:layout_constraintStart_toEndOf="@+id/profilePictureImageView"
         app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
 
@@ -68,6 +69,7 @@
         android:id="@+id/toOrFromImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/box_received_image"
         app:layout_constraintBottom_toBottomOf="@+id/toOrFrom"
         app:layout_constraintEnd_toEndOf="@+id/profilePictureImageView"
         app:layout_constraintStart_toEndOf="@+id/toOrFrom"

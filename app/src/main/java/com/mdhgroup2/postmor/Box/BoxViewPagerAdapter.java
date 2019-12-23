@@ -8,9 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class BoxViewPagerAdapter extends FragmentPagerAdapter {
+public class BoxViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.box_tab_all, R.string.box_tab_inbox, R.string.box_tab_outbox};
@@ -23,7 +23,13 @@ public class BoxViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return BoxViewFragment.newInstance(position + 1);
+        if(position == 0){
+            return BoxAllFragment.newInstance(position + 1);
+        }
+        else if (position == 1){
+            return BoxInboxFragment.newInstance(position + 1);
+        }
+        return BoxOutboxFragment.newInstance(position + 1);
     }
 
     @Nullable
