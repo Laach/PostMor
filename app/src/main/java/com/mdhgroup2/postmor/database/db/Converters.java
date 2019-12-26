@@ -7,7 +7,10 @@ import android.util.Base64;
 import androidx.room.TypeConverter;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Converters {
     @TypeConverter
@@ -45,6 +48,31 @@ public class Converters {
 
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
+
+    @TypeConverter
+    public List<Bitmap> bitmapListFromString(String data) {
+        List<Bitmap> list = new ArrayList<>();
+
+        String[] array = data.split(",");
+
+        for (String s : array) {
+            if (!s.isEmpty()) {
+                list.add(fromBase64(s));
+            }
+        }
+        return list;
+    }
+
+    @TypeConverter
+    public String writingStringFromList(List<Bitmap> list) {
+        String bitmaps = "";
+        for (Bitmap bm : list) {
+            bitmaps += "," + bitmapToBase64(bm);
+        }
+        return bitmaps;
+    }
+
+
 }
 
 
