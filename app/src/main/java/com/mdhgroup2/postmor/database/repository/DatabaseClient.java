@@ -30,6 +30,10 @@ public class DatabaseClient {
         return new AccountRepository(db.accountDao(), db.manageDao());
     }
 
+    public static IContactRepository getContactRepository(){
+        return new ContactRepository(db.contactDao(), db.manageDao());
+    }
+
 
 
     // Mock repositories
