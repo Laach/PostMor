@@ -10,7 +10,6 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.mdhgroup2.postmor.database.Entities.Message;
-import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.Entities.User;
 
 import java.util.Date;
@@ -22,9 +21,6 @@ public abstract class ManageDao {
 
     @Insert
     public abstract void addUser(User user);
-
-    @Insert
-    public abstract void registerAccount(Settings s);
 
     @Query("SELECT ID FROM Settings LIMIT 1")
     public abstract int getUserId();
@@ -47,20 +43,18 @@ public abstract class ManageDao {
     @Query("SELECT OutgoingLetterCount FROM Settings LIMIT 1")
     public abstract LiveData<Integer> getOutgoingLetterCount();
 
-    @Query("UPDATE Settings " +
-            "SET OutgoingLetterCount = OutgoingLetterCount + 1")
-    public abstract void incrementOutoing();
-
-    @Query("UPDATE Settings " +
-            "SET OutgoingLetterCount = 0")
-    public abstract void resetOutgoing();
-
     @Query("UPDATE InternalMsgID " +
             "SET Num = Num + 1")
     abstract void incrementInternalMsgID();
 
     @Query("SELECT Num FROM InternalMsgID LIMIT 1")
     abstract int getInternalMsgID();
+
+    @Query("SELECT AuthToken FROM Settings LIMIT 1")
+    abstract int getAuthToken();
+
+    @Query("UPDATE Settings SET AuthToken = :token")
+    abstract int setAuthToken(String token);
 
     @Transaction
     public int getNewMsgId(){

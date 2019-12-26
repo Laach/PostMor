@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "02ae8ff8d7af2a640c2e89d08e5f7566",
+    "identityHash": "8700c631e4bd3912bcb953cfd76cd420",
     "entities": [
       {
         "tableName": "Messages",
@@ -162,7 +162,7 @@
       },
       {
         "tableName": "Settings",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Password` TEXT, `ProfilePicture` TEXT, `PublicKey` TEXT, `PrivateKey` TEXT, `PickupTime` INTEGER, `OutgoingLetterCount` INTEGER, PRIMARY KEY(`ID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT, `Password` TEXT, `Address` TEXT, `ProfilePicture` TEXT, `PublicKey` TEXT, `PrivateKey` TEXT, `PickupTime` INTEGER, `OutgoingLetterCount` INTEGER, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT, PRIMARY KEY(`ID`))",
         "fields": [
           {
             "fieldPath": "ID",
@@ -171,8 +171,20 @@
             "notNull": true
           },
           {
+            "fieldPath": "Email",
+            "columnName": "Email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "Password",
             "columnName": "Password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Address",
+            "columnName": "Address",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -205,6 +217,18 @@
             "columnName": "OutgoingLetterCount",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "IsLoggedIn",
+            "columnName": "IsLoggedIn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AuthToken",
+            "columnName": "AuthToken",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -229,7 +253,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '02ae8ff8d7af2a640c2e89d08e5f7566')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8700c631e4bd3912bcb953cfd76cd420')"
     ]
   }
 }

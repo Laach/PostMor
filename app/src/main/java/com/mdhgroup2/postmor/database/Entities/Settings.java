@@ -11,11 +11,15 @@ import java.util.Date;
 public class Settings {
     @PrimaryKey
     public int ID;
+    public String Email;
     public String Password;
+    public String Address;
     public Bitmap ProfilePicture;
     public String PublicKey;
     public String PrivateKey;
     public Date PickupTime;
     public Integer OutgoingLetterCount;
+    public boolean IsLoggedIn;
+    public String AuthToken;
 
 }

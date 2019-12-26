@@ -33,4 +33,5 @@ import com.mdhgroup2.postmor.database.Entities.UserWithMessages;
 public abstract class AppDatabase extends RoomDatabase {
     public abstract BoxDao boxDao();
     public abstract ManageDao manageDao();
+    public abstract AccountDao accountDao();
 }
