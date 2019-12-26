@@ -31,7 +31,8 @@ import com.mdhgroup2.postmor.database.Entities.UserWithMessages;
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract BoxDao boxDao();
-    public abstract ManageDao manageDao();
+    public abstract BoxDao     boxDao    ();
+    public abstract ManageDao  manageDao ();
     public abstract AccountDao accountDao();
+    public abstract ContactDao contactDao();
 }

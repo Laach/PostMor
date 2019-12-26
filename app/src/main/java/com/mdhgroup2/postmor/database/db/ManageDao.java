@@ -16,17 +16,21 @@ import java.util.Date;
 
 @Dao
 public abstract class ManageDao {
-    @Insert
-    public abstract void addMessage(Message msg);
 
     @Insert
     public abstract void addUser(User user);
+
+    @Insert
+    public abstract void addMessage(Message msg);
 
     @Query("SELECT ID FROM Settings LIMIT 1")
     public abstract int getUserId();
 
     @Query("SELECT Password FROM Settings LIMIT 1")
     public abstract String getUserPassword();
+
+    @Query("SELECT Email FROM Settings LIMIT 1")
+    public abstract String getUserEmail();
 
     @Query("SELECT ProfilePicture FROM Settings LIMIT 1")
     public abstract Bitmap getUserProfilePicture();
