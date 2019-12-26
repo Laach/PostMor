@@ -6,14 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".Compose.Compose2Handwritten">
 
-    <TextView
-        android:id="@+id/textView30"
+    <fragment
+        android:id="@+id/c2hand_Recipient"
+        android:name="com.mdhgroup2.postmor.Compose.RecipientFragment"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="Hnadwritten Compose"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/recipient_fragment" />
+
+    <Button
+        android:id="@+id/c2hand_Send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/send_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
