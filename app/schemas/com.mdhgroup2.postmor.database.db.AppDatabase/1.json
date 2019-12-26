@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c40091cf44f2aab3385fe1fd4a4af438",
+    "identityHash": "02ae8ff8d7af2a640c2e89d08e5f7566",
     "entities": [
       {
         "tableName": "Messages",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER NOT NULL, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `SenderPublicKey` TEXT, PRIMARY KEY(`InternalMessageID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER NOT NULL, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `SenderPublicKey` TEXT, `Images` TEXT, `Text` TEXT, PRIMARY KEY(`InternalMessageID`))",
         "fields": [
           {
             "fieldPath": "InternalMessageID",
@@ -65,6 +65,18 @@
           {
             "fieldPath": "SenderPublicKey",
             "columnName": "SenderPublicKey",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Images",
+            "columnName": "Images",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Text",
+            "columnName": "Text",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -147,17 +159,77 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Settings",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Password` TEXT, `ProfilePicture` TEXT, `PublicKey` TEXT, `PrivateKey` TEXT, `PickupTime` INTEGER, `OutgoingLetterCount` INTEGER, PRIMARY KEY(`ID`))",
+        "fields": [
+          {
+            "fieldPath": "ID",
+            "columnName": "ID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Password",
+            "columnName": "Password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ProfilePicture",
+            "columnName": "ProfilePicture",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PublicKey",
+            "columnName": "PublicKey",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PrivateKey",
+            "columnName": "PrivateKey",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PickupTime",
+            "columnName": "PickupTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "OutgoingLetterCount",
+            "columnName": "OutgoingLetterCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "ID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [
       {
         "viewName": "MsgCard",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID as UserID, WrittenBy as SenderID, Name as Name, Address as Address, ProfilePicture as Picture, IsFriend as IsFriend, TimeStamp as DateStamp, InternalMessageID as MsgID FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID          as UserID, WrittenBy         as SenderID, Name              as Name, Address           as Address, ProfilePicture    as Picture, IsFriend          as IsFriend, TimeStamp         as DateStamp, InternalMessageID as MsgID FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
+      },
+      {
+        "viewName": "MessageContent",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Text, Images, InternalMessageID FROM Messages"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c40091cf44f2aab3385fe1fd4a4af438')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '02ae8ff8d7af2a640c2e89d08e5f7566')"
     ]
   }
 }

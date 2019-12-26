@@ -1,10 +1,13 @@
 package com.mdhgroup2.postmor.database.Entities;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity(tableName = "Messages")
 public class Message {
@@ -20,4 +23,7 @@ public class Message {
     public Date TimeStamp;
     public Date DeliveryTime;
     public String SenderPublicKey;
+
+    public List<Bitmap> Images;
+    public String Text;
 }
