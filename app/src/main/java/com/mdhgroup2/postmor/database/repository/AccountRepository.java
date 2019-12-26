@@ -3,8 +3,13 @@ package com.mdhgroup2.postmor.database.repository;
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.db.AccountDao;
+import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.ManageDao;
+import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,25 +39,47 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public boolean registerAccount(Account account) {
+    public boolean registerAccount(Account acc) {
         // Query server and, on success, save to database.
 
 
+        String data = String.format("{" +
+                "\"username\" : \"%s\", " +
+                "\"password\" : \"%s\", " +
+                "\"email\" : \"%s\", " +
+                "\"address\" : \"%s\", " +
+                "\"picture\" : \"%s\"" +
+                "}",
+                acc.Name,
+                acc.Password,
+                acc.Email,
+                acc.Address,
+                Converters.bitmapToBase64(acc.Picture));
 
-        Settings s = new Settings();
-        s.ID = -1; // Server response
-        s.Address = account.Address;
-        s.ProfilePicture = account.Picture;
-        s.Password = account.Password; // Maybe get pass hash from server.
-        s.Email = account.Email;
-        s.OutgoingLetterCount = 0;
-        s.IsLoggedIn = true;
-        s.PickupTime = null; // Server response
-        s.PublicKey = null; // Server response
-        s.PrivateKey = null; // Server response
-        s.AuthToken = null; // Server response
+        try {
+            JSONObject json = Utils.APIPost("url", new JSONObject(data));
 
-        accountDb.registerAccount(s);
+            Settings s = new Settings();
+            s.ID = -1; // Server response
+            s.Address = acc.Address;
+            s.ProfilePicture = acc.Picture;
+            s.Password = acc.Password; // Maybe get pass hash from server.
+            s.Email = acc.Email;
+            s.OutgoingLetterCount = 0;
+            s.IsLoggedIn = true;
+            s.PickupTime = null; // Server response
+            s.PublicKey = null; // Server response
+            s.PrivateKey = null; // Server response
+            s.AuthToken = null; // Server response
+
+            accountDb.registerAccount(s);
+        }
+        catch(JSONException j){
+            // Return an object with more descriptive errors.
+            return false;
+        }
+
+
 
 
 
