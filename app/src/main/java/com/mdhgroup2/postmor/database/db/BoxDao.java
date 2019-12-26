@@ -1,21 +1,12 @@
 package com.mdhgroup2.postmor.database.db;
 
-import android.graphics.Bitmap;
-
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.DatabaseView;
-import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
+import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
-import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.User;
-import com.mdhgroup2.postmor.database.Entities.UserWithMessages;
-import com.mdhgroup2.postmor.database.interfaces.IBoxManager;
 
-import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -48,10 +39,14 @@ public interface BoxDao {
     @Query("SELECT COUNT(*) FROM Messages WHERE IsRead = 0 AND IsDraft = 0 AND IsOutgoing = 0")
 //    @Query("SELECT COUNT(*) FROM Users")
 //    int getNewMessageCount();
-    LiveData<Integer> getNewMessageCount();
+    int getNewMessageCount();
 
     @Query("SELECT * FROM Users")
     List<User> getUsers();
+
+    @Query("SELECT Text, Images, InternalmessageID FROM MessageContent WHERE InternalmessageID = :internalMsgId")
+    MessageContent getMsgContent(int internalMsgId);
+
 //    @Transaction
 //    @Query("SELECT * FROM Users")
 //    List<UserWithMessages> getAllUsers();

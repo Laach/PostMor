@@ -5,9 +5,7 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.mdhgroup2.postmor.database.db.AppDatabase;
-import com.mdhgroup2.postmor.database.interfaces.IBoxManager;
-import com.mdhgroup2.postmor.database.interfaces.ILetterManager;
-import com.mdhgroup2.postmor.database.repository.BoxRepository;
+import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 
 public class DatabaseClient {
     private static AppDatabase db;
@@ -18,10 +16,10 @@ public class DatabaseClient {
                  .build();
     }
 
-//    public static ILetterManager getLetterRepository(){
+//    public static ILetterRepository getLetterRepository(){
 //
 //    }
-    public static IBoxManager getBoxRepository(){
-        return new BoxRepository(db.boxDao());
+    public static IBoxRepository getBoxRepository(){
+        return new BoxRepository(db.boxDao(), db.manageDao());
     }
 }

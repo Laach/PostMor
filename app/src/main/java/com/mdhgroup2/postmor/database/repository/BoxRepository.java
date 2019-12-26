@@ -5,60 +5,67 @@ import androidx.lifecycle.LiveData;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.db.BoxDao;
-import com.mdhgroup2.postmor.database.interfaces.IBoxManager;
+import com.mdhgroup2.postmor.database.db.ManageDao;
+import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 
 import java.util.List;
 
-public class BoxRepository implements IBoxManager {
+public class BoxRepository implements IBoxRepository {
 
-    private BoxDao db;
+    private BoxDao boxdb;
+    private ManageDao managedb;
 
-    BoxRepository(BoxDao boxdao){
-        db = boxdao;
+    BoxRepository(BoxDao boxdao, ManageDao managedao){
+        boxdb = boxdao;
+        managedb = managedao;
     }
 
     @Override
     public List<MsgCard> getAllMessages() {
-        return null;
+        return boxdb.getAllMessages();
     }
 
     @Override
     public List<MsgCard> getAllMessages(int ID) {
-        return null;
+        return boxdb.getAllMessages(ID);
     }
 
     @Override
     public List<MsgCard> getInboxMessages() {
-        return null;
+        int uid = managedb.getUserId();
+        return boxdb.getInboxMessages(uid);
     }
 
     @Override
     public List<MsgCard> getInboxMessages(int ID) {
-        return null;
+        int uid = managedb.getUserId();
+        return boxdb.getInboxMessages(uid, ID);
     }
 
     @Override
     public List<MsgCard> getOutboxMessages() {
-        return null;
+        int uid = managedb.getUserId();
+        return boxdb.getOutboxMessages(uid);
     }
 
     @Override
     public List<MsgCard> getOutboxMessages(int ID) {
-        return null;
+        int uid = managedb.getUserId();
+        return boxdb.getOutboxMessages(uid, ID);
     }
 
     @Override
-    public LiveData<Integer> getNewMessageCount() {
-        return null;
+    public int getNewMessageCount() {
+        return boxdb.getNewMessageCount();
     }
 
     @Override
     public LiveData<Integer> outgoingLetterCount() {
-        return null;
+        return managedb.getOutgoingLetterCount();
     }
 
     @Override
     public MessageContent getMsgContent(int MsgID) {
-        return null;
+        return boxdb.getMsgContent(MsgID);
     }
 }
