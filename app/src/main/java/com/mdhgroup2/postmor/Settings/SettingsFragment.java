@@ -39,8 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                PasswordDialogFragment p = new PasswordDialogFragment();
-                p.show(getFragmentManager(), "changePassword");
+                Navigation.findNavController(getView()).navigate(SettingsFragmentDirections.actionSettingsFragmentToPasswordDialogFragment());
                 return true;
             }
         });
