@@ -72,5 +72,7 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         // Query server for logout, and then log out either way.
+
+        accountDb.setSignedOut();
     }
 }

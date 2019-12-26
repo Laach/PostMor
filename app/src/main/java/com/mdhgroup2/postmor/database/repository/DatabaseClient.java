@@ -5,7 +5,12 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.mdhgroup2.postmor.database.db.AppDatabase;
+import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
+import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
+import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
+import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
+import com.mdhgroup2.postmor.database.interfaces.ILetterRepository;
 
 public class DatabaseClient {
     private static AppDatabase db;
@@ -16,10 +21,22 @@ public class DatabaseClient {
                  .build();
     }
 
-//    public static ILetterRepository getLetterRepository(){
-//
-//    }
     public static IBoxRepository getBoxRepository(){
         return new BoxRepository(db.boxDao(), db.manageDao());
+    }
+
+    public static IAccountRepository getAccountRepository(){
+        return new AccountRepository(db.accountDao(), db.manageDao());
+    }
+
+
+
+    // Mock repositories
+    public static IContactRepository getMockContactRepository(){
+        return new ContactRepositoryMock();
+    }
+
+    public static ILetterRepository getMockLetterRepository(){
+        return new LetterRepositoryMock();
     }
 }
