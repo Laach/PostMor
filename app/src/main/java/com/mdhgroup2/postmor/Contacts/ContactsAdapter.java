@@ -15,17 +15,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mdhgroup2.postmor.Compose.ComposeFragmentDirections;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.UserToUser.UserToUserFragment;
+import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
+    List<Contact> contacts;
+
+    IContactRepository contactrepo;
     // Provide a suitable constructor (depends on the kind of dataset)
     public ContactsAdapter() {
+        contactrepo = DatabaseClient.getMockContactRepository();
+        contacts = contactrepo.getContacts();
     }
 
-    private String[] mDataset = {"Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper"};;
-    NavController navController;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -35,6 +43,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
         public TextView name;
         public TextView address;
         public ImageView profilePicture;
+        public int id;
         public ContactsViewHolder(View ci) {
             super(ci);
             contactItem = ci;
@@ -49,7 +58,9 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
             Toast.makeText(view.getContext(), String.format("Clicked on position %s", ContactsViewHolder.this.name.getText()), Toast.LENGTH_SHORT).show();
             Navigation.findNavController(view).navigate(R.id.userToUserFragment);
-//            getAdapterPosition()
+
+//gets index            getAdapterPosition()
+
         }
     }
 
@@ -70,14 +81,22 @@ class ContactsAdapter extends RecyclerView.Adapter {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ContactsViewHolder cvHolder = ((ContactsViewHolder) holder);
-        cvHolder.name.setText(mDataset[position]);
-        cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
+        cvHolder.name.setText(contacts.get(position).Name);
+        cvHolder.address.setText(contacts.get(position).Address);
+
+        if (contacts.get(position).Picture == null) {
+            cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
+        }
+        else {
+            cvHolder.profilePicture.setImageBitmap(contacts.get(position).Picture);
+        }
+        cvHolder.id = contacts.get(position).UserID;
         return;
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return contacts.size();
     }
 }
