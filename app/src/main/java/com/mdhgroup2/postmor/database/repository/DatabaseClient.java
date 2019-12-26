@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.mdhgroup2.postmor.database.db.AppDatabase;
+import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
 import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
@@ -32,6 +33,10 @@ public class DatabaseClient {
 
 
     // Mock repositories
+    public static IBoxRepository getMockBoxRepository(){
+        return new BoxRepositoryMock();
+    }
+
     public static IContactRepository getMockContactRepository(){
         return new ContactRepositoryMock();
     }

@@ -9,6 +9,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,12 +18,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseClient.initDb(getApplicationContext());
+            }
+        }).start();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
     }
 
     @Override
