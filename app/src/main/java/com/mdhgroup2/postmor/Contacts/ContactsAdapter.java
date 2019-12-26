@@ -8,9 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mdhgroup2.postmor.Compose.ComposeFragmentDirections;
 import com.mdhgroup2.postmor.R;
+import com.mdhgroup2.postmor.UserToUser.UserToUserFragment;
 
 import java.lang.reflect.Array;
 
@@ -21,7 +25,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
     }
 
     private String[] mDataset = {"Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper"};;
-
+    NavController navController;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -42,7 +46,10 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), String.format("Clicked on position %d", getAdapterPosition()), Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(view.getContext(), String.format("Clicked on position %s", ContactsViewHolder.this.name.getText()), Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(view).navigate(R.id.userToUserFragment);
+//            getAdapterPosition()
         }
     }
 
