@@ -7,12 +7,11 @@
         app:title="Profile picture"
         app:summary="Change profile picture"
         />
-    <EditTextPreference
-        app:key="password"
+    <Preference
+        app:key="changePassword"
         app:title="Password"
-        app:summary="Change password"
+        app:summary="Change Password"
         />
-
     <SwitchPreferenceCompat
         app:key="notifications"
         app:title="Notifications"
