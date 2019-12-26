@@ -29,6 +29,11 @@
     <string name="box_button_reply">Reply</string>
     <string name="box_to_text">To</string>
     <string name="box_from_text">From</string>
+    <string name="box_address">Address address 12</string>
+    <string name="box_name">Name Nameson</string>
+    <string name="box_date">11/11/11</string>
+    <string name="box_profile_pic_description">Profile picture</string>
+    <string name="box_received_image">Received</string>
 
 
     <!-- compose fragment -->
