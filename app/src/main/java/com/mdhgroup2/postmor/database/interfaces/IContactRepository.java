@@ -5,7 +5,7 @@ import com.mdhgroup2.postmor.database.DTO.UserCard;
 
 import java.util.List;
 
-public interface IContactManager {
+public interface IContactRepository {
     UserCard findByAddress(String address);
     List<Contact> getContacts();
     void addContact(int ID);

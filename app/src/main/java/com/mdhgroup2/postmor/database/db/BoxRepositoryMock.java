@@ -4,14 +4,11 @@ import androidx.lifecycle.LiveData;
 
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
-import com.mdhgroup2.postmor.database.interfaces.IBoxManager;
+import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-public class BoxManagerMock implements IBoxManager {
+public class BoxRepositoryMock implements IBoxRepository {
     List<MsgCard> l;
 
     List<MsgCard> l2;
@@ -22,7 +19,7 @@ public class BoxManagerMock implements IBoxManager {
 
 //    MutableLiveData<Integer> liveInt = new MutableLiveData<>();
 
-    public BoxManagerMock(){
+    public BoxRepositoryMock(){
 //        liveInt.setValue(10);
 
         MsgCard u1 = new MsgCard();
@@ -104,15 +101,11 @@ public class BoxManagerMock implements IBoxManager {
     }
 
     @Override
-    public LiveData<Integer> getNewMessageCount() {
+    public int getNewMessageCount() {
 
 
-        LiveData<Integer> ld =  new LiveData<Integer>() { {
-                postValue(14);
-            }
-        };
 
-        return ld;
+        return 14;
     }
 
     @Override

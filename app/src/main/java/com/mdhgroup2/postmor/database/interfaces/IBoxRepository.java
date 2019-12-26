@@ -7,7 +7,7 @@ import com.mdhgroup2.postmor.database.DTO.MsgCard;
 
 import java.util.List;
 
-public interface IBoxManager {
+public interface IBoxRepository {
 
 
     List<MsgCard> getAllMessages();  // All messages
@@ -20,7 +20,7 @@ public interface IBoxManager {
     List<MsgCard> getOutboxMessages(int ID);
 
     // Using Integer because LiveData can't use primitive int type.
-    LiveData<Integer> getNewMessageCount();
+    int getNewMessageCount();
     LiveData<Integer> outgoingLetterCount();
 
     MessageContent getMsgContent(int MsgID);

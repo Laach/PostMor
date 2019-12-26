@@ -4,7 +4,7 @@ import com.mdhgroup2.postmor.database.DTO.Account;
 
 import java.util.List;
 
-public interface IAccountManager {
+public interface IAccountRepository {
     List<String> getRandomAddresses(int count);
     boolean isValidPassword(String pass);
     boolean registerAccount(Account account); // Use an AccountBuilder

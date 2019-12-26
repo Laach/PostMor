@@ -1,14 +1,12 @@
 package com.mdhgroup2.postmor.database.db;
 
-import androidx.lifecycle.LiveData;
-
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
-import com.mdhgroup2.postmor.database.interfaces.ILetterManager;
+import com.mdhgroup2.postmor.database.interfaces.ILetterRepository;
 
 import java.util.Date;
 
 
-public class LetterMangerMock implements ILetterManager {
+public class LetterRepositoryMock implements ILetterRepository{
 
     @Override
     public Date getPickupTime() {

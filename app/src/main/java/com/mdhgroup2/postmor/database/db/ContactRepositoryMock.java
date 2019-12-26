@@ -1,18 +1,13 @@
 package com.mdhgroup2.postmor.database.db;
 
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-
-import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.UserCard;
-import com.mdhgroup2.postmor.database.interfaces.IContactManager;
+import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactManagerMock implements IContactManager {
+public class ContactRepositoryMock implements IContactRepository {
 
     @Override
     public UserCard findByAddress(String address) {
