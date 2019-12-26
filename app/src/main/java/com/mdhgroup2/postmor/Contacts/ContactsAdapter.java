@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +25,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ContactsViewHolder extends RecyclerView.ViewHolder {
+    public static class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         public View contactItem;
         public TextView name;
@@ -36,6 +37,12 @@ class ContactsAdapter extends RecyclerView.Adapter {
             name = contactItem.findViewById(R.id.nameTextView);
             address = contactItem.findViewById(R.id.addressTextView);
             profilePicture = contactItem.findViewById(R.id.profilePictureImageView);
+            ci.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(view.getContext(), String.format("Clicked on position %d", getAdapterPosition()), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -46,7 +53,6 @@ class ContactsAdapter extends RecyclerView.Adapter {
         // create a new view
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.contact_item, parent, false);
-
         ContactsViewHolder vh = new ContactsViewHolder(v);
         return vh;
     }
