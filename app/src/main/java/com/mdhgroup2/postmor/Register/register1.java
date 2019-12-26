@@ -17,9 +17,16 @@ import com.mdhgroup2.postmor.R;
 public class register1 extends Fragment {
 
     private Register1ViewModel mViewModel;
+    private static final String KEY_POSITION = "position";
 
-    public static register1 newInstance() {
-        return new register1();
+    public static register1 newInstance(int position) {
+        register1 reg = new register1();
+        Bundle args = new Bundle();
+
+        args.putInt(KEY_POSITION, position);
+        reg.setArguments(args);
+
+        return(reg);
     }
 
     @Override
