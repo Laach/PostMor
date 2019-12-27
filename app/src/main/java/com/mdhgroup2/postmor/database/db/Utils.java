@@ -49,7 +49,25 @@ public class Utils {
     public static String getAuthToken(ManageDao dao){
         // Fetches and sets new auth token
 
-        return null; // return new token
+        String email = dao.getUserEmail();
+        String password = dao.getUserPassword();
+
+        String data = String.format("{" +
+                "\"email\" : \"%s\", " +
+                "\"password\" : \"%s\"" +
+                "}", email, password);
+
+        try{
+            JSONObject json = APIPost("Some URL", new JSONObject(data));
+            String token = json.getJSONObject("json").getString("token"); // return new token
+            dao.setAuthToken(token);
+            return token;
+        }
+        catch (JSONException j){
+            return null;
+            // Failed to update key. Possibly offline.
+        }
+
     }
 
     public static JSONObject APIPost(String url, JSONObject json) {
