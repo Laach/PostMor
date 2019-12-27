@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8700c631e4bd3912bcb953cfd76cd420",
+    "identityHash": "9d4434a75be1903ddad1476bc152285a",
     "entities": [
       {
         "tableName": "Messages",
@@ -162,7 +162,7 @@
       },
       {
         "tableName": "Settings",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT, `Password` TEXT, `Address` TEXT, `ProfilePicture` TEXT, `PublicKey` TEXT, `PrivateKey` TEXT, `PickupTime` INTEGER, `OutgoingLetterCount` INTEGER, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT, PRIMARY KEY(`ID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT NOT NULL, `Password` TEXT NOT NULL, `Address` TEXT NOT NULL, `ProfilePicture` TEXT, `PublicKey` TEXT NOT NULL, `PrivateKey` TEXT NOT NULL, `PickupTime` INTEGER NOT NULL, `OutgoingLetterCount` INTEGER NOT NULL, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT NOT NULL, `RefreshToken` TEXT NOT NULL, PRIMARY KEY(`ID`))",
         "fields": [
           {
             "fieldPath": "ID",
@@ -174,19 +174,19 @@
             "fieldPath": "Email",
             "columnName": "Email",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "Password",
             "columnName": "Password",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "Address",
             "columnName": "Address",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "ProfilePicture",
@@ -198,25 +198,25 @@
             "fieldPath": "PublicKey",
             "columnName": "PublicKey",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "PrivateKey",
             "columnName": "PrivateKey",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "PickupTime",
             "columnName": "PickupTime",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "OutgoingLetterCount",
             "columnName": "OutgoingLetterCount",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "IsLoggedIn",
@@ -228,7 +228,13 @@
             "fieldPath": "AuthToken",
             "columnName": "AuthToken",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
+          },
+          {
+            "fieldPath": "RefreshToken",
+            "columnName": "RefreshToken",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -249,11 +255,19 @@
       {
         "viewName": "MessageContent",
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Text, Images, InternalMessageID FROM Messages"
+      },
+      {
+        "viewName": "UserCard",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Name, Address, ProfilePicture as Picture, ID as UserID, IsFriend FROM Users"
+      },
+      {
+        "viewName": "Contact",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Name, Address, ProfilePicture as Picture, IsFriend, ID as UserID FROM Users"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8700c631e4bd3912bcb953cfd76cd420')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d4434a75be1903ddad1476bc152285a')"
     ]
   }
 }

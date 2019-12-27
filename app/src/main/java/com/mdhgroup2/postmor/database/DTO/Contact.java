@@ -8,7 +8,8 @@ import androidx.room.DatabaseView;
         "Name, " +
         "Address, " +
         "ProfilePicture as Picture, " +
-        "IsFriend " +
+        "IsFriend, " +
+        "ID as UserID " +
         "FROM Users")
 
 public class Contact {
