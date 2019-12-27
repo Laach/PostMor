@@ -1,6 +1,11 @@
 package com.mdhgroup2.postmor.database.db;
 
+import android.content.Context;
 import android.os.AsyncTask;
+
+import androidx.annotation.NonNull;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -92,5 +97,28 @@ public class Utils {
             return null;
         }
     }
+
+    public class APIWorker extends Worker {
+
+        public APIWorker(Context c, WorkerParameters params){
+            super(c, params);
+        }
+
+        @NonNull
+        @Override
+        public Result doWork() {
+            // Use Data.Builder() to pass in the json string.
+            String url = getInputData().getString("url");
+            String data = getInputData().getString("json");
+            try {
+                Utils.APIPost(url, new JSONObject(data));
+            }
+            catch (JSONException | IOException e){
+                return Result.failure();
+            }
+            return Result.success();
+        }
+    }
+
 
 }

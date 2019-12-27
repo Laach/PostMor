@@ -116,9 +116,9 @@ public class AccountRepository implements IAccountRepository {
             try{
                 JSONObject json = Utils.APIPost("/identity/login", new JSONObject(data));
 
-                authToken = json.getJSONObject("json").getString("token");
+                authToken = json.getString("token");
 
-                refreshToken = json.getJSONObject("json").getString("refreshToken");
+                refreshToken = json.getString("refreshToken");
 
             }
             catch (IOException e){
