@@ -97,6 +97,7 @@ public class AccountRepository implements IAccountRepository {
         // If account is not the current in Settings, clear database.
         if(manageDb.getUserEmail() == email){
             // Query server
+            accountDb.setSignedIn();
             return manageDb.refresh();
         }
         else{
@@ -105,14 +106,15 @@ public class AccountRepository implements IAccountRepository {
                     "\"password\" : \"%s\"" +
                     "}", email, password);
 
+            String authToken;
+            String refreshToken;
+
             try{
                 JSONObject json = Utils.APIPost("/identity/login", new JSONObject(data));
 
-                String token = json.getJSONObject("json").getString("authToken");
-                manageDb.setAuthToken(token);
+                authToken = json.getJSONObject("json").getString("token");
 
-                String refreshToken = json.getJSONObject("json").getString("refreshToken");
-                manageDb.setRefreshToken(refreshToken);
+                refreshToken = json.getJSONObject("json").getString("refreshToken");
 
             }
             catch (JSONException j){
@@ -123,6 +125,8 @@ public class AccountRepository implements IAccountRepository {
             //
             // On success, empty all tables, and fetch all data.
             DatabaseClient.nukeDatabase();
+            // API "/user/fetchalldata"
+            // Set tokens.
 
             return true;
         }

@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
+import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.User;
 
@@ -57,17 +58,20 @@ public abstract class ManageDao {
     @Query("SELECT Num FROM InternalMsgID LIMIT 1")
     abstract int getInternalMsgID();
 
+    @Insert
+    public abstract void initInternalID(InternalMsgID i);
+
     @Query("SELECT AuthToken FROM Settings LIMIT 1")
-    public abstract int getAuthToken();
+    public abstract String getAuthToken();
 
     @Query("UPDATE Settings SET AuthToken = :token")
-    public abstract int setAuthToken(String token);
+    public abstract void setAuthToken(String token);
 
     @Query("SELECT RefreshToken FROM Settings LIMIT 1")
-    public abstract int getRefreshToken();
+    public abstract String getRefreshToken();
 
     @Query("UPDATE Settings SET RefreshToken = :token")
-    public abstract int setRefreshToken(String token);
+    public abstract void setRefreshToken(String token);
 
     @Transaction
     public int getNewMsgId(){
@@ -77,8 +81,8 @@ public abstract class ManageDao {
 
     public boolean refresh(){
         String data = String.format("{" +
-                        "\"authToken\" : \"%s\", " +
-                        "\"refreshToken\" : \"%s\", " +
+                        "\"Token\" : \"%s\", " +
+                        "\"RefreshToken\" : \"%s\", " +
                         "}",
                 getAuthToken(),
                 getRefreshToken());
@@ -87,7 +91,9 @@ public abstract class ManageDao {
         try {
             json = Utils.APIPost("/identity/refresh", new JSONObject(data));
             String refreshToken = json.getString("refreshToken");
+            String authToken    = json.getString("token");
             setRefreshToken(refreshToken);
+            setAuthToken(authToken);
             return true;
         }
         catch (JSONException j){
