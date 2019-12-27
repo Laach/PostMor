@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mdhgroup2.postmor.R;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
-    private String[] mDataset = {"Image1", "Image2", "Image3"};
+    private String[] mDataset = {};
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
