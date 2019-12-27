@@ -57,20 +57,24 @@ public class AccountRepository implements IAccountRepository {
                 Converters.bitmapToBase64(acc.Picture));
 
         try {
-            JSONObject json = Utils.APIPost("url", new JSONObject(data));
+            JSONObject json = Utils.APIPost("/identity/register", new JSONObject(data));
 
             Settings s = new Settings();
             s.ID = -1; // Server response
             s.Address = acc.Address;
             s.ProfilePicture = acc.Picture;
-            s.Password = acc.Password; // Maybe get pass hash from server.
-            s.Email = acc.Email;
-            s.OutgoingLetterCount = 0;
-            s.IsLoggedIn = true;
             s.PickupTime = null; // Server response
             s.PublicKey = null; // Server response
             s.PrivateKey = null; // Server response
             s.AuthToken = null; // Server response
+            s.RefreshToken = null; // Server response
+
+            s.Email = acc.Email;
+            s.Password = acc.Password;
+            s.OutgoingLetterCount = 0;
+            s.IsLoggedIn = true;
+
+            DatabaseClient.nukeDatabase();
 
             accountDb.registerAccount(s);
         }
@@ -83,23 +87,53 @@ public class AccountRepository implements IAccountRepository {
 
 
 
-        // Attempt login
 
         return false; // Server success or fail
     }
 
     @Override
-    public boolean signIn(String email, String pass) {
+    public boolean signIn(String email, String password) {
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
+        if(manageDb.getUserEmail() == email){
+            // Query server
+            return manageDb.refresh();
+        }
+        else{
+            String data = String.format("{" +
+                    "\"email\" : \"%s\", " +
+                    "\"password\" : \"%s\"" +
+                    "}", email, password);
 
-        return false;
+            try{
+                JSONObject json = Utils.APIPost("/identity/login", new JSONObject(data));
+
+                String token = json.getJSONObject("json").getString("authToken");
+                manageDb.setAuthToken(token);
+
+                String refreshToken = json.getJSONObject("json").getString("refreshToken");
+                manageDb.setRefreshToken(refreshToken);
+
+            }
+            catch (JSONException j){
+                return false;
+                // Failed to update key. Possibly offline.
+            }
+            // Query server
+            //
+            // On success, empty all tables, and fetch all data.
+            DatabaseClient.nukeDatabase();
+
+            return true;
+        }
     }
+
+
 
     @Override
     public void signOut() {
-        // Query server for logout, and then log out either way.
-
         accountDb.setSignedOut();
+        manageDb.setAuthToken(null);
+        manageDb.setRefreshToken(null);
     }
 }

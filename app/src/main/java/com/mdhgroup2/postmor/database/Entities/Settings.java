@@ -21,5 +21,6 @@ public class Settings {
     public Integer OutgoingLetterCount;
     public boolean IsLoggedIn;
     public String AuthToken;
+    public String RefreshToken;
 
 }
