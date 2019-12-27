@@ -23,11 +23,11 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:text="@string/send_button"
-        app:layout_constraintEnd_toEndOf="@+id/fragment3"
-        app:layout_constraintTop_toBottomOf="@+id/fragment3" />
+        app:layout_constraintEnd_toEndOf="@+id/c2hand_AddItemFragment"
+        app:layout_constraintTop_toBottomOf="@+id/c2hand_AddItemFragment" />
 
     <fragment
-        android:id="@+id/fragment3"
+        android:id="@+id/c2hand_AddItemFragment"
         android:name="com.mdhgroup2.postmor.Compose.Compose2AddItemFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -36,11 +36,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3"
+        app:layout_constraintTop_toBottomOf="@+id/c2hand_divider"
         tools:layout="@layout/compose2_add_item_fragment" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/c2hand_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/c2hand_Recipient" />
 
     <View
-        android:id="@+id/divider3"
+        android:id="@+id/c2hand_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="32dp"
@@ -59,6 +59,6 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/c2hand_textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
