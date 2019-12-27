@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Compose;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
 
@@ -31,6 +34,7 @@ public class Compose2Handwritten extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.compose2_handwritten_fragment, container, false);
+        ConstraintLayout addItemLayout = view.findViewById(R.id.addItemConstraint);
 
         recyclerView = view.findViewById(R.id.compose2HandwrittenRecyclerView);
         layoutManager = new LinearLayoutManager(container.getContext());
@@ -38,6 +42,13 @@ public class Compose2Handwritten extends Fragment {
 
         mAdapter = new Compose2HandRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
+
+        addItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("test", "onClick: hello");
+            }
+        });
 
         return view;
     }
