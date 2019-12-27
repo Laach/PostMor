@@ -34,6 +34,9 @@ public class DatabaseClient {
         return new ContactRepository(db.contactDao(), db.manageDao());
     }
 
+    public static void nukeDatabase(){
+        db.clearAllTables();
+    }
 
 
     // Mock repositories
