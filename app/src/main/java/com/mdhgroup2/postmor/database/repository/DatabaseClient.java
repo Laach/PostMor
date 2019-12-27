@@ -24,6 +24,7 @@ public class DatabaseClient {
 
 
     public static void initDb(Context c){
+        appContext = c;
 //        c.deleteDatabase("client-db");
 //        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
 //                .build();
@@ -34,6 +35,8 @@ public class DatabaseClient {
         db.manageDao().initInternalID(new InternalMsgID(100));
 
     }
+
+    public static Context appContext;
 
     public static IBoxRepository getBoxRepository(){
         return new BoxRepository(db.boxDao(), db.manageDao());
