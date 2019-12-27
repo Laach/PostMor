@@ -63,6 +63,9 @@ public class Utils {
             dao.setAuthToken(token);
             return token;
         }
+        catch (IOException e){
+            return null;
+        }
         catch (JSONException j){
             return null;
             // Failed to update key. Possibly offline.
@@ -70,7 +73,7 @@ public class Utils {
 
     }
 
-    public static JSONObject APIPost(String url, JSONObject json) {
+    public static JSONObject APIPost(String url, JSONObject json) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -84,9 +87,6 @@ public class Utils {
         try (Response response = client.newCall(request).execute()) {
             String b = response.body().string();
             return new JSONObject(b).getJSONObject("json");
-        }
-        catch (IOException e){
-            return null;
         }
         catch (JSONException j){
             return null;
