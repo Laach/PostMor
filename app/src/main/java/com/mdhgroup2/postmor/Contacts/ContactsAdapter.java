@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor.Contacts;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,11 @@ import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    List<Contact> contacts;
+    public List<Contact> contacts;
 
-    IContactRepository contactrepo;
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ContactsAdapter() {
-        contactrepo = DatabaseClient.getMockContactRepository();
-        contacts = contactrepo.getContacts();
+    public ContactsAdapter(List<Contact> list) {
+        contacts = list;
     }
 
     // Provide a reference to the views for each data item
@@ -55,12 +54,9 @@ class ContactsAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-
-            Toast.makeText(view.getContext(), String.format("Clicked on position %s", ContactsViewHolder.this.name.getText()), Toast.LENGTH_SHORT).show();
-            Navigation.findNavController(view).navigate(R.id.userToUserFragment);
-
-//gets index            getAdapterPosition()
-
+            Bundle bundle = new Bundle();
+            bundle.putInt("index", getAdapterPosition());
+            Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
         }
     }
 
@@ -69,8 +65,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
     public ContactsAdapter.ContactsViewHolder onCreateViewHolder(ViewGroup parent,
                                                                  int viewType) {
         // create a new view
-        View v = (View) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.contact_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
         ContactsViewHolder vh = new ContactsViewHolder(v);
         return vh;
     }
@@ -83,14 +78,14 @@ class ContactsAdapter extends RecyclerView.Adapter {
         ContactsViewHolder cvHolder = ((ContactsViewHolder) holder);
         cvHolder.name.setText(contacts.get(position).Name);
         cvHolder.address.setText(contacts.get(position).Address);
-
+        cvHolder.id = contacts.get(position).UserID;
         if (contacts.get(position).Picture == null) {
             cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
         }
         else {
             cvHolder.profilePicture.setImageBitmap(contacts.get(position).Picture);
         }
-        cvHolder.id = contacts.get(position).UserID;
+
         return;
     }
 

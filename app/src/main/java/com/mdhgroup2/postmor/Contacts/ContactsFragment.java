@@ -24,7 +24,6 @@ public class ContactsFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
     }
@@ -34,14 +33,14 @@ public class ContactsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.contactsRecyclerView);
+        recyclerView = view.findViewById(R.id.contactsRecyclerView);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
-
+        mViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
         // specify an adapter (see also next example)
-        mAdapter = new ContactsAdapter();
+        mAdapter = new ContactsAdapter(mViewModel.getContactList());
         recyclerView.setAdapter(mAdapter);
 
         return view;
@@ -50,9 +49,8 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
 
-        // TODO: Use the ViewModel
+
     }
 
 }
