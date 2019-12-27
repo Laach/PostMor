@@ -26,6 +26,19 @@
         app:layout_constraintEnd_toEndOf="@+id/c2hand_AddItemFragment"
         app:layout_constraintTop_toBottomOf="@+id/c2hand_AddItemFragment" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/compose2HandwrittenRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/c2hand_divider"
+
+        />
+
     <fragment
         android:id="@+id/c2hand_AddItemFragment"
         android:name="com.mdhgroup2.postmor.Compose.Compose2AddItemFragment"
@@ -34,9 +47,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/c2hand_divider"
+        app:layout_constraintTop_toBottomOf="@+id/compose2HandwrittenRecyclerView"
         tools:layout="@layout/compose2_add_item_fragment" />
 
     <TextView
