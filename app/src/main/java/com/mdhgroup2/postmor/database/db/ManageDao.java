@@ -16,6 +16,7 @@ import com.mdhgroup2.postmor.database.Entities.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Date;
 
 @Dao
@@ -95,6 +96,9 @@ public abstract class ManageDao {
             setRefreshToken(refreshToken);
             setAuthToken(authToken);
             return true;
+        }
+        catch (IOException e){
+            return false;
         }
         catch (JSONException j){
             return false;

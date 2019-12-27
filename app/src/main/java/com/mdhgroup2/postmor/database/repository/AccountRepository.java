@@ -11,6 +11,7 @@ import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,9 @@ public class AccountRepository implements IAccountRepository {
 
             accountDb.registerAccount(s);
         }
+        catch (IOException e){
+            return false;
+        }
         catch(JSONException j){
             // Return an object with more descriptive errors.
             return false;
@@ -112,10 +116,13 @@ public class AccountRepository implements IAccountRepository {
             try{
                 JSONObject json = Utils.APIPost("/identity/login", new JSONObject(data));
 
-                authToken = json.getJSONObject("json").getString("token");
+                authToken = json.getString("token");
 
-                refreshToken = json.getJSONObject("json").getString("refreshToken");
+                refreshToken = json.getString("refreshToken");
 
+            }
+            catch (IOException e){
+                return false;
             }
             catch (JSONException j){
                 return false;
