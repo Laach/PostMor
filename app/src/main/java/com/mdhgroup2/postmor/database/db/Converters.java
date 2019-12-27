@@ -52,6 +52,9 @@ public class Converters {
     @TypeConverter
     public List<Bitmap> bitmapListFromString(String data) {
         List<Bitmap> list = new ArrayList<>();
+        if(data == null){
+            return list;
+        }
 
         String[] array = data.split(",");
 
@@ -65,6 +68,9 @@ public class Converters {
 
     @TypeConverter
     public String writingStringFromList(List<Bitmap> list) {
+        if(list == null){
+            return "";
+        }
         String bitmaps = "";
         for (Bitmap bm : list) {
             bitmaps += "," + bitmapToBase64(bm);

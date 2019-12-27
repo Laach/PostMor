@@ -80,11 +80,10 @@ public class DbDefaultData {
     }
 
 
-    public static AppDatabase db;
+//    public static AppDatabase db;
 
-    public static void DB(Context c){
+    public static AppDatabase DB(Context c){
         c.deleteDatabase("client-db");
-        AppDatabase data = DbDefaultData.initDb(c);
-        db = data;
+        return DbDefaultData.initDb(c);
     }
 }

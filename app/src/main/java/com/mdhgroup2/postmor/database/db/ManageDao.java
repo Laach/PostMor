@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
+import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.User;
 
@@ -57,17 +58,20 @@ public abstract class ManageDao {
     @Query("SELECT Num FROM InternalMsgID LIMIT 1")
     abstract int getInternalMsgID();
 
+    @Insert
+    public abstract void initInternalID(InternalMsgID i);
+
     @Query("SELECT AuthToken FROM Settings LIMIT 1")
     public abstract String getAuthToken();
 
     @Query("UPDATE Settings SET AuthToken = :token")
-    public abstract String setAuthToken(String token);
+    public abstract void setAuthToken(String token);
 
     @Query("SELECT RefreshToken FROM Settings LIMIT 1")
     public abstract String getRefreshToken();
 
     @Query("UPDATE Settings SET RefreshToken = :token")
-    public abstract String setRefreshToken(String token);
+    public abstract void setRefreshToken(String token);
 
     @Transaction
     public int getNewMsgId(){

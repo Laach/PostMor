@@ -30,9 +30,9 @@ public class LetterRepository implements ILetterRepository {
         if(msg == null){
             msg = new EditMsg();
             msg.InternalMessageID = managedao.getNewMsgId();
+            msg.IsDraft = true;
 
-            createNewDraft();
-
+            createNewDraft(msg.InternalMessageID);
         }
         return msg;
     }
@@ -44,27 +44,28 @@ public class LetterRepository implements ILetterRepository {
             msg = new EditMsg();
             msg.InternalMessageID = managedao.getNewMsgId();
             msg.RecipientID = recipientID;
+            msg.IsDraft = true;
 
-            createNewDraft(recipientID);
+            createNewDraft(msg.InternalMessageID, recipientID);
         }
         return msg;
     }
 
-    private void createNewDraft(){
-        Message msg = draftDefaults();
+    private void createNewDraft(int msgId){
+        Message msg = draftDefaults(msgId);
         msg.UserID = 0;
         managedao.addMessage(msg);
     }
 
-    private void createNewDraft(int recipientID){
-        Message msg = draftDefaults();
+    private void createNewDraft(int msgId, int recipientID){
+        Message msg = draftDefaults(msgId);
         msg.UserID = recipientID;
         managedao.addMessage(msg);
     }
 
-    private Message draftDefaults(){
+    private Message draftDefaults(int msgId){
         Message msg = new Message();
-        msg.InternalMessageID = managedao.getNewMsgId();
+        msg.InternalMessageID = msgId;
         msg.ExternalMessageID = 0;
         msg.WrittenBy = managedao.getUserId();
         msg.IsDraft = true;
