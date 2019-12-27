@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9d4434a75be1903ddad1476bc152285a",
+    "identityHash": "95c21fb40f043de60f88efd3336a41b7",
     "entities": [
       {
         "tableName": "Messages",
@@ -112,7 +112,7 @@
       },
       {
         "tableName": "Users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Name` TEXT, `Address` TEXT, `PublicKey` TEXT, `IsFriend` INTEGER NOT NULL, `ProfilePicture` TEXT, PRIMARY KEY(`ID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Name` TEXT NOT NULL, `Address` TEXT NOT NULL, `PublicKey` TEXT NOT NULL, `IsFriend` INTEGER NOT NULL, `ProfilePicture` TEXT, PRIMARY KEY(`ID`))",
         "fields": [
           {
             "fieldPath": "ID",
@@ -124,19 +124,19 @@
             "fieldPath": "Name",
             "columnName": "Name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "Address",
             "columnName": "Address",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "PublicKey",
             "columnName": "PublicKey",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "IsFriend",
@@ -267,7 +267,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d4434a75be1903ddad1476bc152285a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '95c21fb40f043de60f88efd3336a41b7')"
     ]
   }
 }
