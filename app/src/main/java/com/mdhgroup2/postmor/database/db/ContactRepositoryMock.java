@@ -26,7 +26,7 @@ public class ContactRepositoryMock implements IContactRepository {
         Contact u1 = new Contact();
         u1.Name = "Ann-Marie Josefsson";
         u1.Address = "Isterbarnsgatan 12";
-        u1.Picture = null;
+        u1.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw");
         u1.UserID = 1;
 
         Contact u2 = new Contact();
@@ -38,7 +38,7 @@ public class ContactRepositoryMock implements IContactRepository {
         Contact u3 = new Contact();
         u3.Name = "Swedish Chef";
         u3.Address = "Muppetgatan 14";
-        u3.Picture = null;
+        u3.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs");
         u3.UserID = 3;
         List<Contact> l = new ArrayList<>();
 

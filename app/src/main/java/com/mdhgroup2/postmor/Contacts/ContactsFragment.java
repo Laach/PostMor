@@ -15,11 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 
 public class ContactsFragment extends Fragment {
 
-    private ContactsViewModel mViewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -38,7 +38,7 @@ public class ContactsFragment extends Fragment {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mViewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
+        final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         // specify an adapter (see also next example)
         mAdapter = new ContactsAdapter(mViewModel.getContactList());
         recyclerView.setAdapter(mAdapter);
@@ -49,8 +49,6 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
     }
 
 }
