@@ -36,6 +36,10 @@ public class DatabaseClient {
         return new ContactRepository(db.contactDao(), db.manageDao());
     }
 
+    public static ILetterRepository getLetterRepository(){
+        return new LetterRepository(db.letterDao(), db.manageDao());
+    }
+
     public static void nukeDatabase(){
         db.clearAllTables();
     }
