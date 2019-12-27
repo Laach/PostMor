@@ -58,16 +58,16 @@ public abstract class ManageDao {
     abstract int getInternalMsgID();
 
     @Query("SELECT AuthToken FROM Settings LIMIT 1")
-    public abstract int getAuthToken();
+    public abstract String getAuthToken();
 
     @Query("UPDATE Settings SET AuthToken = :token")
-    public abstract int setAuthToken(String token);
+    public abstract String setAuthToken(String token);
 
     @Query("SELECT RefreshToken FROM Settings LIMIT 1")
-    public abstract int getRefreshToken();
+    public abstract String getRefreshToken();
 
     @Query("UPDATE Settings SET RefreshToken = :token")
-    public abstract int setRefreshToken(String token);
+    public abstract String setRefreshToken(String token);
 
     @Transaction
     public int getNewMsgId(){
@@ -77,8 +77,8 @@ public abstract class ManageDao {
 
     public boolean refresh(){
         String data = String.format("{" +
-                        "\"authToken\" : \"%s\", " +
-                        "\"refreshToken\" : \"%s\", " +
+                        "\"Token\" : \"%s\", " +
+                        "\"RefreshToken\" : \"%s\", " +
                         "}",
                 getAuthToken(),
                 getRefreshToken());
@@ -87,7 +87,9 @@ public abstract class ManageDao {
         try {
             json = Utils.APIPost("/identity/refresh", new JSONObject(data));
             String refreshToken = json.getString("refreshToken");
+            String authToken    = json.getString("token");
             setRefreshToken(refreshToken);
+            setAuthToken(authToken);
             return true;
         }
         catch (JSONException j){
