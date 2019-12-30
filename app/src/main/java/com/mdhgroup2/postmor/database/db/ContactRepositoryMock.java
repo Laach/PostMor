@@ -10,14 +10,44 @@ public class ContactRepositoryMock implements IContactRepository {
 
     @Override
     public Contact findByAddress(String address) {
-        Contact u3 = new Contact();
-        u3.Name = "Swedish Chef";
-        u3.Address = "Muppetgatan 14";
-        u3.Picture = null;
-        u3.UserID = 3;
-        u3.IsFriend = true;
-        
-        return u3;
+        if (address.equals("1")){Contact u3 = new Contact();
+            u3.Name = "A";
+            u3.Address = "1";
+            u3.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw");
+            u3.UserID = 4;
+            u3.IsFriend = false;
+            return u3;}
+        if (address.equals("2")){Contact u3 = new Contact();
+            u3.Name = "B";
+            u3.Address = "2";
+            u3.Picture = null;
+            u3.UserID = 5;
+            u3.IsFriend = false;
+            return u3;}
+        if (address.equals("3")){Contact u3 = new Contact();
+            u3.Name = "C";
+            u3.Address = "3";
+            u3.Picture = null;
+            u3.UserID = 6;
+            u3.IsFriend = false;
+            return u3;}
+        if (address.equals("4")){Contact u3 = new Contact();
+            u3.Name = "D";
+            u3.Address = "4";
+            u3.Picture = null;
+            u3.UserID = 7;
+            u3.IsFriend = true;
+            return u3;}
+        if (address.equals("5")){Contact u3 = new Contact();
+            u3.Name = "E";
+            u3.Address = "5";
+            u3.Picture = null;
+            u3.UserID = 8;
+            u3.IsFriend = false;
+            return u3;}
+        else {
+            return null;}
+
     }
 
     @Override
@@ -25,7 +55,7 @@ public class ContactRepositoryMock implements IContactRepository {
         Contact u1 = new Contact();
         u1.Name = "Ann-Marie Josefsson";
         u1.Address = "Isterbarnsgatan 12";
-        u1.Picture = null;
+        u1.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw");
         u1.UserID = 1;
 
         Contact u2 = new Contact();
@@ -37,7 +67,7 @@ public class ContactRepositoryMock implements IContactRepository {
         Contact u3 = new Contact();
         u3.Name = "Swedish Chef";
         u3.Address = "Muppetgatan 14";
-        u3.Picture = null;
+        u3.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs");
         u3.UserID = 3;
         List<Contact> l = new ArrayList<>();
 
