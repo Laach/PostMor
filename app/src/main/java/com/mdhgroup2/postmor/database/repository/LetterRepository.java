@@ -73,7 +73,7 @@ public class LetterRepository implements ILetterRepository {
         msg.IsRead = false;
         msg.TimeStamp = null;
         msg.DeliveryTime = null;
-        msg.SenderPublicKey = managedao.getUserPublicKey();
+//        msg.SenderPublicKey = managedao.getUserPublicKey();
         msg.Images = null;
         msg.Text = null;
         return msg;
