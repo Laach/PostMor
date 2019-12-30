@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Compose2Handwritten extends Fragment {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private Compose2HandRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private Compose2HandwrittenViewModel mViewModel;
@@ -70,50 +70,51 @@ public class Compose2Handwritten extends Fragment {
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Create temp file for camera image (android.developer)
-                String timestamp = String.valueOf(System.currentTimeMillis());
-                String imageFileName = "JPEG_"+timestamp+"_";
-                File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                File image = null;
-                try {
-                     image = File.createTempFile(
-                            imageFileName,
-                            ".jpg",
-                            storageDir
-                    );
-                    currentPhotoPath = image.getAbsolutePath();
-                } catch (IOException e) {
+                if(mAdapter.getItemCount() < 3){
+                    //Create temp file for camera image (android.developer)
+                    String timestamp = String.valueOf(System.currentTimeMillis());
+                    String imageFileName = "JPEG_"+timestamp+"_";
+                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    File image = null;
+                    try {
+                         image = File.createTempFile(
+                                imageFileName,
+                                ".jpg",
+                               storageDir
+                       );
+                       currentPhotoPath = image.getAbsolutePath();
+                    } catch (IOException e) {
                     e.printStackTrace();
-                }
-                if(image != null){
-                    outputFileUri = FileProvider.getUriForFile(getActivity(), "com.mdhgroup2.postmor.fileprovider",
+                    }
+                    if(image != null){
+                        outputFileUri = FileProvider.getUriForFile(getActivity(), "com.mdhgroup2.postmor.fileprovider",
                             image);
+                    }
+
+                    // Camera.
+                    List<Intent> cameraIntents = new ArrayList<Intent>();
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    PackageManager packageManager = getActivity().getPackageManager();
+                    List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+                    for(ResolveInfo res : listCam) {
+                        String packageName = res.activityInfo.packageName;
+                        Intent intent = new Intent(captureIntent);
+                        intent.setComponent(new ComponentName(packageName, res.activityInfo.name));
+                        intent.setPackage(packageName);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                        cameraIntents.add(intent);
+                    }
+
+                    //Create chooser for gallery option
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent chooserIntent = Intent.createChooser(pickIntent, "Select Source");
+
+                    // Add the camera options.
+                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+                    //Start the chooser
+                    startActivityForResult(chooserIntent, 1);
                 }
-
-                // Camera.
-                List<Intent> cameraIntents = new ArrayList<Intent>();
-                Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                PackageManager packageManager = getActivity().getPackageManager();
-                List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-                for(ResolveInfo res : listCam) {
-                    String packageName = res.activityInfo.packageName;
-                    Intent intent = new Intent(captureIntent);
-                    intent.setComponent(new ComponentName(packageName, res.activityInfo.name));
-                    intent.setPackage(packageName);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    cameraIntents.add(intent);
-                }
-
-                //Create chooser for gallery option
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                Intent chooserIntent = Intent.createChooser(pickIntent, "Select Source");
-
-                // Add the camera options.
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-                //Start the chooser
-                startActivityForResult(chooserIntent, 1);
             }
         });
 
@@ -131,7 +132,7 @@ public class Compose2Handwritten extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == 1){
             boolean isCamera;
-            Bitmap photo;
+            Bitmap photo = null;
 
             if(data == null || data.getData() == null){
                 isCamera = true;
@@ -153,7 +154,6 @@ public class Compose2Handwritten extends Fragment {
             }
             try {
                 photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-
                 //If the image is rotated, reset its rotation
                 if(isCamera){
                     ExifInterface exif= new ExifInterface(currentPhotoPath);
@@ -171,16 +171,18 @@ public class Compose2Handwritten extends Fragment {
                             break;
                     }
                     Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
+                    photo = rotatedBitmap;
+                    //image.setImageBitmap(rotatedBitmap);
 
-                    image.setImageBitmap(rotatedBitmap);
                 }else{
                     //If the image is selected from the gallery, don'tc check for rotation
-                    image.setImageBitmap(photo);
+
+                    //image.setImageBitmap(photo);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            mAdapter.addItem(photo);
         }
         else{
             super.onActivityResult(requestCode, resultCode, data);

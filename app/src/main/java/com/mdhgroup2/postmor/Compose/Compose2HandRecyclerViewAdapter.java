@@ -1,5 +1,7 @@
 package com.mdhgroup2.postmor.Compose;
 
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mdhgroup2.postmor.R;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
-    private String[] mDataset = {};
+    private Bitmap[] mDataset = new Bitmap[0];
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -52,13 +54,26 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     public void onBindViewHolder(ComposeViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.text.setText(mDataset[position]);
-        holder.image.setImageResource(R.mipmap.ic_launcher);
+        holder.image.setImageBitmap(mDataset[position]);
+        holder.text.setText("temp");
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.length;
+    }
+
+    public void addItem(Bitmap image){
+        //add a new item to the dataset (its an array, need to recreate every time)
+        Bitmap[] newDataSet = new Bitmap[mDataset.length+1];
+        for(int i = 0; i<mDataset.length; i++){
+            newDataSet[i] = mDataset[i];
+        }
+        newDataSet[mDataset.length] = image;
+        mDataset = newDataSet;
+
+        notifyDataSetChanged();
+        Log.d("test", "addItem: getItemCount: "+getItemCount());
     }
 }
