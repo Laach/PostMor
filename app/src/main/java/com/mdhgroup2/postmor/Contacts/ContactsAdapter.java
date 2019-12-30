@@ -1,27 +1,16 @@
 package com.mdhgroup2.postmor.Contacts;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.mdhgroup2.postmor.Compose.ComposeFragmentDirections;
 import com.mdhgroup2.postmor.R;
-import com.mdhgroup2.postmor.UserToUser.UserToUserFragment;
 import com.mdhgroup2.postmor.database.DTO.Contact;
-import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
-import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {

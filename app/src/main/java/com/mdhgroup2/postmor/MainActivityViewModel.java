@@ -30,4 +30,13 @@ public class MainActivityViewModel extends ViewModel {
         repo.deleteContact(c.UserID);
         return true;
     }
+
+    public Contact findUserByAddress(String address){
+        return repo.findByAddress(address);
+    }
+
+    public void addUserToContacts (Contact friend){
+        contacts.add(friend);
+        repo.addContact(friend.UserID);
+    }
 }

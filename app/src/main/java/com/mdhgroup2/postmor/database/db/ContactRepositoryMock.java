@@ -11,14 +11,44 @@ public class ContactRepositoryMock implements IContactRepository {
 
     @Override
     public UserCard findByAddress(String address) {
-        UserCard u3 = new UserCard();
-        u3.Name = "Swedish Chef";
-        u3.Address = "Muppetgatan 14";
-        u3.Picture = null;
-        u3.UserID = 3;
-        u3.IsFriend = true;
-        
-        return u3;
+        if (address.equals("1")){UserCard u3 = new UserCard();
+            u3.Name = "A";
+            u3.Address = "1";
+            u3.Picture = null;
+            u3.UserID = 4;
+            u3.IsFriend = false;
+            return u3;}
+        if (address.equals("2")){UserCard u3 = new UserCard();
+            u3.Name = "B";
+            u3.Address = "2";
+            u3.Picture = null;
+            u3.UserID = 5;
+            u3.IsFriend = false;
+            return u3;}
+        if (address.equals("3")){UserCard u3 = new UserCard();
+            u3.Name = "C";
+            u3.Address = "3";
+            u3.Picture = null;
+            u3.UserID = 6;
+            u3.IsFriend = false;
+            return u3;}
+        if (address.equals("4")){UserCard u3 = new UserCard();
+            u3.Name = "D";
+            u3.Address = "4";
+            u3.Picture = null;
+            u3.UserID = 7;
+            u3.IsFriend = true;
+            return u3;}
+        if (address.equals("5")){UserCard u3 = new UserCard();
+            u3.Name = "E";
+            u3.Address = "5";
+            u3.Picture = null;
+            u3.UserID = 8;
+            u3.IsFriend = false;
+            return u3;}
+        else {
+            return null;}
+
     }
 
     @Override
