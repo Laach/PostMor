@@ -34,9 +34,54 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public boolean isValidPassword(String pass) {
-        // Check locally
-        return true;
+    public PasswordStatus isValidPassword(String pass) {
+        // Shorter than 6 letters
+        if(pass.length() < 6){
+            return PasswordStatus.ShorterThan6;
+        }
+
+        // One Lowercase
+        if(pass.equals(pass.toUpperCase())){
+            return PasswordStatus.NeedsLowerCase;
+        }
+
+        // One Uppercase
+        if(pass.equals(pass.toLowerCase())){
+            return PasswordStatus.NeedsUppercase;
+        }
+
+        // One numeric
+        boolean hasdigit = false;
+        for(int i = 0; i < pass.length(); i++){
+            if(Character.isDigit(pass.charAt(i))){
+               hasdigit = true;
+            }
+        }
+        if(!hasdigit){
+            return PasswordStatus.NeedsNumeric;
+        }
+
+        // One non alpha-numeric
+        boolean hasNonAlNum = false;
+        for(int i = 0; i < pass.length(); i++){
+            if(!Character.isLetterOrDigit(pass.charAt(i))){
+                hasNonAlNum = true;
+            }
+        }
+        if(!hasNonAlNum){
+            return PasswordStatus.NeedsNonAlphaNumeric;
+        }
+
+        return PasswordStatus.Ok;
+    }
+
+    public enum PasswordStatus{
+        Ok,
+        NeedsLowerCase,
+        NeedsUppercase,
+        NeedsNumeric,
+        NeedsNonAlphaNumeric,
+        ShorterThan6
     }
 
     @Override
@@ -48,7 +93,7 @@ public class AccountRepository implements IAccountRepository {
                 "\"name\" : \"%s\", " +
                 "\"password\" : \"%s\", " +
                 "\"email\" : \"%s\", " +
-                "\"adress\" : \"%s\", " +
+                "\"address\" : \"%s\", " +
                 "\"picture\" : \"%s\"" +
                 "}",
                 acc.Name,

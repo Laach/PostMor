@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 @Dao
@@ -80,6 +81,10 @@ public abstract class ManageDao {
     @Query("UPDATE Settings SET RefreshToken = :token")
     public abstract void setRefreshToken(String token);
 
+
+    @Query("SELECT * FROM Users WHERE ID = :userID")
+    public abstract User findUser(int userID);
+    
     @Transaction
     public int getNewMsgId(){
         incrementInternalMsgID();
@@ -140,6 +145,36 @@ public abstract class ManageDao {
         else{
             return refresh();
         }
+    }
+
+    public void downloadUserInfo(int ID){
+        if(findUser(ID) != null){
+            return;
+        }
+
+        String token = getAuthToken();
+        String data = String.format(Locale.US, "{" +
+                "\"token\" : \"%s\", " +
+                "\"contactId\" : %d " +
+                "}", token, ID);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/get", new JSONObject(data));
+
+            User u = new User();
+            u.PublicKey = json.getString("publicKey");
+            u.ProfilePicture = Converters.fromBase64(json.getString("picture"));
+            u.Address = json.getString("address");
+            u.ID = ID;
+            u.IsFriend = json.getBoolean("isFriend");
+            u.Name = json.getString("name");
+
+            addUser(u);
+        }
+        catch (JSONException | IOException e){
+            return;
+        }
+        return;
     }
 
 }

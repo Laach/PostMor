@@ -1,22 +1,32 @@
 package com.mdhgroup2.postmor.database.repository;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Database;
 
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.db.BoxDao;
+import com.mdhgroup2.postmor.database.db.ContactDao;
+import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.ManageDao;
 import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
+import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,48 +91,80 @@ public class BoxRepository implements IBoxRepository {
 
     @Override
     public int fetchNewMessages(){
-//        List<Message> msgs = boxdb.getAllMessagesFull();
-//        int latestId = -1;
-//        for (Message m : msgs) {
-//            if(m.ExternalMessageID > latestId){
-//                latestId = m.ExternalMessageID;
-//            }
-//        }
-//
-//
-//
-//
-//        String token = managedb.getAuthToken();
-//        String data  = String.format(Locale.US, "{" +
-//                "\"token\" : \"%s\", " +
-//                "\"latestId\" : %d" +
-//                "}", token, latestId);
-//
-//        List<JSONObject> messages = new ArrayList<>();
-//
-//        try {
-//            JSONObject json = Utils.APIPost(Utils.baseURL + "/user/fetchnewmessages", new JSONObject(data));
-//            JSONArray arr = json.getJSONArray("newmessages");
-//            for(int i = 0; i < arr.length(); i++){
-//                messages.add(arr.getJSONObject(i));
-//            }
-//        }
-//        catch (JSONException e){
-//            try {
-//                managedb.refresh();
-//                JSONObject json2 = Utils.APIPost(Utils.baseURL + "/user/fetchnewmessages", new JSONObject(data));
-//            }
-//            catch (JSONException | IOException e2){
-//                return 0;
-//            }
-//            return 0;
-//
-//        }
-//        catch (IOException e){
-//           return 0;
-//        }
-//
-//
-        return 0;
+        List<Message> msgs = boxdb.getAllMessagesFull();
+        int latestMessageId = -1;
+        for (Message m : msgs) {
+            if(m.ExternalMessageID > latestMessageId){
+                latestMessageId = m.ExternalMessageID;
+            }
+        }
+
+        String token = managedb.getAuthToken();
+        String data  = String.format(Locale.US, "{" +
+                "\"token\" : \"%s\", " +
+                "\"latestMessageId\" : %d" +
+                "}", token, latestMessageId);
+
+        try {
+            int count = 0;
+            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/message/fetch/new", new JSONObject(data));
+            Message msg;
+            for(int i = 0; i < arr.length(); i++){
+                msg = newMessageFromJson(arr.getJSONObject(i));
+                if(msg != null){
+                    managedb.addMessage(msg);
+                    count++;
+                }
+            }
+            return count;
+        }
+        catch (JSONException e){
+            return 0;
+        }
+        catch (IOException e){
+            return 0;
+        }
+    }
+
+    private Message newMessageFromJson(JSONObject json) throws JSONException {
+        Message msg = new Message();
+        int senderId = json.getInt("senderId");
+        managedb.downloadUserInfo(senderId);
+
+        String type = json.getString("type");
+        if(type.equals("text")){
+            msg.Text = json.getJSONArray("content").getString(0);
+        }
+        else{
+            msg.Images = new ArrayList<>();
+            JSONArray arr = json.getJSONArray("content");
+            for(int i = 0; i < arr.length(); i++){
+                msg.Images.add(Converters.fromBase64(arr.getString(i)));
+            }
+        }
+
+        msg.ExternalMessageID = json.getInt("messageId");
+        msg.UserID = senderId;
+        msg.WrittenBy = senderId;
+        msg.InternalMessageID = managedb.getNewMsgId();
+        msg.IsDraft = false;
+        msg.IsRead = false;
+        msg.IsOutgoing = false;
+        msg.TimeStamp = null;
+
+
+        try {
+//            DateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yy");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+//            "2019-12-30T14:10:44.2522414Z"
+            dateFormat.setLenient(false);
+            Date d = dateFormat.parse(json.getString("deliveryTime"));
+            msg.DeliveryTime = d;
+        }
+        catch (ParseException e){
+            return null;
+        }
+
+        return msg;
     }
 }
