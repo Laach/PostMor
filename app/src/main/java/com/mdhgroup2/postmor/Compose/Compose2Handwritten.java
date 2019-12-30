@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +58,8 @@ public class Compose2Handwritten extends Fragment {
     private ConstraintLayout addItemLayout;
     private Button sendButton;
 
+    private static final int REQUEST_CODE = 1;
+
     public static Compose2Handwritten newInstance() {
         return new Compose2Handwritten();
     }
@@ -86,6 +87,7 @@ public class Compose2Handwritten extends Fragment {
         });
 
 
+        //Ask user for permission to read/write
         int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int permission2 = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
 
@@ -98,11 +100,12 @@ public class Compose2Handwritten extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, 1);
         }
 
+        //Onclick listener to open/take photo
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mAdapter.getItemCount() < 3){
-                    //Create temp file for camera image (android.developer)
+                    //Create temp file for the image (android.developer)
                     String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                     String imageFileName = "JPEG_"+timestamp+"_";
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -140,11 +143,11 @@ public class Compose2Handwritten extends Fragment {
                     Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     Intent chooserIntent = Intent.createChooser(pickIntent, "Select Source");
 
-                    // Add the camera options.
+                    //Add the camera options.
                     chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
                     //Start the chooser
-                    startActivityForResult(chooserIntent, 1);
+                    startActivityForResult(chooserIntent, REQUEST_CODE);
                 }
             }
         });
@@ -163,7 +166,8 @@ public class Compose2Handwritten extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
+        //Check if the request is from our camera/gallery intent and if it finished with the correct resultcode
+        if(requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK){
             boolean isCamera;
             Bitmap photo = null;
 
@@ -180,6 +184,7 @@ public class Compose2Handwritten extends Fragment {
                 }
             }
 
+            //Depending on if the camera was used or not, choose the correct action
             final Uri selectedImageUri;
             if(isCamera){
                 selectedImageUri = outputFileUri;
@@ -240,8 +245,8 @@ public class Compose2Handwritten extends Fragment {
             mAdapter.addItem(photo, currentPhotoFile.getName());
         }
         else{
+            //If the user closes the intent without choosing/taking photo, display a toast
             Toast.makeText(getActivity(), "No image selected or taken", Toast.LENGTH_SHORT).show();
-
         }
     }
 }
