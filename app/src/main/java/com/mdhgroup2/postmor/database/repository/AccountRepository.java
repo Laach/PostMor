@@ -103,7 +103,7 @@ public class AccountRepository implements IAccountRepository {
         if(manageDb.getUserEmail() == email && manageDb.getUserPassword() == password){
             // Query server
             accountDb.setSignedIn();
-            return manageDb.refresh();
+            return manageDb.refreshToken();
         }
         else{
             String data = String.format("{" +
@@ -158,7 +158,7 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken(null);
-        manageDb.setRefreshToken(null);
+        manageDb.setAuthToken("");
+        manageDb.setRefreshToken("");
     }
 }
