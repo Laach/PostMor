@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -48,6 +49,10 @@ public class Compose2Handwritten extends Fragment {
     private Uri outputFileUri;
     private File currentPhotoFile;
     private String currentPhotoPath;
+
+    private ConstraintLayout addItemLayout;
+    private Button sendButton;
+
     public static Compose2Handwritten newInstance() {
         return new Compose2Handwritten();
     }
@@ -56,7 +61,9 @@ public class Compose2Handwritten extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.compose2_handwritten_fragment, container, false);
-        ConstraintLayout addItemLayout = view.findViewById(R.id.addItemConstraint);
+        addItemLayout = view.findViewById(R.id.addItemConstraint);
+        sendButton = view.findViewById(R.id.c2hand_Send);
+
 
         recyclerView = view.findViewById(R.id.compose2HandwrittenRecyclerView);
         layoutManager = new LinearLayoutManager(container.getContext());
@@ -64,6 +71,15 @@ public class Compose2Handwritten extends Fragment {
 
         mAdapter = new Compose2HandRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new Compose2HandRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                mAdapter.removeItem(position);
+            }
+        });
+
+
 
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
