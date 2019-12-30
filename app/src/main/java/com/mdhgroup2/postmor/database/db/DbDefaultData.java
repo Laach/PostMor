@@ -74,7 +74,7 @@ public class DbDefaultData {
        m1.IsRead = false;
        m1.TimeStamp = Utils.makeDateTime(2019, 8, 12, 12, 0, 0);
        m1.DeliveryTime = Utils.makeDateTime(2019, 8, 14, 16, 0, 0);
-       m1.SenderPublicKey = "2222";
+//       m1.SenderPublicKey = "2222";
 
        db.manageDao().addMessage(m1);
     }
