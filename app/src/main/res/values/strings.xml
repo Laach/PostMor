@@ -47,6 +47,7 @@
     <string name="compose_address_hint">Ex: Masksnöskottargatan 123</string>
     <string name="compose_choose_pictures">Choose pictures</string>
     <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
+    <string name="compose_add_picture">Add a picture</string>
 
     <!-- contacts fragment -->
 

@@ -24,13 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
 
@@ -148,6 +145,7 @@ public class Compose2Handwritten extends Fragment {
             boolean isCamera;
             Bitmap photo = null;
 
+            //Determine whether the camera or the gallery was used
             if(data == null || data.getData() == null){
                 isCamera = true;
             }
@@ -192,6 +190,7 @@ public class Compose2Handwritten extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //Add the image to the recycler view
             mAdapter.addItem(photo, currentPhotoFile.getName());
         }
         else{
