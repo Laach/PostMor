@@ -56,6 +56,9 @@ public class ContactRepository implements IContactRepository {
         // Query server
         contactdao.addFriend(ID);
 
+        // ----------------------------------------------
+        // This needs to be tested properly.
+        // ----------------------------------------------
 
         class AddFriendWorker extends Worker {
 
