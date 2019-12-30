@@ -29,7 +29,7 @@ public class LetterRepositoryMock implements ILetterRepository{
     }
 
     @Override
-    public void sendDraft(int recipientID) {
-
+    public boolean sendDraft(EditMsg msg) {
+        return true;
     }
 }
