@@ -46,6 +46,7 @@ public class Compose2Handwritten extends Fragment {
     private Compose2HandwrittenViewModel mViewModel;
 
     private Uri outputFileUri;
+    private File currentPhotoFile;
     private String currentPhotoPath;
     public static Compose2Handwritten newInstance() {
         return new Compose2Handwritten();
@@ -72,20 +73,20 @@ public class Compose2Handwritten extends Fragment {
                     String timestamp = String.valueOf(System.currentTimeMillis());
                     String imageFileName = "JPEG_"+timestamp+"_";
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    File image = null;
+                    currentPhotoFile = null;
                     try {
-                         image = File.createTempFile(
+                         currentPhotoFile = File.createTempFile(
                                 imageFileName,
                                 ".jpg",
                                storageDir
                        );
-                       currentPhotoPath = image.getAbsolutePath();
+                       currentPhotoPath = currentPhotoFile.getAbsolutePath();
                     } catch (IOException e) {
                     e.printStackTrace();
                     }
-                    if(image != null){
+                    if(currentPhotoFile != null){
                         outputFileUri = FileProvider.getUriForFile(getActivity(), "com.mdhgroup2.postmor.fileprovider",
-                            image);
+                            currentPhotoFile);
                     }
 
                     // Camera.
@@ -175,7 +176,7 @@ public class Compose2Handwritten extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mAdapter.addItem(photo);
+            mAdapter.addItem(photo, currentPhotoFile.getName());
         }
         else{
             super.onActivityResult(requestCode, resultCode, data);

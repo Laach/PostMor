@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mdhgroup2.postmor.R;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
-    private Bitmap[] mDataset = new Bitmap[0];
+    private PhotoItem[] mDataset = new PhotoItem[0];
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -54,8 +54,8 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     public void onBindViewHolder(ComposeViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.image.setImageBitmap(mDataset[position]);
-        holder.text.setText("temp");
+        holder.image.setImageBitmap(mDataset[position].image);
+        holder.text.setText(mDataset[position].text);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -64,15 +64,26 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         return mDataset.length;
     }
 
-    public void addItem(Bitmap image){
+    public void addItem(Bitmap image, String text){
         //add a new item to the dataset (its an array, need to recreate every time)
-        Bitmap[] newDataSet = new Bitmap[mDataset.length+1];
+        PhotoItem[] newDataSet = new PhotoItem[mDataset.length+1];
         for(int i = 0; i<mDataset.length; i++){
             newDataSet[i] = mDataset[i];
         }
-        newDataSet[mDataset.length] = image;
+        PhotoItem photoItem = new PhotoItem(text,image);
+        newDataSet[mDataset.length] = photoItem;
         mDataset = newDataSet;
 
         notifyDataSetChanged();
+    }
+}
+
+class PhotoItem{
+    public String text;
+    public Bitmap image;
+
+    public PhotoItem(String s, Bitmap b){
+        this.text = s;
+        this.image = b;
     }
 }
