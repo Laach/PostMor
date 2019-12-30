@@ -12,6 +12,6 @@ public interface ILetterRepository {
     EditMsg getOrStartDraft(int recipientID);
     EditMsg getOrStartGenerictDraft();
     void saveDraft(EditMsg msg);
-    void sendDraft(int recipientID);
+    boolean sendDraft(EditMsg msg);
 
 }

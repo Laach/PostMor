@@ -1,7 +1,6 @@
 package com.mdhgroup2.postmor.database.db;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
-import com.mdhgroup2.postmor.database.DTO.UserCard;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 
 import java.util.ArrayList;
@@ -90,8 +89,8 @@ public class ContactRepositoryMock implements IContactRepository {
     }
 
     @Override
-    public UserCard getUserCard(int ID) {
-        UserCard u2 = new UserCard();
+    public Contact getUserCard(int ID) {
+        Contact u2 = new Contact();
         u2.Name = "Arne Askersund";
         u2.Address = "Mastrostvägen 13";
         u2.Picture = null;
