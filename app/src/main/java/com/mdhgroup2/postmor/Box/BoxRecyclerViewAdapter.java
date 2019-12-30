@@ -3,6 +3,8 @@ package com.mdhgroup2.postmor.Box;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +24,6 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class BoxItemsViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public View messageItem;
         public TextView name;
         public TextView address;
@@ -30,6 +31,9 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         public TextView toOrFrom;
         public ImageView toOrFromPicture;
         public ImageView profilePicture;
+        public Button sendButton;
+        public ImageButton expandButton;
+        public View expandableContent;
 
         public BoxItemsViewHolder(View mi) {
             super(mi);
@@ -40,6 +44,9 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             toOrFrom = messageItem.findViewById(R.id.toOrFrom);
             toOrFromPicture = messageItem.findViewById(R.id.toOrFromImageView);
             profilePicture = messageItem.findViewById(R.id.profilePictureImageView);
+            sendButton = messageItem.findViewById(R.id.sendButton);
+            expandButton = messageItem.findViewById(R.id.expandButton);
+            expandableContent = messageItem.findViewById(R.id.messageContents);
         }
     }
 
@@ -60,10 +67,25 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        BoxItemsViewHolder cvHolder = ((BoxItemsViewHolder) holder);
+        final BoxItemsViewHolder cvHolder = ((BoxItemsViewHolder) holder);
         cvHolder.name.setText(mDataset[position]);
         cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
-        return;
+        cvHolder.expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View contents = cvHolder.expandableContent;
+
+                if(contents.getVisibility() == View.VISIBLE)
+                {
+                    contents.setVisibility(View.GONE);
+                    cvHolder.expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp);
+                } else
+                {
+                    contents.setVisibility(View.VISIBLE);
+                    cvHolder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
+                }
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
