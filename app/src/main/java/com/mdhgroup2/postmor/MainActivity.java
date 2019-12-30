@@ -2,19 +2,19 @@ package com.mdhgroup2.postmor;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import android.os.Bundle;
-
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 
 public class MainActivity extends AppCompatActivity {
 
     AppBarConfiguration appBarConfiguration;
+    public MainActivityViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseClient.initDb(getApplicationContext());
             }
         }).start();
-
+        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

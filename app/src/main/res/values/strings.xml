@@ -76,4 +76,13 @@
 
     <!-- about fragment -->
 
+    <!-- User popup windows -->
+    <string name="found_user_name">Name: </string>
+    <string name="found_user_address">Address: </string>
+    <string name="found_user_cancel">Cancel</string>
+    <string name="found_user_add">Add</string>
+    <string name="found_user_profile_pic_description">Profile pic</string>
+    <string name="add_user_search">Search</string>
+    <string name="add_user_address_hint">Input user address</string>
+
 </resources>

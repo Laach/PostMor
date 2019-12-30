@@ -79,7 +79,12 @@
         android:id="@+id/userToUserFragment"
         android:name="com.mdhgroup2.postmor.UserToUser.UserToUserFragment"
         android:label="User to user"
-        tools:layout="@layout/user_to_user_fragment" />
+        tools:layout="@layout/user_to_user_fragment" >
+        <argument
+            android:name="index"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
     <navigation
         android:id="@+id/registration_graph"
         app:startDestination="@id/signInFragment">
