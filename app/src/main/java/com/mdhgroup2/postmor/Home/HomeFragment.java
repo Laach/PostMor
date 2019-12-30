@@ -42,10 +42,10 @@ public class HomeFragment extends Fragment {
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = getView();
         navController = Navigation.findNavController(view);
-        Button boxButton = view.findViewById(R.id.boxButton);
-        Button composeButton = view.findViewById(R.id.composeButton);
-        Button contactsButton = view.findViewById(R.id.contactsButton);
-        ImageButton settingsButton = view.findViewById(R.id.settingsButton);
+        View boxButton = view.findViewById(R.id.boxButton);
+        View composeButton = view.findViewById(R.id.composeButton);
+        View contactsButton = view.findViewById(R.id.contactsButton);
+        View settingsButton = view.findViewById(R.id.settingsButton);
         boxButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToBoxFragment()));
         composeButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToComposeFragment()));
         contactsButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToContactsFragment()));
