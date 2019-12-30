@@ -14,8 +14,8 @@ import java.util.List;
 @Dao
 public interface ContactDao {
 
-    @Query("SELECT * FROM UserCard WHERE UserID = :ID")
-    UserCard getUserCard(int ID);
+    @Query("SELECT * FROM UserCard WHERE UserID = :userID")
+    UserCard getUserCard(int userID);
 
     @Query("UPDATE Users SET IsFriend = 1 WHERE ID = :ID")
     void addFriend(int ID);
