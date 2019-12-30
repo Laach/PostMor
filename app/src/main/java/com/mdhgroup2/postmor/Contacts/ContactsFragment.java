@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
-import com.mdhgroup2.postmor.database.DTO.UserCard;
 
 
 public class ContactsFragment extends Fragment {
@@ -40,6 +40,7 @@ public class ContactsFragment extends Fragment {
     private View popupFoundUserView = null;
     private TextView userFoundName = null;
     private TextView userFoundAddress = null;
+    private ImageView userProfilePic = null;
     private Button addUserbutton = null;
     private Button cancelUserFoundButton = null;
 
@@ -78,14 +79,13 @@ public class ContactsFragment extends Fragment {
                 alertDialogBuilder.setView(popupAddInputDialogView);
 
                 // Create AlertDialog and show.
-                final AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                final AlertDialog addUserDialog = alertDialogBuilder.create();
+                addUserDialog.show();
 
                 // When user click the save user data button in the popup dialog.
                 searchUserbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         String userAddress = userSearch.getText().toString();
                         if(userAddress.isEmpty()){
                             Toast toast = Toast.makeText(getContext(), "You need to enter an address.", Toast.LENGTH_SHORT);
@@ -95,8 +95,8 @@ public class ContactsFragment extends Fragment {
                             friend = mViewModel.findUserByAddress(userAddress);
                             if (friend != null && !friend.IsFriend) {
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                                alertDialogBuilder.setTitle("User found");
-                                alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+//                                alertDialogBuilder.setTitle("User found");
+//                                alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
                                 alertDialogBuilder.setCancelable(true);
 
                                 // Init popup dialog view and it's ui controls.
@@ -105,9 +105,9 @@ public class ContactsFragment extends Fragment {
                                 // Set the inflated layout view object to the AlertDialog builder.
                                 alertDialogBuilder.setView(popupFoundUserView);
 
-                                // Create AlertDialog and show.
-                                final AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
+                                // Create the second AlertDialog and show.
+                                final AlertDialog foundUserDialog = alertDialogBuilder.create();
+                                foundUserDialog.show();
 
                                 addUserbutton.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -116,13 +116,14 @@ public class ContactsFragment extends Fragment {
                                         mAdapter.notifyDataSetChanged();
                                         Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
                                         toast.show();
-                                        alertDialog.cancel();
+                                        foundUserDialog.cancel();
+                                        addUserDialog.cancel();
                                     }
                                 });
                                 cancelUserFoundButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        alertDialog.cancel();
+                                        foundUserDialog.cancel();
                                     }
                                 });
                             }
@@ -131,18 +132,17 @@ public class ContactsFragment extends Fragment {
                                 toast.show();
                             }
                             else{
-                                Toast toast = Toast.makeText(getContext(), "That user could not be found.", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(getContext(), "That user could NOT be found.", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
                         }
-
                     }
                 });
 
                 cancelUserAddButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialog.cancel();
+                        addUserDialog.cancel();
                     }
                 });
             }
@@ -165,12 +165,12 @@ public class ContactsFragment extends Fragment {
         popupAddInputDialogView = layoutInflater.inflate(R.layout.add_contact_popup, null);
 
         // Get user input edittext and button ui controls in the popup dialog.
-        userSearch = (EditText) popupAddInputDialogView.findViewById(R.id.userName);
+        userSearch = popupAddInputDialogView.findViewById(R.id.userName);
         searchUserbutton = popupAddInputDialogView.findViewById(R.id.button_search_user);
         cancelUserAddButton = popupAddInputDialogView.findViewById(R.id.button_cancel_user_add);
     }
 
-    private void initFoundPopupViewControls(UserCard uc){
+    private void initFoundPopupViewControls(Contact uc){
         // Get layout inflater object.
         LayoutInflater layoutInflater = LayoutInflater.from(getParentFragment().getContext());
 
@@ -182,6 +182,9 @@ public class ContactsFragment extends Fragment {
         userFoundName.setText(uc.Name);
         userFoundAddress = popupFoundUserView.findViewById(R.id.found_user_address);
         userFoundAddress.setText(uc.Address);
+        userProfilePic = popupFoundUserView.findViewById(R.id.found_user_profile_pic);
+        userProfilePic.setImageBitmap(uc.Picture);
+
         addUserbutton = popupFoundUserView.findViewById(R.id.button_add_user);
         cancelUserFoundButton = popupFoundUserView.findViewById(R.id.button_cancel_user_found);
     }

@@ -9,36 +9,36 @@ import java.util.List;
 public class ContactRepositoryMock implements IContactRepository {
 
     @Override
-    public UserCard findByAddress(String address) {
-        if (address.equals("1")){UserCard u3 = new UserCard();
+    public Contact findByAddress(String address) {
+        if (address.equals("1")){Contact u3 = new Contact();
             u3.Name = "A";
             u3.Address = "1";
-            u3.Picture = null;
+            u3.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw");
             u3.UserID = 4;
             u3.IsFriend = false;
             return u3;}
-        if (address.equals("2")){UserCard u3 = new UserCard();
+        if (address.equals("2")){Contact u3 = new Contact();
             u3.Name = "B";
             u3.Address = "2";
             u3.Picture = null;
             u3.UserID = 5;
             u3.IsFriend = false;
             return u3;}
-        if (address.equals("3")){UserCard u3 = new UserCard();
+        if (address.equals("3")){Contact u3 = new Contact();
             u3.Name = "C";
             u3.Address = "3";
             u3.Picture = null;
             u3.UserID = 6;
             u3.IsFriend = false;
             return u3;}
-        if (address.equals("4")){UserCard u3 = new UserCard();
+        if (address.equals("4")){Contact u3 = new Contact();
             u3.Name = "D";
             u3.Address = "4";
             u3.Picture = null;
             u3.UserID = 7;
             u3.IsFriend = true;
             return u3;}
-        if (address.equals("5")){UserCard u3 = new UserCard();
+        if (address.equals("5")){Contact u3 = new Contact();
             u3.Name = "E";
             u3.Address = "5";
             u3.Picture = null;

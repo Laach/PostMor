@@ -12,11 +12,11 @@
 
         <TextView
             android:gravity="end"
-            android:text="User Address : " />
+            android:text="@string/found_user_address" />
 
         <EditText
             android:id="@+id/userName"
-            android:hint="Input user address"
+            android:hint="@string/add_user_address_hint"
             android:inputType="text" />
 
     </TableRow>
@@ -27,7 +27,7 @@
             android:id="@+id/button_cancel_user_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
+            android:text="@string/found_user_cancel"
             android:textSize="20dp"
             android:textAllCaps="false"
             android:gravity="center_horizontal"
@@ -38,7 +38,7 @@
             android:id="@+id/button_search_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/add_user_search"
             android:textSize="20dp"
             android:textAllCaps="false"
             android:gravity="center_horizontal"
