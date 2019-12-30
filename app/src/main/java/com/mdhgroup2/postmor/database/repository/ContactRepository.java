@@ -75,7 +75,7 @@ public class ContactRepository implements IContactRepository {
                         "\"userID\" : %d " +
                         "}", token, ID);
                 try {
-                    Utils.APIPost("/contact/add", new JSONObject(data));
+                    Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
                 }
                 catch (JSONException j){
                     return Result.failure();
