@@ -46,7 +46,7 @@ public class DatabaseClient {
                 .addPicture(Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"))
                 .build();
 
-        boolean b = getAccountRepository().registerAccount(nick);
+//        boolean b = getAccountRepository().registerAccount(nick);
 
 //        getAccountRepository().signIn("nick@animetitties.com", "String123!");
 
