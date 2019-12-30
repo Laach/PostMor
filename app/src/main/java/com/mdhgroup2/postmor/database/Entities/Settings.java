@@ -26,6 +26,8 @@ public class Settings {
     @NonNull
     public Date PickupTime;
     @NonNull
+    public Date DeliveryTime;
+    @NonNull
     public Integer OutgoingLetterCount;
     @NonNull
     public boolean IsLoggedIn;
