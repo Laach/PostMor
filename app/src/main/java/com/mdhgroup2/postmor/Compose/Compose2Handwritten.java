@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -28,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
 
@@ -141,7 +141,9 @@ public class Compose2Handwritten extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 1){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
             boolean isCamera;
             Bitmap photo = null;
 
@@ -194,7 +196,8 @@ public class Compose2Handwritten extends Fragment {
             mAdapter.addItem(photo, currentPhotoFile.getName());
         }
         else{
-            super.onActivityResult(requestCode, resultCode, data);
+            Toast.makeText(getActivity(), "No image selected or taken", Toast.LENGTH_SHORT).show();
+
         }
     }
 }
