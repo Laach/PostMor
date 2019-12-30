@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactRepository implements IContactRepository {
 
@@ -51,7 +52,7 @@ public class ContactRepository implements IContactRepository {
     }
 
     @Override
-    public void addContact(int ID) {
+    public void addContact(final int ID) {
         // Query server
         contactdao.addFriend(ID);
 
@@ -65,9 +66,13 @@ public class ContactRepository implements IContactRepository {
             @NonNull
             @Override
             public Result doWork() {
-                String data = String.format(""); // Add input data
+                String token = managedao.getAuthToken();
+                String data = String.format(Locale.US, "{" +
+                        "\"token\" : \"%s\", " +
+                        "\"userID\" : %d " +
+                        "}", token, ID);
                 try {
-                    Utils.APIPost("/user/addfriend", new JSONObject(data));
+                    Utils.APIPost("/contact/add", new JSONObject(data));
                 }
                 catch (JSONException j){
                     return Result.failure();
