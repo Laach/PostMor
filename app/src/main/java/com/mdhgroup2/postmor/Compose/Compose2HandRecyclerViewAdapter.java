@@ -74,6 +74,5 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         mDataset = newDataSet;
 
         notifyDataSetChanged();
-        Log.d("test", "addItem: getItemCount: "+getItemCount());
     }
 }

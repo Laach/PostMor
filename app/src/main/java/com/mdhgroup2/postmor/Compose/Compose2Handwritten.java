@@ -45,7 +45,6 @@ public class Compose2Handwritten extends Fragment {
 
     private Compose2HandwrittenViewModel mViewModel;
 
-    private ImageView image;
     private Uri outputFileUri;
     private String currentPhotoPath;
     public static Compose2Handwritten newInstance() {
@@ -64,8 +63,6 @@ public class Compose2Handwritten extends Fragment {
 
         mAdapter = new Compose2HandRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
-
-        image = view.findViewById(R.id.imageView3);
 
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,12 +169,8 @@ public class Compose2Handwritten extends Fragment {
                     }
                     Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
                     photo = rotatedBitmap;
-                    //image.setImageBitmap(rotatedBitmap);
-
                 }else{
                     //If the image is selected from the gallery, don'tc check for rotation
-
-                    //image.setImageBitmap(photo);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
