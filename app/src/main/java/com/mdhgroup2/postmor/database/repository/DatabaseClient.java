@@ -8,10 +8,13 @@ import androidx.room.RoomMasterTable;
 import androidx.room.RoomOpenHelper;
 import androidx.room.RoomSQLiteQuery;
 
+import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+import com.mdhgroup2.postmor.database.db.AccountBuilder;
 import com.mdhgroup2.postmor.database.db.AppDatabase;
 import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
+import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.DbDefaultData;
 import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
@@ -30,9 +33,24 @@ public class DatabaseClient {
 //                .build();
         db = DbDefaultData.DB(c);
 
-
+        // ---------------------------------------------------------
         // This is required.
         db.manageDao().initInternalID(new InternalMsgID(100));
+        // ---------------------------------------------------------
+
+        Account nick = new AccountBuilder()
+                .addName("Nick")
+                .addPassword("String123!")
+                .addAddress("Tittiegatan 6")
+                .addEmail("nick@animetitties.com")
+                .addPicture(Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"))
+                .build();
+
+//        boolean b = getAccountRepository().registerAccount(nick);
+
+//        getAccountRepository().signIn("nick@animetitties.com", "String123!");
+
+//        boolean b = db.manageDao().refreshToken();
 
     }
 

@@ -26,7 +26,7 @@ public class Converters {
     @TypeConverter
     public static Bitmap fromBase64(String base64Str) throws IllegalArgumentException
     {
-        if(base64Str == null){
+        if(base64Str == null || base64Str.equals("")){
             return null;
         }
         byte[] decodedBytes = Base64.decode(
@@ -41,7 +41,7 @@ public class Converters {
     public static String bitmapToBase64(Bitmap bitmap)
     {
         if(bitmap == null){
-            return null;
+            return "";
         }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);

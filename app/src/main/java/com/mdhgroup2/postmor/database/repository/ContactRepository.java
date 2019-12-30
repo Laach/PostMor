@@ -11,7 +11,6 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
-import com.mdhgroup2.postmor.database.DTO.UserCard;
 import com.mdhgroup2.postmor.database.db.ContactDao;
 import com.mdhgroup2.postmor.database.db.ManageDao;
 import com.mdhgroup2.postmor.database.db.Utils;
@@ -34,8 +33,8 @@ public class ContactRepository implements IContactRepository {
     }
 
     @Override
-    public UserCard findByAddress(String address) {
-        UserCard u = new UserCard();
+    public Contact findByAddress(String address) {
+        Contact u = new Contact();
         u.IsFriend = false;
         u.Name = "Bob Bobsson";
         u.Address = "Bobsledgatan 3";
@@ -100,7 +99,7 @@ public class ContactRepository implements IContactRepository {
     }
 
     @Override
-    public UserCard getUserCard(int ID) {
+    public Contact getUserCard(int ID) {
         return contactdao.getUserCard(ID);
     }
 }

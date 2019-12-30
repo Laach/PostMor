@@ -127,4 +127,9 @@ public class BoxRepositoryMock implements IBoxRepository {
                 + "you get this letter.\n\n Love, Grandma";
         return msg;
     }
+
+    @Override
+    public int fetchNewMessages(){
+        return 0;
+    }
 }

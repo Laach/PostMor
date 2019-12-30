@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "95c21fb40f043de60f88efd3336a41b7",
+    "identityHash": "bbec9f8a5ecd471a3b063d40da6365a5",
     "entities": [
       {
         "tableName": "Messages",
@@ -162,7 +162,7 @@
       },
       {
         "tableName": "Settings",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT NOT NULL, `Password` TEXT NOT NULL, `Address` TEXT NOT NULL, `ProfilePicture` TEXT, `PublicKey` TEXT NOT NULL, `PrivateKey` TEXT NOT NULL, `PickupTime` INTEGER NOT NULL, `OutgoingLetterCount` INTEGER NOT NULL, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT NOT NULL, `RefreshToken` TEXT NOT NULL, PRIMARY KEY(`ID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT NOT NULL, `Password` TEXT NOT NULL, `Address` TEXT NOT NULL, `ProfilePicture` TEXT, `PublicKey` TEXT NOT NULL, `PrivateKey` TEXT NOT NULL, `PickupTime` INTEGER NOT NULL, `DeliveryTime` INTEGER NOT NULL, `OutgoingLetterCount` INTEGER NOT NULL, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT NOT NULL, `RefreshToken` TEXT NOT NULL, PRIMARY KEY(`ID`))",
         "fields": [
           {
             "fieldPath": "ID",
@@ -209,6 +209,12 @@
           {
             "fieldPath": "PickupTime",
             "columnName": "PickupTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "DeliveryTime",
+            "columnName": "DeliveryTime",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -263,11 +269,15 @@
       {
         "viewName": "Contact",
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Name, Address, ProfilePicture as Picture, IsFriend, ID as UserID FROM Users"
+      },
+      {
+        "viewName": "EditMsg",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT InternalMessageID, Text, Images, UserID as RecipientID,IsDraft FROM Messages"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '95c21fb40f043de60f88efd3336a41b7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bbec9f8a5ecd471a3b063d40da6365a5')"
     ]
   }
 }

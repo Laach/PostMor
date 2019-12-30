@@ -25,5 +25,7 @@ public interface IBoxRepository {
 
     MessageContent getMsgContent(int MsgID);
 
+    int fetchNewMessages();
+
 
 }

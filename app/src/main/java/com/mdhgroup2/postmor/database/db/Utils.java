@@ -1,37 +1,30 @@
 package com.mdhgroup2.postmor.database.db;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.BufferedSink;
 
 public class Utils {
+
+    public static final String baseURL = "https://postmorwebserver20191230083106.azurewebsites.net";
+
+
     public static Date makeDate(int year, int month, int day){
         Calendar c = new GregorianCalendar();
         c.set(year, month, day);
@@ -91,7 +84,7 @@ public class Utils {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String b = response.body().string();
-            return new JSONObject(b).getJSONObject("json");
+            return new JSONObject(b);//.getJSONObject("json");
         }
         catch (JSONException j){
             return null;

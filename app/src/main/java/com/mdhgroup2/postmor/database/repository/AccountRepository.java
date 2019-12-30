@@ -45,10 +45,10 @@ public class AccountRepository implements IAccountRepository {
 
 
         String data = String.format("{" +
-                "\"username\" : \"%s\", " +
+                "\"name\" : \"%s\", " +
                 "\"password\" : \"%s\", " +
                 "\"email\" : \"%s\", " +
-                "\"address\" : \"%s\", " +
+                "\"adress\" : \"%s\", " +
                 "\"picture\" : \"%s\"" +
                 "}",
                 acc.Name,
@@ -58,13 +58,14 @@ public class AccountRepository implements IAccountRepository {
                 Converters.bitmapToBase64(acc.Picture));
 
         try {
-            JSONObject json = Utils.APIPost("/identity/register", new JSONObject(data));
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/register", new JSONObject(data));
 
             Settings s = new Settings();
             s.ID = -1; // Server response
             s.Address = acc.Address;
             s.ProfilePicture = acc.Picture;
             s.PickupTime = null; // Server response
+            s.DeliveryTime = null; // Server response
             s.PublicKey = null; // Server response
             s.PrivateKey = null; // Server response
             s.AuthToken = null; // Server response
@@ -99,26 +100,28 @@ public class AccountRepository implements IAccountRepository {
     public boolean signIn(String email, String password) {
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        if(manageDb.getUserEmail() == email){
+        if(manageDb.getUserEmail() == email && manageDb.getUserPassword() == password){
             // Query server
             accountDb.setSignedIn();
-            return manageDb.refresh();
+            return manageDb.refreshToken();
         }
         else{
             String data = String.format("{" +
                     "\"email\" : \"%s\", " +
                     "\"password\" : \"%s\"" +
                     "}", email, password);
+//            String data = "{}";
 
             String authToken;
             String refreshToken;
 
             try{
-                JSONObject json = Utils.APIPost("/identity/login", new JSONObject(data));
+                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data));
 
                 authToken = json.getString("token");
 
                 refreshToken = json.getString("refreshToken");
+
 
             }
             catch (IOException e){
@@ -128,12 +131,23 @@ public class AccountRepository implements IAccountRepository {
                 return false;
                 // Failed to update key. Possibly offline.
             }
+
             // Query server
             //
             // On success, empty all tables, and fetch all data.
-            DatabaseClient.nukeDatabase();
+
+            String data2 = String.format("{\"token\" : \"%s\"}", authToken);
+            try {
+                JSONObject json = Utils.APIPost(Utils.baseURL + "/user/fetchalldata", new JSONObject(data2));
+                DatabaseClient.nukeDatabase();
+            }
+            catch (JSONException | IOException e){
+                return false;
+            }
             // API "/user/fetchalldata"
-            // Set tokens.
+            // Save all data
+            manageDb.setAuthToken(authToken);
+            manageDb.setRefreshToken(refreshToken);
 
             return true;
         }
@@ -144,7 +158,7 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken(null);
-        manageDb.setRefreshToken(null);
+        manageDb.setAuthToken("");
+        manageDb.setRefreshToken("");
     }
 }
