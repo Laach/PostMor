@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -67,15 +70,6 @@ public class Compose2Handwritten extends Fragment {
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Determine Uri of camera image to save.
-                //honestly what does this even do?
-
-                /*
-                File root = new File(Environment.getExternalStorageDirectory()+ File.separator);
-                root.mkdirs();
-                String fname = "img_"+ System.currentTimeMillis() + ".jpg";
-                File sdImageMainDirectory = new File(root, fname);
-                outputFileUri = Uri.fromFile(sdImageMainDirectory);*/
 
                 //Create temp file for camera image (android.developer)
                 String timestamp = String.valueOf(System.currentTimeMillis());
@@ -136,15 +130,14 @@ public class Compose2Handwritten extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == 1){
-            //Bitmap photo = (Bitmap) data.getExtras().get("data");
-            //image.setImageBitmap(photo);
             boolean isCamera;
+            Bitmap photo;
+
             if(data == null || data.getData() == null){
                 isCamera = true;
             }
             else{
                 String action = data.getAction();
-                Log.d("test", "onActivityResult: "+action);
                 if(action == null){
                     isCamera = false;
                 }else {
@@ -155,23 +148,41 @@ public class Compose2Handwritten extends Fragment {
             final Uri selectedImageUri;
             if(isCamera){
                 selectedImageUri = outputFileUri;
-                Log.d("test", "onActivityResult: isCamera == true\n"+selectedImageUri);
             }else{
                 selectedImageUri = data == null ? null : data.getData();
-                Log.d("test", "onActivityResult: isCamera != true \n"+selectedImageUri);
-
             }
             try {
-                Bitmap photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                image.setImageBitmap(photo);
-                //image.setImageURI(selectedImageUri);
+                photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+
+                //If the image is rotated, reset its rotation
+                if(isCamera){
+                    ExifInterface exif= new ExifInterface(currentPhotoPath);
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                    Matrix matrix = new Matrix();
+                    switch(orientation){
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            matrix.setRotate(90);
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            matrix.setRotate(180);
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            matrix.setRotate(270);
+                            break;
+                    }
+                    Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
+
+                    image.setImageBitmap(rotatedBitmap);
+                }else{
+                    //If the image is selected from the gallery, don'tc check for rotation
+                    image.setImageBitmap(photo);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
         else{
-            Log.d("test", "onActivityResult: sending to super");
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
