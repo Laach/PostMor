@@ -19,7 +19,6 @@ public interface ContactDao {
     @Query("UPDATE Users SET IsFriend = 1 WHERE ID = :ID")
     void addFriend(int ID);
 
-
     @Query("UPDATE Users SET IsFriend = 0 WHERE ID = :ID")
     void deleteFriend(int ID);
 

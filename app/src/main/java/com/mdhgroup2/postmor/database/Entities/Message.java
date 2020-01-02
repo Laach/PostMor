@@ -25,7 +25,7 @@ public class Message {
     public boolean IsRead;
     public Date TimeStamp;
     public Date DeliveryTime;
-    public String SenderPublicKey;
+//    public String SenderPublicKey;
 
     @Nullable
     public List<Bitmap> Images;

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,7 +85,27 @@ public class Utils {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String b = response.body().string();
-            return new JSONObject(b);//.getJSONObject("json");
+            return new JSONObject(b);
+        }
+        catch (JSONException j){
+            return null;
+        }
+    }
+
+    public static JSONArray APIPostArray(String url, JSONObject json) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+        RequestBody body = RequestBody.create(JSON, json.toString());
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            String b = response.body().string();
+            return new JSONArray(b);
         }
         catch (JSONException j){
             return null;
