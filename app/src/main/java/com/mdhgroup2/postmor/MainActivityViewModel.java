@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel;
 
 public class MainActivityViewModel extends ViewModel {
     private final List<Contact> contacts;
-    private final List<MsgCard> messages;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
 
@@ -20,14 +19,20 @@ public class MainActivityViewModel extends ViewModel {
         contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
         boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
         contacts = contactRepo.getContacts();
-        messages = boxRepo.getAllMessages();
     }
 
     public List<Contact> getContactList(){
         return contacts;
     }
-    public List<MsgCard> getMessageList(){
-        return messages;
+    public List<MsgCard> getMessageList(int index){
+        if (index == 1) {
+            return boxRepo.getAllMessages();
+        }
+        else if (index == 2){
+            return boxRepo.getInboxMessages();
+        }
+        return boxRepo.getOutboxMessages();
+
     }
 
     public Contact getContact(int index){
