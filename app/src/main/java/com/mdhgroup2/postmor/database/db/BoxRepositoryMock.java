@@ -40,7 +40,7 @@ public class BoxRepositoryMock implements IBoxRepository {
         u1.DateStamp = Utils.makeDate(2019, 12, 19);
         u1.MsgID = 1;
         u1.IsSentByMe = true;
-        u1.UserID = "5";
+        u1.UserID = 5;
         u1.Text = "This is a message";
 
         MsgCard u2 = new MsgCard();
@@ -51,7 +51,7 @@ public class BoxRepositoryMock implements IBoxRepository {
         u2.DateStamp = Utils.makeDate(2019, 12, 11);
         u2.MsgID = 2;
         u2.IsSentByMe = true;
-        u2.UserID = "2";
+        u2.UserID = 2;
         u2.Text = "This is also a message";
 
         MsgCard u3 = new MsgCard();
@@ -62,7 +62,7 @@ public class BoxRepositoryMock implements IBoxRepository {
         u3.DateStamp = Utils.makeDate(2019, 11, 23);
         u3.MsgID = 3;
         u3.IsSentByMe = false;
-        u3.UserID = "3";
+        u3.UserID = 3;
 
         u3.Images = new ArrayList<>();
         InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
@@ -83,7 +83,7 @@ public class BoxRepositoryMock implements IBoxRepository {
         u4.DateStamp = Utils.makeDate(2019, 3, 2);
         u4.MsgID = 4;
         u4.IsSentByMe = false;
-        u4.UserID = "4";
+        u4.UserID = 4;
         u4.Text = "I'm a navy squeal";
 
         l.add(u1);
