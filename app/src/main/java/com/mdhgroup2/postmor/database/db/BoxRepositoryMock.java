@@ -31,7 +31,6 @@ public class BoxRepositoryMock implements IBoxRepository {
         MsgCard u1 = new MsgCard();
         u1.Name = "Ann-Marie Josefsson";
         u1.Address = "Isterbarnsgatan 12";
-        Bitmap.Config config;
         u1.Picture = null;
         u1.IsFriend = true;
         u1.DateStamp = Utils.makeDate(2019, 12, 19);
