@@ -17,8 +17,8 @@ public class DbDefaultData {
                 Room.databaseBuilder(c, AppDatabase.class, "client-db")
                         .build();
 
-        initUsers(db);
-        initMessages(db);
+//        initUsers(db);
+//        initMessages(db);
 
         return db;
     }
@@ -83,7 +83,7 @@ public class DbDefaultData {
 //    public static AppDatabase db;
 
     public static AppDatabase DB(Context c){
-        c.deleteDatabase("client-db");
+//        c.deleteDatabase("client-db");
         return DbDefaultData.initDb(c);
     }
 }

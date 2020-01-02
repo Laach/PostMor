@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
+import android.os.health.SystemHealthManager;
 
 import androidx.annotation.NonNull;
 import androidx.work.Constraints;
@@ -38,14 +39,12 @@ public class ContactRepository implements IContactRepository {
     @Override
     public Contact findByAddress(String address) {
 
-        String token = managedao.getAuthToken();
         String data = String.format("{" +
-                "\"token\" : \"%s\", " +
                 "\"address\" : \"%s\" " +
-                "}", token, address);
+                "}", address);
 
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/search", new JSONObject(data));
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/search", new JSONObject(data), managedao);
 
             User u = new User();
             u.ID = json.getInt("contactId");
@@ -78,13 +77,12 @@ public class ContactRepository implements IContactRepository {
     @Override
     public boolean addContact(final int ID) {
 
-        String token = managedao.getAuthToken();
         String data = String.format(Locale.US, "{" +
-                "\"token\" : \"%s\", " +
-                "\"contactId\" : %d", token, ID);
+                "\"contactId\" : %d}", ID);
 
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data), managedao);
+            System.out.println(json.toString());
             if(json.getBoolean("success")){
                 contactdao.addFriend(ID);
                 return true;
@@ -101,13 +99,11 @@ public class ContactRepository implements IContactRepository {
     @Override
     public boolean deleteContact(int ID) {
 
-        String token = managedao.getAuthToken();
         String data = String.format(Locale.US, "{" +
-                "\"token\" : \"%s\", " +
-                "\"contactId\" : %d", token, ID);
+                "\"contactId\" : %d", ID);
 
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data), managedao);
             if(json.getBoolean("success")){
                 contactdao.deleteFriend(ID);
                 return true;
