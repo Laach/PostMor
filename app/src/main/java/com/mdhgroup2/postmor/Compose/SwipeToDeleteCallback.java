@@ -39,16 +39,26 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         //This triggers when a swipe is fully completed (threshold is reached)
         int position = viewHolder.getAdapterPosition();
+
+        //Remove the actual image from internal storage
         String filename = adapter.getFileName(position);
         c2h.removeFile(filename);
+
+        //Remove PhotoItem from adapter
         adapter.removeItem(position);
     }
 
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        //This method is for drawing the background and trashcan icon underneath the recyclerview item
+        //This method is drawn EVERY FRAME while swiping, keep it simple!!!
+
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         View itemView = viewHolder.itemView;
-        int backgroundCornerOffset = 20;
+
+        //Offset is for drawing background slightly underneath the recyclerview item
+        //The offset is only relevant if rounded corners are used, it's set to 0 here because we use rectangles
+        int backgroundCornerOffset = 0;
 
         int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
@@ -70,14 +80,13 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
             background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
-        }else{//no swipe
-
-            //set the bounds to 0, makes icon and background disappear
+        }else{//No swipe
+            //Set the bounds to 0, makes icon and background disappear
             icon.setBounds(0, 0, 0, 0);
             background.setBounds(0, 0, 0, 0);
         }
 
-        //draw the icon and background (if bounds are 0 they will be invisible)
+        //Draw the icon and background (if bounds are 0 they will be invisible)
         background.draw(c);
         icon.draw(c);
     }

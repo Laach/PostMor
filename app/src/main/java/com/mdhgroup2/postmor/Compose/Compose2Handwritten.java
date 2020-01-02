@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -158,7 +156,6 @@ public class Compose2Handwritten extends Fragment {
         String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
         File file = new File(path+"/"+fileName);
         boolean deleted = file.delete();
-        Log.d("test", "removeFile: deleted"+deleted);
     }
 
     @Override

@@ -80,7 +80,7 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         notifyDataSetChanged();
     }
 
-    //Get filename from item
+    //Get filename from item (used by removeFile in Compose2Handwritten)
     public String getFileName(int position){
         return data.get(position).fileName;
     }
