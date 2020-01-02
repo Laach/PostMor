@@ -1,7 +1,9 @@
 package com.mdhgroup2.postmor;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
+import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import java.util.List;
@@ -10,15 +12,27 @@ import androidx.lifecycle.ViewModel;
 
 public class MainActivityViewModel extends ViewModel {
     private final List<Contact> contacts;
-    private final IContactRepository repo;
+    private final IContactRepository contactRepo;
+    private final IBoxRepository boxRepo;
 
     public MainActivityViewModel(){
-        repo = DatabaseClient.getMockContactRepository();
-        contacts = repo.getContacts();
+        contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
+        boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
+        contacts = contactRepo.getContacts();
     }
 
     public List<Contact> getContactList(){
         return contacts;
+    }
+    public List<MsgCard> getMessageList(int index){
+        if (index == 1) {
+            return boxRepo.getAllMessages();
+        }
+        else if (index == 2){
+            return boxRepo.getInboxMessages();
+        }
+        return boxRepo.getOutboxMessages();
+
     }
 
     public Contact getContact(int index){
@@ -27,16 +41,16 @@ public class MainActivityViewModel extends ViewModel {
 
     public boolean removeContact(Contact c){
         contacts.remove(c);
-        repo.deleteContact(c.UserID);
+        contactRepo.deleteContact(c.UserID);
         return true;
     }
 
     public Contact findUserByAddress(String address){
-        return repo.findByAddress(address);
+        return contactRepo.findByAddress(address);
     }
 
     public void addUserToContacts (Contact friend){
         contacts.add(friend);
-        repo.addContact(friend.UserID);
+        contactRepo.addContact(friend.UserID);
     }
 }

@@ -42,7 +42,7 @@ public class DatabaseClient {
                 .addName("Nick")
                 .addPassword("String123!")
                 .addAddress("Tittiegatan 6")
-                .addEmail("nick@animetitties.com")
+                .addEmail("nick@animetitties69-420.com")
                 .addPicture(Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"))
                 .build();
 
@@ -72,7 +72,7 @@ public class DatabaseClient {
         return new LetterRepository(db.letterDao(), db.manageDao());
     }
 
-    public static void nukeDatabase(){
+    static void nukeDatabase(){
         db.clearAllTables();
     }
 

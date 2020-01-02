@@ -11,7 +11,9 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.Entities.User;
 import com.mdhgroup2.postmor.database.db.ContactDao;
+import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.ManageDao;
 import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactRepository implements IContactRepository {
 
@@ -34,15 +37,37 @@ public class ContactRepository implements IContactRepository {
 
     @Override
     public Contact findByAddress(String address) {
-        Contact u = new Contact();
-        u.IsFriend = false;
-        u.Name = "Bob Bobsson";
-        u.Address = "Bobsledgatan 3";
-        u.UserID = 666;
 
-        // Mock data. Query server
+        String token = managedao.getAuthToken();
+        String data = String.format("{" +
+                "\"token\" : \"%s\", " +
+                "\"address\" : \"%s\" " +
+                "}", token, address);
 
-        return u;
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/search", new JSONObject(data));
+
+            User u = new User();
+            u.ID = json.getInt("contactId");
+            u.Name = json.getString("name");
+            u.IsFriend = json.getBoolean("isFriend");
+            u.Address = json.getString("address");
+            u.ProfilePicture = Converters.fromBase64(json.getString("picture"));
+            u.PublicKey = json.getString("publicKey");
+
+            managedao.addUser(u);
+
+            Contact c = new Contact();
+            c.UserID = u.ID;
+            c.Name = u.Name;
+            c.IsFriend = u.IsFriend;
+            c.Address = u.Address;
+            c.Picture = u.ProfilePicture;
+            return c;
+        }
+        catch (JSONException | IOException | NullPointerException e){
+            return null;
+        }
     }
 
     @Override
@@ -51,55 +76,58 @@ public class ContactRepository implements IContactRepository {
     }
 
     @Override
-    public void addContact(int ID) {
-        // Query server
-        contactdao.addFriend(ID);
+    public boolean addContact(final int ID) {
 
+        String token = managedao.getAuthToken();
+        String data = String.format(Locale.US, "{" +
+                "\"token\" : \"%s\", " +
+                "\"contactId\" : %d", token, ID);
 
-        class AddFriendWorker extends Worker {
-
-            public AddFriendWorker(Context c, WorkerParameters params){
-                super(c, params);
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
+            if(json.getBoolean("success")){
+                contactdao.addFriend(ID);
+                return true;
             }
 
-            @NonNull
-            @Override
-            public Result doWork() {
-                String data = String.format(""); // Add input data
-                try {
-                    Utils.APIPost("/user/addfriend", new JSONObject(data));
-                }
-                catch (JSONException j){
-                    return Result.failure();
-                }
-                catch (IOException e){
-                    return Result.failure();
-                }
-                return Result.success();
-            }
+        }
+        catch (JSONException | IOException | NullPointerException e){
+            return false;
         }
 
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-
-        OneTimeWorkRequest addFriend =
-                new OneTimeWorkRequest.
-                        Builder(AddFriendWorker.class)
-                        .setConstraints(constraints)
-                        .build();
-
-        WorkManager.getInstance(DatabaseClient.appContext).enqueue(addFriend);
+        return false;
     }
 
     @Override
-    public void deleteContact(int ID) {
-        // Query server
-        contactdao.deleteFriend(ID);
+    public boolean deleteContact(int ID) {
+
+        String token = managedao.getAuthToken();
+        String data = String.format(Locale.US, "{" +
+                "\"token\" : \"%s\", " +
+                "\"contactId\" : %d", token, ID);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
+            if(json.getBoolean("success")){
+                contactdao.deleteFriend(ID);
+                return true;
+            }
+
+        }
+        catch (JSONException | IOException | NullPointerException e){
+            return false;
+        }
+
+        return false;
     }
 
     @Override
     public Contact getUserCard(int ID) {
-        return contactdao.getUserCard(ID);
+        Contact local = contactdao.getUserCard(ID);
+        if(local == null){
+            managedao.downloadUserInfo(ID);
+            return contactdao.getUserCard(ID);
+        }
+        return local;
     }
 }

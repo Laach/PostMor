@@ -53,7 +53,7 @@ public class LetterRepository implements ILetterRepository {
 
     private void createNewDraft(int msgId){
         Message msg = draftDefaults(msgId);
-        msg.UserID = 0;
+        msg.UserID = null;
         managedao.addMessage(msg);
     }
 
@@ -73,7 +73,7 @@ public class LetterRepository implements ILetterRepository {
         msg.IsRead = false;
         msg.TimeStamp = null;
         msg.DeliveryTime = null;
-        msg.SenderPublicKey = managedao.getUserPublicKey();
+//        msg.SenderPublicKey = managedao.getUserPublicKey();
         msg.Images = null;
         msg.Text = null;
         return msg;
