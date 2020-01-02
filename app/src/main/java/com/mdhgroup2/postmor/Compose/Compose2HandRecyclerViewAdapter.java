@@ -1,11 +1,9 @@
 package com.mdhgroup2.postmor.Compose;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +17,7 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     private ArrayList<PhotoItem> data;
     private OnItemClickListener mListener;
 
+    //Onclick listener for the delete buttons
     public interface OnItemClickListener{
         void onDeleteClick(int position);
     }
@@ -43,6 +42,7 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
             image = imageItem.findViewById(R.id.imageItemImage);
             delete = imageItem.findViewById(R.id.imageItemDelete);
 
+            //Add an onclicklistener for the delete buttons
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -55,7 +55,6 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
                 }
             });
         }
-
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -93,17 +92,20 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         return data.size();
     }
 
+    //Add an item to the data set
     public void addItem(Bitmap image, String text){
         data.add(new PhotoItem(text, image));
         notifyDataSetChanged();
     }
 
+    //Remove an item from the data set
     public void removeItem(int position){
         data.remove(position);
         notifyDataSetChanged();
     }
 }
 
+//Custom datatype for the data set containing the image and the image name
 class PhotoItem{
     public String text;
     public Bitmap image;

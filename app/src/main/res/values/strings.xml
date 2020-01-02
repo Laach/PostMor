@@ -27,8 +27,8 @@
     <string name="box_tab_inbox">Inbox</string>
     <string name="box_tab_outbox">Outbox</string>
     <string name="box_button_reply">Reply</string>
-    <string name="box_to_text">To</string>
-    <string name="box_from_text">From</string>
+    <string name="box_to_text">To:</string>
+    <string name="box_from_text">From:</string>
     <string name="box_address">Address address 12</string>
     <string name="box_name">Name Nameson</string>
     <string name="box_date">11/11/11</string>
@@ -47,6 +47,7 @@
     <string name="compose_address_hint">Ex: Masksnöskottargatan 123</string>
     <string name="compose_choose_pictures">Choose pictures</string>
     <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
+    <string name="compose_add_picture">Add a picture</string>
 
     <!-- contacts fragment -->
 

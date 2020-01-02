@@ -1,15 +1,17 @@
 package com.mdhgroup2.postmor.Compose;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -24,19 +26,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Compose2Handwritten extends Fragment {
@@ -52,6 +57,8 @@ public class Compose2Handwritten extends Fragment {
 
     private ConstraintLayout addItemLayout;
     private Button sendButton;
+
+    private static final int REQUEST_CODE = 1;
 
     public static Compose2Handwritten newInstance() {
         return new Compose2Handwritten();
@@ -80,13 +87,26 @@ public class Compose2Handwritten extends Fragment {
         });
 
 
+        //Ask user for permission to read/write
+        int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
 
+        final String[] PERMISSIONS_STORAGE = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+
+        if(permission != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, 1);
+        }
+
+        //Onclick listener to open/take photo
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mAdapter.getItemCount() < 3){
-                    //Create temp file for camera image (android.developer)
-                    String timestamp = String.valueOf(System.currentTimeMillis());
+                    //Create temp file for the image (android.developer)
+                    String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                     String imageFileName = "JPEG_"+timestamp+"_";
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     currentPhotoFile = null;
@@ -123,11 +143,11 @@ public class Compose2Handwritten extends Fragment {
                     Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     Intent chooserIntent = Intent.createChooser(pickIntent, "Select Source");
 
-                    // Add the camera options.
+                    //Add the camera options.
                     chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
                     //Start the chooser
-                    startActivityForResult(chooserIntent, 1);
+                    startActivityForResult(chooserIntent, REQUEST_CODE);
                 }
             }
         });
@@ -144,10 +164,14 @@ public class Compose2Handwritten extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 1){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Check if the request is from our camera/gallery intent and if it finished with the correct resultcode
+        if(requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK){
             boolean isCamera;
             Bitmap photo = null;
 
+            //Determine whether the camera or the gallery was used
             if(data == null || data.getData() == null){
                 isCamera = true;
             }
@@ -160,6 +184,7 @@ public class Compose2Handwritten extends Fragment {
                 }
             }
 
+            //Depending on if the camera was used or not, choose the correct action
             final Uri selectedImageUri;
             if(isCamera){
                 selectedImageUri = outputFileUri;
@@ -187,15 +212,41 @@ public class Compose2Handwritten extends Fragment {
                     Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
                     photo = rotatedBitmap;
                 }else{
-                    //If the image is selected from the gallery, don'tc check for rotation
+                    //If the image was picked from the gallery, copy the image to app storage
+
+                    //First get file path for the gallery image
+                    String[] projection = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, projection, null, null, null);
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String galleryPath = cursor.getString(column_index);
+                    cursor.close();
+
+                    //Copy the file to the temp image in app storage
+                    File sourceFile = new File(galleryPath);
+                    FileChannel source = null;
+                    FileChannel destination = null;
+                    source = new FileInputStream(sourceFile).getChannel();
+                    destination = new FileOutputStream(currentPhotoFile).getChannel();
+                    if(destination != null && source != null){
+                        destination.transferFrom(source, 0, source.size());
+                    }
+                    if(source != null){
+                        source.close();
+                    }
+                    if(destination != null){
+                        destination.close();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //Add the image to the recycler view
             mAdapter.addItem(photo, currentPhotoFile.getName());
         }
         else{
-            super.onActivityResult(requestCode, resultCode, data);
+            //If the user closes the intent without choosing/taking photo, display a toast
+            Toast.makeText(getActivity(), "No image selected or taken", Toast.LENGTH_SHORT).show();
         }
     }
 }
