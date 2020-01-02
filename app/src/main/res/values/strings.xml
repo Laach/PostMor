@@ -60,7 +60,8 @@
     <string name="register_2_upload_button_title">Upload</string>
 
     <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
-    <string name="password_validity_feedback">* Please enter a password</string>
+    <string name="register_3_submit_button">Submit</string>
+    <string name="password_validity_feedback">Password and confirm password needs to match.</string>
 
     <!-- settings fragment -->
 
