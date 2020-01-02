@@ -94,6 +94,8 @@ public class BoxRepository implements IBoxRepository {
         m.Name = b.Name;
         m.Picture = b.Picture;
         m.UserID = b.UserID;
+        m.Text = b.Text;
+        m.Images = b.Images;
 
         if(b.UserID == b.SenderID){
             m.IsSentByMe = false;
