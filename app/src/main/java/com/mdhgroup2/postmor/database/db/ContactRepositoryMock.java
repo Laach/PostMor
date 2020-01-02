@@ -79,13 +79,13 @@ public class ContactRepositoryMock implements IContactRepository {
     }
 
     @Override
-    public void addContact(int ID) {
-
+    public boolean addContact(int ID) {
+        return false;
     }
 
     @Override
-    public void deleteContact(int ID) {
-
+    public boolean deleteContact(int ID) {
+        return false;
     }
 
     @Override

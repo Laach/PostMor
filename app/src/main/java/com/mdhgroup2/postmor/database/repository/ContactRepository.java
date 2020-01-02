@@ -76,58 +76,49 @@ public class ContactRepository implements IContactRepository {
     }
 
     @Override
-    public void addContact(final int ID) {
-        // Query server
-        contactdao.addFriend(ID);
+    public boolean addContact(final int ID) {
 
-        // ----------------------------------------------
-        // This needs to be tested properly.
-        // ----------------------------------------------
+        String token = managedao.getAuthToken();
+        String data = String.format(Locale.US, "{" +
+                "\"token\" : \"%s\", " +
+                "\"contactId\" : %d", token, ID);
 
-        class AddFriendWorker extends Worker {
-
-            public AddFriendWorker(Context c, WorkerParameters params){
-                super(c, params);
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
+            if(json.getBoolean("success")){
+                contactdao.addFriend(ID);
+                return true;
             }
 
-            @NonNull
-            @Override
-            public Result doWork() {
-                String token = managedao.getAuthToken();
-                String data = String.format(Locale.US, "{" +
-                        "\"token\" : \"%s\", " +
-                        "\"userID\" : %d " +
-                        "}", token, ID);
-                try {
-                    Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
-                }
-                catch (JSONException j){
-                    return Result.failure();
-                }
-                catch (IOException e){
-                    return Result.failure();
-                }
-                return Result.success();
-            }
+        }
+        catch (JSONException | IOException | NullPointerException e){
+            return false;
         }
 
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-
-        OneTimeWorkRequest addFriend =
-                new OneTimeWorkRequest.
-                        Builder(AddFriendWorker.class)
-                        .setConstraints(constraints)
-                        .build();
-
-        WorkManager.getInstance(DatabaseClient.appContext).enqueue(addFriend);
+        return false;
     }
 
     @Override
-    public void deleteContact(int ID) {
-        // Query server
-        contactdao.deleteFriend(ID);
+    public boolean deleteContact(int ID) {
+
+        String token = managedao.getAuthToken();
+        String data = String.format(Locale.US, "{" +
+                "\"token\" : \"%s\", " +
+                "\"contactId\" : %d", token, ID);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data));
+            if(json.getBoolean("success")){
+                contactdao.deleteFriend(ID);
+                return true;
+            }
+
+        }
+        catch (JSONException | IOException | NullPointerException e){
+            return false;
+        }
+
+        return false;
     }
 
     @Override
