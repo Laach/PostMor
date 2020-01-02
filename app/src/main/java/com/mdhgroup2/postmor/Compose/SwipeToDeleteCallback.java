@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -25,13 +24,14 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
         this.c2h = c2h;
+        //Specify background color and delete icon to be used
         icon = ContextCompat.getDrawable(c, R.drawable.ic_delete_white_24dp);
         background = new ColorDrawable(Color.RED);
     }
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        //this is used for drag and drop, return false for no drag and drop functionality
+        //This is used for drag and drop, return false for no drag and drop functionality
         return false;
     }
 
@@ -60,6 +60,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         //The offset is only relevant if rounded corners are used, it's set to 0 here because we use rectangles
         int backgroundCornerOffset = 0;
 
+        //Variables used for setting the bounds for drawing background and icon as the correct size
         int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconBottom = iconTop + icon.getIntrinsicHeight();
