@@ -24,7 +24,7 @@ public interface LetterDao {
     @Query("SELECT * FROM EditMsg WHERE RecipientID = :recipientId AND IsDraft = 1 LIMIT 1")
     EditMsg getDraftById(int recipientId);
 
-    @Query("SELECT * FROM EditMsg WHERE RecipientID = 0 AND IsDraft = 1 LIMIT 1")
+    @Query("SELECT * FROM EditMsg WHERE RecipientID = null AND IsDraft = 1 LIMIT 1")
     EditMsg getGenericDraft();
 
     @Query("SELECT * FROM Messages WHERE InternalMessageID = :internalId LIMIT 1")

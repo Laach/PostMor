@@ -25,7 +25,7 @@ public class LetterRepository implements ILetterRepository {
     }
 
     @Override
-    public EditMsg getOrStartGenerictDraft() {
+    public EditMsg getOrStartGenericDraft() {
         EditMsg msg = letterdao.getGenericDraft();
         if(msg == null){
             msg = new EditMsg();
