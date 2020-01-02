@@ -24,12 +24,12 @@ public class BoxViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0){
-            return BoxAllFragment.newInstance(position + 1);
+            return BoxContentFragment.newInstance(position + 1);
         }
         else if (position == 1){
-            return BoxInboxFragment.newInstance(position + 1);
+            return BoxContentFragment.newInstance(position + 1);
         }
-        return BoxOutboxFragment.newInstance(position + 1);
+        return BoxContentFragment.newInstance(position + 1);
     }
 
     @Nullable

@@ -36,6 +36,7 @@ public class BoxFragment extends Fragment {
         View view = inflater.inflate(R.layout.box_fragment,container,false);
         ViewPager viewPager = view.findViewById(R.id.box_view_pager);
         viewPager.setAdapter(new BoxViewPagerAdapter(getContext(),this.getFragmentManager()));
+        viewPager.setOffscreenPageLimit(3);
         TabLayout tabs = view.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         return view;
@@ -44,8 +45,6 @@ public class BoxFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(BoxViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 
