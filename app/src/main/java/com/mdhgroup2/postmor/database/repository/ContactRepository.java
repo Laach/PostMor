@@ -11,7 +11,9 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.Entities.User;
 import com.mdhgroup2.postmor.database.db.ContactDao;
+import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.ManageDao;
 import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
@@ -35,15 +37,37 @@ public class ContactRepository implements IContactRepository {
 
     @Override
     public Contact findByAddress(String address) {
-        Contact u = new Contact();
-        u.IsFriend = false;
-        u.Name = "Bob Bobsson";
-        u.Address = "Bobsledgatan 3";
-        u.UserID = 666;
 
-        // Mock data. Query server
+        String token = managedao.getAuthToken();
+        String data = String.format("{" +
+                "\"token\" : \"%s\", " +
+                "\"address\" : \"%s\" " +
+                "}", token, address);
 
-        return u;
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/search", new JSONObject(data));
+
+            User u = new User();
+            u.ID = json.getInt("contactId");
+            u.Name = json.getString("name");
+            u.IsFriend = json.getBoolean("isFriend");
+            u.Address = json.getString("address");
+            u.ProfilePicture = Converters.fromBase64(json.getString("picture"));
+            u.PublicKey = json.getString("publicKey");
+
+            managedao.addUser(u);
+
+            Contact c = new Contact();
+            c.UserID = u.ID;
+            c.Name = u.Name;
+            c.IsFriend = u.IsFriend;
+            c.Address = u.Address;
+            c.Picture = u.ProfilePicture;
+            return c;
+        }
+        catch (JSONException | IOException | NullPointerException e){
+            return null;
+        }
     }
 
     @Override
