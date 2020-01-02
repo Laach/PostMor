@@ -20,6 +20,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Compose2Handwritten extends Fragment {
+public class Compose2Handwritten extends Fragment implements OnStartDragListener {
     private RecyclerView recyclerView;
     private Compose2HandRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -57,6 +58,8 @@ public class Compose2Handwritten extends Fragment {
 
     private ConstraintLayout addItemLayout;
     private Button sendButton;
+
+    private ItemTouchHelper itemTouchHelper;
 
     private static final int REQUEST_CODE = 1;
 
@@ -76,15 +79,11 @@ public class Compose2Handwritten extends Fragment {
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new Compose2HandRecyclerViewAdapter();
+        mAdapter = new Compose2HandRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
+        itemTouchHelper = new ItemTouchHelper(new TouchHelperCallback(mAdapter, getContext(), this));
 
-        mAdapter.setOnItemClickListener(new Compose2HandRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onDeleteClick(int position) {
-                mAdapter.removeItem(position);
-            }
-        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
         //Ask user for permission to read/write
@@ -97,7 +96,7 @@ public class Compose2Handwritten extends Fragment {
         };
 
         if(permission != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, 1);
+            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, REQUEST_CODE);
         }
 
         //Onclick listener to open/take photo
@@ -153,6 +152,13 @@ public class Compose2Handwritten extends Fragment {
         });
 
         return view;
+    }
+
+    public void removeFile(String fileName){
+        //Delete the file from internal storage
+        String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
+        File file = new File(path+"/"+fileName);
+        boolean deleted = file.delete();
     }
 
     @Override
@@ -242,11 +248,16 @@ public class Compose2Handwritten extends Fragment {
                 e.printStackTrace();
             }
             //Add the image to the recycler view
-            mAdapter.addItem(photo, currentPhotoFile.getName());
+            mAdapter.addItem(photo,currentPhotoFile.getName(),currentPhotoFile.getName());
         }
         else{
             //If the user closes the intent without choosing/taking photo, display a toast
             Toast.makeText(getActivity(), "No image selected or taken", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
     }
 }
