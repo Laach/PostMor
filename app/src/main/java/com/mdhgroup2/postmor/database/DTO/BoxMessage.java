@@ -21,8 +21,8 @@ import java.util.List;
         "FROM Users INNER JOIN Messages on Users.ID = Messages.UserID")
 
 public class BoxMessage {
-    public String UserID;
-    public String SenderID;
+    public int UserID;
+    public int SenderID;
     public String Name;
     public String Address;
     public Bitmap Picture;

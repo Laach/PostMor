@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MsgCard {
-    public String UserID;
+    public int UserID;
     public String Name;
     public String Address;
     public Bitmap Picture;
