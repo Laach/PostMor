@@ -69,8 +69,8 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     }
 
     //Add an item to the data set
-    public void addItem(Bitmap image, String text){
-        data.add(new PhotoItem(text, image));
+    public void addItem(Bitmap image, String text, String fileName){
+        data.add(new PhotoItem(text, image, fileName));
         notifyDataSetChanged();
     }
 
@@ -79,15 +79,22 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         data.remove(position);
         notifyDataSetChanged();
     }
+
+    //Get filename from item
+    public String getFileName(int position){
+        return data.get(position).fileName;
+    }
 }
 
 //Custom datatype for the data set containing the image and the image name
 class PhotoItem{
     public String text;
     public Bitmap image;
+    public String fileName;
 
-    public PhotoItem(String s, Bitmap b){
+    public PhotoItem(String s, Bitmap b, String f){
         this.text = s;
         this.image = b;
+        this.fileName = s;
     }
 }

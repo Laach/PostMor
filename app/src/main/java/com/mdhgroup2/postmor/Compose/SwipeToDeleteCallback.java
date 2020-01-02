@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,14 @@ import com.mdhgroup2.postmor.R;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     private Compose2HandRecyclerViewAdapter adapter;
+    private Compose2Handwritten c2h;
     private Drawable icon;
     private final ColorDrawable background;
 
-    public SwipeToDeleteCallback(Compose2HandRecyclerViewAdapter adapter, Context c) {
+    public SwipeToDeleteCallback(Compose2HandRecyclerViewAdapter adapter, Context c, Compose2Handwritten c2h) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
+        this.c2h = c2h;
         icon = ContextCompat.getDrawable(c, R.drawable.ic_delete_white_24dp);
         background = new ColorDrawable(Color.RED);
     }
@@ -36,6 +39,8 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         //This triggers when a swipe is fully completed (threshold is reached)
         int position = viewHolder.getAdapterPosition();
+        String filename = adapter.getFileName(position);
+        c2h.removeFile(filename);
         adapter.removeItem(position);
     }
 

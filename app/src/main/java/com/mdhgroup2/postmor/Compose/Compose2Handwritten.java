@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,10 +81,10 @@ public class Compose2Handwritten extends Fragment {
 
         mAdapter = new Compose2HandRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter, getContext()));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter, getContext(), this));
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        
+
         //Ask user for permission to read/write
         int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int permission2 = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -149,6 +151,14 @@ public class Compose2Handwritten extends Fragment {
         });
 
         return view;
+    }
+
+    public void removeFile(String fileName){
+        //Delete the file from internal storage
+        String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
+        File file = new File(path+"/"+fileName);
+        boolean deleted = file.delete();
+        Log.d("test", "removeFile: deleted"+deleted);
     }
 
     @Override
@@ -238,7 +248,7 @@ public class Compose2Handwritten extends Fragment {
                 e.printStackTrace();
             }
             //Add the image to the recycler view
-            mAdapter.addItem(photo, currentPhotoFile.getName());
+            mAdapter.addItem(photo,currentPhotoFile.getName(),currentPhotoFile.getName());
         }
         else{
             //If the user closes the intent without choosing/taking photo, display a toast
