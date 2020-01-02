@@ -123,6 +123,11 @@ public class ContactRepository implements IContactRepository {
 
     @Override
     public Contact getUserCard(int ID) {
-        return contactdao.getUserCard(ID);
+        Contact local = contactdao.getUserCard(ID);
+        if(local == null){
+            managedao.downloadUserInfo(ID);
+            return contactdao.getUserCard(ID);
+        }
+        return local;
     }
 }
