@@ -4,6 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
@@ -26,7 +27,7 @@ import com.mdhgroup2.postmor.database.Entities.UserWithMessages;
         },
 
         views = {
-                MsgCard.class,
+                BoxMessage.class,
                 MessageContent.class,
                 Contact.class,
                 EditMsg.class
