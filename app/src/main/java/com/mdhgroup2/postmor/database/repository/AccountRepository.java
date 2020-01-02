@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
@@ -103,18 +104,27 @@ public class AccountRepository implements IAccountRepository {
                 Converters.bitmapToBase64(acc.Picture));
 
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/register", new JSONObject(data));
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/register", new JSONObject(data), manageDb);
 
             Settings s = new Settings();
-            s.ID = -1; // Server response
+            s.ID = json.getInt("id");
             s.Address = acc.Address;
             s.ProfilePicture = acc.Picture;
-            s.PickupTime = null; // Server response
-            s.DeliveryTime = null; // Server response
-            s.PublicKey = null; // Server response
-            s.PrivateKey = null; // Server response
-            s.AuthToken = null; // Server response
-            s.RefreshToken = null; // Server response
+            // 16:00
+            String pickup = json.getString("pickupTime");
+            int hour = Integer.parseInt(pickup.split(":")[0]);
+            int minute = Integer.parseInt(pickup.split(":")[1]);
+            s.PickupTime = Utils.makeTime(hour, minute, 0);
+
+            String delivery = json.getString("pickupTime");
+            int hour2 = Integer.parseInt(delivery.split(":")[0]);
+            int minute2 = Integer.parseInt(delivery.split(":")[1]);
+
+            s.DeliveryTime = Utils.makeTime(hour2, minute2, 0);
+            s.PublicKey = json.getString("publicKey");
+            s.PrivateKey = json.getString("privateKey");
+            s.AuthToken = json.getString("token");
+            s.RefreshToken = json.getString("refreshToken");
 
             s.Email = acc.Email;
             s.Password = acc.Password;
@@ -161,7 +171,7 @@ public class AccountRepository implements IAccountRepository {
             String refreshToken;
 
             try{
-                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data));
+                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data), manageDb);
 
                 authToken = json.getString("token");
 
@@ -181,18 +191,19 @@ public class AccountRepository implements IAccountRepository {
             //
             // On success, empty all tables, and fetch all data.
 
-            String data2 = String.format("{\"token\" : \"%s\"}", authToken);
-            try {
-                JSONObject json = Utils.APIPost(Utils.baseURL + "/user/fetchalldata", new JSONObject(data2));
-                DatabaseClient.nukeDatabase();
-            }
-            catch (JSONException | IOException e){
-                return false;
-            }
+//            String data2 = String.format("{}");
+//            try {
+//                JSONObject json = Utils.APIPost(Utils.baseURL + "/user/fetchalldata", new JSONObject(data2), manageDb);
+//                // Prepare all data before nuking database and inserting the data.
+//                DatabaseClient.nukeDatabase();
+//            }
+//            catch (JSONException | IOException e){
+//                return false;
+//            }
             // API "/user/fetchalldata"
-            // Save all data
-            manageDb.setAuthToken(authToken);
-            manageDb.setRefreshToken(refreshToken);
+//             Save all data
+//            manageDb.setAuthToken(authToken);
+//            manageDb.setRefreshToken(refreshToken);
 
             return true;
         }
