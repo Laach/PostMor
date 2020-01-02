@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor.database.repository;
 import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 
+import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.Entities.Message;
@@ -42,36 +43,65 @@ public class BoxRepository implements IBoxRepository {
 
     @Override
     public List<MsgCard> getAllMessages() {
-        return boxdb.getAllMessages();
+        return boxMessageListToCards(boxdb.getAllMessages());
     }
 
     @Override
     public List<MsgCard> getAllMessages(int ID) {
-        return boxdb.getAllMessages(ID);
+        return boxMessageListToCards(boxdb.getAllMessages(ID));
     }
 
     @Override
     public List<MsgCard> getInboxMessages() {
         int uid = managedb.getUserId();
-        return boxdb.getInboxMessages(uid);
+        return boxMessageListToCards(boxdb.getInboxMessages(uid));
     }
 
     @Override
     public List<MsgCard> getInboxMessages(int ID) {
         int uid = managedb.getUserId();
-        return boxdb.getInboxMessages(uid, ID);
+        return boxMessageListToCards(boxdb.getInboxMessages(uid, ID));
     }
 
     @Override
     public List<MsgCard> getOutboxMessages() {
         int uid = managedb.getUserId();
-        return boxdb.getOutboxMessages(uid);
+        return boxMessageListToCards(boxdb.getOutboxMessages(uid));
     }
 
     @Override
     public List<MsgCard> getOutboxMessages(int ID) {
         int uid = managedb.getUserId();
-        return boxdb.getOutboxMessages(uid, ID);
+        return boxMessageListToCards(boxdb.getOutboxMessages(uid, ID));
+    }
+
+    private List<MsgCard> boxMessageListToCards(List<BoxMessage> bs){
+        if(bs == null){ return null; }
+
+        List<MsgCard> ms = new ArrayList<>();
+        for (BoxMessage b : bs) {
+            ms.add(boxMessageToCard(b));
+        }
+        return ms;
+    }
+
+    private MsgCard boxMessageToCard(BoxMessage b){
+        MsgCard m = new MsgCard();
+        m.MsgID = b.MsgID;
+        m.DateStamp = b.DateStamp;
+        m.IsFriend = b.IsFriend;
+        m.Address = b.Address;
+        m.Name = b.Name;
+        m.Picture = b.Picture;
+        m.UserID = b.UserID;
+
+        if(b.UserID == b.SenderID){
+            m.IsSentByMe = false;
+        }
+        else{
+            m.IsSentByMe = false;
+        }
+        return m;
     }
 
     @Override

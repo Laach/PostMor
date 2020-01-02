@@ -7,8 +7,8 @@ import java.util.List;
 public interface IContactRepository {
     Contact findByAddress(String address);
     List<Contact> getContacts();
-    void addContact(int ID);
-    void deleteContact(int ID);
+    boolean addContact(int ID);
+    boolean deleteContact(int ID);
     Contact getUserCard(int ID);
 
 }

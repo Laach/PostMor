@@ -17,7 +17,7 @@ public class Message {
     @Nullable
     public int ExternalMessageID;
     @Nullable
-    public int UserID; // Reference User. This is the person the message is associated with.
+    public Integer UserID; // Reference User. This is the person the message is associated with.
     @NonNull
     public int WrittenBy;
     public boolean IsDraft;

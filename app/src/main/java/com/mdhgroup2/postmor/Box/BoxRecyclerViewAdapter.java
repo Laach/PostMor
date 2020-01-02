@@ -88,7 +88,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         cvHolder.profilePicture.setImageBitmap(message.Picture);
         cvHolder.address.setText(message.Address);
         cvHolder.date.setText(message.DateStamp.toString());
-        if (message.SenderID.equals(message.UserID)) {
+        if (message.IsSentByMe) {
             cvHolder.toOrFrom.setText(R.string.box_to_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_sent_letter);
         } else {
