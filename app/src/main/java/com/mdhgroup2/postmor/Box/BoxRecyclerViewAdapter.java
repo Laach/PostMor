@@ -7,18 +7,33 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.mdhgroup2.postmor.database.DTO.MsgCard;
+import com.mdhgroup2.postmor.database.DTO.MessageContent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdhgroup2.postmor.R;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
 
+    private List<MsgCard> messageDataset;
+
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BoxRecyclerViewAdapter() {
+    public BoxRecyclerViewAdapter(List<MsgCard> messages) {
+
+        messageDataset = messages;
+        Collections.sort(messageDataset, new Comparator<MsgCard>() {
+            @Override
+            public int compare(MsgCard u1, MsgCard u2) {
+                return u1.DateStamp.compareTo(u2.DateStamp);
+            }
+        });
     }
 
-    private String[] mDataset = {"Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper", "Emil", "Alexander", "Philip", "Nick", "Casper"};;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -68,8 +83,18 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final BoxItemsViewHolder cvHolder = ((BoxItemsViewHolder) holder);
-        cvHolder.name.setText(mDataset[position]);
-        cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
+        MsgCard message = messageDataset.get(position);
+        cvHolder.name.setText(message.Name);
+        cvHolder.profilePicture.setImageBitmap(message.Picture);
+        cvHolder.address.setText(message.Address);
+        cvHolder.date.setText(message.DateStamp.toString());
+        if (message.SenderID.equals(message.UserID)) {
+            cvHolder.toOrFrom.setText(R.string.box_to_text);
+            cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_sent_letter);
+        } else {
+            cvHolder.toOrFrom.setText(R.string.box_from_text);
+            cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_recieved_letter);
+        }
         cvHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +116,6 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return messageDataset.size();
     }
 }
