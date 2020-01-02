@@ -94,6 +94,8 @@ public class BoxRepository implements IBoxRepository {
         m.Name = b.Name;
         m.Picture = b.Picture;
         m.UserID = b.UserID;
+        m.Text = b.Text;
+        m.Images = b.Images;
 
         if(b.UserID == b.SenderID){
             m.IsSentByMe = false;
@@ -129,15 +131,13 @@ public class BoxRepository implements IBoxRepository {
             }
         }
 
-        String token = managedb.getAuthToken();
         String data  = String.format(Locale.US, "{" +
-                "\"token\" : \"%s\", " +
                 "\"latestMessageId\" : %d" +
-                "}", token, latestMessageId);
+                "}", latestMessageId);
 
         try {
             int count = 0;
-            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/message/fetch/new", new JSONObject(data));
+            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/message/fetch/new", new JSONObject(data), managedb);
             Message msg;
             for(int i = 0; i < arr.length(); i++){
                 msg = newMessageFromJson(arr.getJSONObject(i));
@@ -183,17 +183,13 @@ public class BoxRepository implements IBoxRepository {
         msg.TimeStamp = null;
 
 
-        try {
-//            DateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yy");
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-//            "2019-12-30T14:10:44.2522414Z"
-            dateFormat.setLenient(false);
-            Date d = dateFormat.parse(json.getString("deliveryTime"));
-            msg.DeliveryTime = d;
-        }
-        catch (ParseException e){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        dateFormat.setLenient(false);
+        Date d = Utils.parseDate(json.getString("deliveryTime"));
+        if(d == null){
             return null;
         }
+        msg.DeliveryTime = d;
 
         return msg;
     }

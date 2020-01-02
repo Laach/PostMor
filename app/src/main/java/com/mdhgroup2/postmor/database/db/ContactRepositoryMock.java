@@ -72,7 +72,7 @@ public class ContactRepositoryMock implements IContactRepository {
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
-            System.out.println(data);
+//            System.out.println(data);
             u2.Picture = Converters.fromBase64(data);
         }
         myReader.close();

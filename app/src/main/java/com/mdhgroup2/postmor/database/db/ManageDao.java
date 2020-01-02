@@ -92,16 +92,21 @@ public abstract class ManageDao {
     }
 
     private boolean refresh(){
+        String token = getAuthToken();
+        String refresh = getRefreshToken();
+        if(token == null || refresh == null){
+            return false;
+        }
         String data = String.format("{" +
-                        "\"Token\" : \"%s\", " +
-                        "\"RefreshToken\" : \"%s\", " +
+                        "\"token\" : \"%s\", " +
+                        "\"refreshToken\" : \"%s\", " +
                         "}",
                 getAuthToken(),
                 getRefreshToken());
         JSONObject json;
 
         try {
-            json = Utils.APIPost("/identity/refresh", new JSONObject(data));
+            json = Utils.APIPost("/identity/refresh", new JSONObject(data), this);
             String refreshToken = json.getString("refreshToken");
             String authToken    = json.getString("token");
             setRefreshToken(refreshToken);
@@ -118,11 +123,16 @@ public abstract class ManageDao {
 
     private boolean tokenIsValid(){
         String token = getAuthToken();
-//        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJOaWNrIiwianRpIjoiOGZiZGU4NjktZTdlYi00ZDQ3LTgxOWItMDZkOGE5MjUxZGRjIiwiZW1haWwiOiJuaWNrQGFuaW1ldGl0dGllcy5jb20iLCJpZCI6IjEiLCJuYmYiOjE1Nzc2OTkyODgsImV4cCI6MTU3NzY5OTMzMywiaWF0IjoxNTc3Njk5Mjg4fQ.MhFc_5KddDRj77VinASwaMbhNHS1-KyVZQ0oKr7NH7w";
-        byte[] decoded = Base64.decode(token, Base64.DEFAULT);
+        if (token == null || token == "") {
+            return false;
+        }
+//        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJOaWNrIiwianRpIjoiOGZiZGU4NjktZTdlYi00ZDQ3LTgxOWItMDZkOGE5MjUxZGRjIiwiZW1haWwiOiJuaWNrQGFuaW1ldGl0dGllcy5jb20iLCJpZCI6IjEiLCJuYmYiOjE1Nzc2OTkyODgsImV4cCI6MTU3NzY5OTMzMywiaWF0IjoxNTc3Njk5Mjg4fQ.MhFc_5KddDRj77VinASwaMbhNHS1-KyVZQ0oKr7NH7w";
+        token = token.split("\\.")[1];
+
+        byte[] decoded = Base64.decode(token, Base64.NO_CLOSE);
         try {
             String data = new String(decoded, StandardCharsets.UTF_8);
-            data = data.split("\\}")[1] + "}";
+//            data = data.split("\\}")[1] + "}";
             JSONObject json = new JSONObject(data);
             int tokenTime = json.getInt("exp");
 
@@ -152,14 +162,12 @@ public abstract class ManageDao {
             return;
         }
 
-        String token = getAuthToken();
         String data = String.format(Locale.US, "{" +
-                "\"token\" : \"%s\", " +
                 "\"contactId\" : %d " +
-                "}", token, ID);
+                "}", ID);
 
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/get", new JSONObject(data));
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/get", new JSONObject(data), this);
 
             User u = new User();
             u.PublicKey = json.getString("publicKey");

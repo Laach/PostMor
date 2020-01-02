@@ -11,6 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -44,95 +47,83 @@ public class Utils {
         return c.getTime();
     }
 
+    public static Date parseDate(String s){
+        try {
+//            DateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yy");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+//            "2019-12-30T14:10:44.2522414Z"
+            dateFormat.setLenient(false);
+            return dateFormat.parse(s);
+        }
+        catch (ParseException e){
+            return null;
+        }
+    }
 
-    public static String getAuthToken(ManageDao dao){
-        // Fetches and sets new auth token
-
-        String email = dao.getUserEmail();
-        String password = dao.getUserPassword();
-
-        String data = String.format("{" +
-                "\"email\" : \"%s\", " +
-                "\"password\" : \"%s\"" +
-                "}", email, password);
-
+    public static JSONObject APIPost(String url, JSONObject json, ManageDao managedao) throws IOException {
         try{
-            JSONObject json = APIPost("Some URL", new JSONObject(data));
-            String token = json.getJSONObject("json").getString("token"); // return new token
-            dao.setAuthToken(token);
-            return token;
-        }
-        catch (IOException e){
-            return null;
+            return new JSONObject(APIPostBody(url, json, managedao));
         }
         catch (JSONException j){
             return null;
-            // Failed to update key. Possibly offline.
         }
-
     }
 
-    public static JSONObject APIPost(String url, JSONObject json) throws IOException {
+    public static JSONArray APIPostArray(String url, JSONObject json, ManageDao managedao) throws IOException {
+        try{
+            return new JSONArray(APIPostBody(url, json, managedao));
+        }
+        catch (JSONException j){
+            return null;
+        }
+    }
+
+    private static String APIPostBody(String url, JSONObject json, ManageDao managedao) throws IOException{
+
+        String token = "";
+        if(managedao.refreshToken()){
+            token = managedao.getAuthToken();
+        }
+
         OkHttpClient client = new OkHttpClient();
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-        RequestBody body = RequestBody.create(JSON, json.toString());
+        RequestBody body = RequestBody.create(json.toString(), JSON);
 
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("authorization", "Bearer " + token)
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String b = response.body().string();
-            return new JSONObject(b);
-        }
-        catch (JSONException j){
-            return null;
+            return b;
         }
     }
 
-    public static JSONArray APIPostArray(String url, JSONObject json) throws IOException {
-        OkHttpClient client = new OkHttpClient();
 
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-
-        RequestBody body = RequestBody.create(JSON, json.toString());
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            String b = response.body().string();
-            return new JSONArray(b);
-        }
-        catch (JSONException j){
-            return null;
-        }
-    }
-
-    public class APIWorker extends Worker {
-
-        public APIWorker(Context c, WorkerParameters params){
-            super(c, params);
-        }
-
-        @NonNull
-        @Override
-        public Result doWork() {
-            // Use Data.Builder() to pass in the json string.
-            String url = getInputData().getString("url");
-            String data = getInputData().getString("json");
-            try {
-                Utils.APIPost(url, new JSONObject(data));
-            }
-            catch (JSONException | IOException e){
-                return Result.failure();
-            }
-            return Result.success();
-        }
-    }
+//    public class APIWorker extends Worker {
+//
+//        public APIWorker(Context c, WorkerParameters params){
+//            super(c, params);
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Result doWork() {
+//            // Use Data.Builder() to pass in the json string.
+//            String url = getInputData().getString("url");
+//            String data = getInputData().getString("json");
+//            try {
+//                Utils.APIPost(url, new JSONObject(data));
+//            }
+//            catch (JSONException | IOException e){
+//                return Result.failure();
+//            }
+//            return Result.success();
+//        }
+//    }
 
 
 }
