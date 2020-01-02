@@ -16,7 +16,6 @@ import com.mdhgroup2.postmor.R;
 
 public class register2 extends Fragment {
 
-    private Register2ViewModel mViewModel;
     private static final String KEY_POSITION = "position";
 
     public static register2 newInstance(int position) {
@@ -31,14 +30,14 @@ public class register2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.register2_fragment, container, false);
+        View view = inflater.inflate(R.layout.register2_fragment, container, false);
+        final RegisterViewModel mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(Register2ViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

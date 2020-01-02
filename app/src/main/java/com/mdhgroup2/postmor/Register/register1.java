@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.mdhgroup2.postmor.R;
 
 public class register1 extends Fragment {
 
-    private Register1ViewModel mViewModel;
     private static final String KEY_POSITION = "position";
 
     public static register1 newInstance(int position) {
@@ -28,18 +28,17 @@ public class register1 extends Fragment {
 
         return(reg);
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.register1_fragment, container, false);
+        View view = inflater.inflate(R.layout.register1_fragment, container, false);
+        final RegisterViewModel mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(Register1ViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

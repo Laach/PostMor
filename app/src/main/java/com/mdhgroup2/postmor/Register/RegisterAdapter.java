@@ -19,10 +19,10 @@ public class RegisterAdapter extends FragmentPagerAdapter {
         if(position == 0)
             return (register1.newInstance(position));
 
-        if(position == 1)
+        else if(position == 1)
             return  (register2.newInstance(position));
 
-        if(position == 2)
+        else if(position == 2)
             return  (register3.newInstance(position));
         else
             return (register1.newInstance(position));
