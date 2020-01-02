@@ -10,9 +10,13 @@ import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BoxRepositoryMock implements IBoxRepository {
     List<MsgCard> l = new LinkedList<MsgCard>();
@@ -31,13 +35,13 @@ public class BoxRepositoryMock implements IBoxRepository {
         MsgCard u1 = new MsgCard();
         u1.Name = "Ann-Marie Josefsson";
         u1.Address = "Isterbarnsgatan 12";
-        Bitmap.Config config;
         u1.Picture = null;
         u1.IsFriend = true;
         u1.DateStamp = Utils.makeDate(2019, 12, 19);
         u1.MsgID = 1;
-        u1.SenderID = "1";
-        u1.UserID = "5";
+        u1.IsSentByMe = true;
+        u1.UserID = 5;
+        u1.Text = "This is a message";
 
         MsgCard u2 = new MsgCard();
         u2.Name = "Arne Askersund";
@@ -46,8 +50,9 @@ public class BoxRepositoryMock implements IBoxRepository {
         u2.IsFriend = true;
         u2.DateStamp = Utils.makeDate(2019, 12, 11);
         u2.MsgID = 2;
-        u2.SenderID = "2";
-        u2.UserID = "2";
+        u2.IsSentByMe = true;
+        u2.UserID = 2;
+        u2.Text = "This is also a message";
 
         MsgCard u3 = new MsgCard();
         u3.Name = "Swedish Chef";
@@ -56,8 +61,19 @@ public class BoxRepositoryMock implements IBoxRepository {
         u3.IsFriend = false;
         u3.DateStamp = Utils.makeDate(2019, 11, 23);
         u3.MsgID = 3;
-        u3.SenderID = "3";
-        u3.UserID = "3";
+        u3.IsSentByMe = false;
+        u3.UserID = 3;
+
+        u3.Images = new ArrayList<>();
+        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
+
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            System.out.println(data);
+             u3.Images.add(Converters.fromBase64(data));
+        }
+        myReader.close();
 
         MsgCard u4 = new MsgCard();
         u4.Name = "Brittish Chef";
@@ -66,8 +82,9 @@ public class BoxRepositoryMock implements IBoxRepository {
         u4.IsFriend = false;
         u4.DateStamp = Utils.makeDate(2019, 3, 2);
         u4.MsgID = 4;
-        u4.SenderID = "4";
-        u4.UserID = "4";
+        u4.IsSentByMe = false;
+        u4.UserID = 4;
+        u4.Text = "I'm a navy squeal";
 
         l.add(u1);
         l.add(u2);

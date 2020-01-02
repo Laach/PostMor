@@ -2,6 +2,7 @@ package com.mdhgroup2.postmor.database.DTO;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.Nullable;
 import androidx.room.DatabaseView;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class EditMsg {
     public int InternalMessageID;
     public String Text;
     public List<Bitmap> Images;
-    public int RecipientID;
+    @Nullable
+    public Integer RecipientID;
     public boolean IsDraft;
 }

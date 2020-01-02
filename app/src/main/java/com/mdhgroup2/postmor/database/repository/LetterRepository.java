@@ -53,7 +53,7 @@ public class LetterRepository implements ILetterRepository {
 
     private void createNewDraft(int msgId){
         Message msg = draftDefaults(msgId);
-        msg.UserID = 0;
+        msg.UserID = null;
         managedao.addMessage(msg);
     }
 

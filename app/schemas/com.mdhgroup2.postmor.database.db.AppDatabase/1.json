@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0b8924df8fd32579d08b58825b65c9a6",
+    "identityHash": "f952f475301539d0057ce8b43642cb6e",
     "entities": [
       {
         "tableName": "Messages",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER NOT NULL, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `Images` TEXT, `Text` TEXT, PRIMARY KEY(`InternalMessageID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `Images` TEXT, `Text` TEXT, PRIMARY KEY(`InternalMessageID`))",
         "fields": [
           {
             "fieldPath": "InternalMessageID",
@@ -24,7 +24,7 @@
             "fieldPath": "UserID",
             "columnName": "UserID",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "WrittenBy",
@@ -267,7 +267,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0b8924df8fd32579d08b58825b65c9a6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f952f475301539d0057ce8b43642cb6e')"
     ]
   }
 }
