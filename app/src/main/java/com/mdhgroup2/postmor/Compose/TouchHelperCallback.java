@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdhgroup2.postmor.R;
 
-public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
+public class TouchHelperCallback extends ItemTouchHelper.Callback {
     private Compose2HandRecyclerViewAdapter adapter;
     private Compose2Handwritten c2h;
     private Drawable icon;
     private final ColorDrawable background;
 
-    public SwipeToDeleteCallback(Compose2HandRecyclerViewAdapter adapter, Context c, Compose2Handwritten c2h) {
-        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+    public TouchHelperCallback(Compose2HandRecyclerViewAdapter adapter, Context c, Compose2Handwritten c2h) {
+        super();
         this.adapter = adapter;
         this.c2h = c2h;
         //Specify background color and delete icon to be used
@@ -30,9 +30,32 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        int swipeFlags = ItemTouchHelper.START;
+
+        return makeMovementFlags(dragFlags, swipeFlags);
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isItemViewSwipeEnabled() {
+        return true;
+    }
+
+    @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         //This is used for drag and drop, return false for no drag and drop functionality
-        return false;
+
+        int fromPosition = viewHolder.getAdapterPosition();
+        int toPosition = target.getAdapterPosition();
+        adapter.swapItems(fromPosition, toPosition);
+
+        return true;
     }
 
     @Override

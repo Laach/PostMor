@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Compose2Handwritten extends Fragment {
+public class Compose2Handwritten extends Fragment implements OnStartDragListener {
     private RecyclerView recyclerView;
     private Compose2HandRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -58,6 +58,8 @@ public class Compose2Handwritten extends Fragment {
 
     private ConstraintLayout addItemLayout;
     private Button sendButton;
+
+    private ItemTouchHelper itemTouchHelper;
 
     private static final int REQUEST_CODE = 1;
 
@@ -77,9 +79,10 @@ public class Compose2Handwritten extends Fragment {
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new Compose2HandRecyclerViewAdapter();
+        mAdapter = new Compose2HandRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter, getContext(), this));
+        itemTouchHelper = new ItemTouchHelper(new TouchHelperCallback(mAdapter, getContext(), this));
+
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
@@ -251,5 +254,10 @@ public class Compose2Handwritten extends Fragment {
             //If the user closes the intent without choosing/taking photo, display a toast
             Toast.makeText(getActivity(), "No image selected or taken", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
     }
 }

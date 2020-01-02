@@ -2,19 +2,34 @@ package com.mdhgroup2.postmor.Compose;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdhgroup2.postmor.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
-    private ArrayList<PhotoItem> data;
+    public ArrayList<PhotoItem> data;
+
+    private OnStartDragListener mDragStartListener;
+
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public Compose2HandRecyclerViewAdapter() {
+        data = new ArrayList<>();
+    }
+
+    public Compose2HandRecyclerViewAdapter(OnStartDragListener dragStartListener){
+        data = new ArrayList<>();
+        mDragStartListener = dragStartListener;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -24,18 +39,15 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         public View imageItem;
         public TextView text;
         public ImageView image;
+        public ImageView handle;
 
         public ComposeViewHolder(View v) {
             super(v);
             imageItem = v;
             text = imageItem.findViewById(R.id.imageItemText);
             image = imageItem.findViewById(R.id.imageItemImage);
+            handle = imageItem.findViewById(R.id.imageItemHandle);
         }
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public Compose2HandRecyclerViewAdapter() {
-        data = new ArrayList<>();
     }
 
     // Create new views (invoked by the layout manager)
@@ -52,13 +64,22 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ComposeViewHolder holder, int position) {
+    public void onBindViewHolder(final ComposeViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Bitmap photo = data.get(position).image;
         holder.image.setImageBitmap(photo);
         String text = data.get(position).text;
         holder.text.setText(text);
+        holder.handle.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mDragStartListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -83,6 +104,11 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     //Get filename from item (used by removeFile in Compose2Handwritten)
     public String getFileName(int position){
         return data.get(position).fileName;
+    }
+
+    public void swapItems(int from, int to){
+        Collections.swap(data, from ,to);
+        notifyItemMoved(from, to);
     }
 }
 
