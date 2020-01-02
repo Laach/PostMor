@@ -15,16 +15,7 @@ import java.util.ArrayList;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
     private ArrayList<PhotoItem> data;
-    private OnItemClickListener mListener;
 
-    //Onclick listener for the delete buttons
-    public interface OnItemClickListener{
-        void onDeleteClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        mListener = listener;
-    }
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -33,27 +24,12 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         public View imageItem;
         public TextView text;
         public ImageView image;
-        public ImageView delete;
 
-        public ComposeViewHolder(View v, final OnItemClickListener listener) {
+        public ComposeViewHolder(View v) {
             super(v);
             imageItem = v;
             text = imageItem.findViewById(R.id.imageItemText);
             image = imageItem.findViewById(R.id.imageItemImage);
-            delete = imageItem.findViewById(R.id.imageItemDelete);
-
-            //Add an onclicklistener for the delete buttons
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onDeleteClick(position);
-                        }
-                    }
-                }
-            });
         }
     }
 
@@ -70,7 +46,7 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.compose2_image_item, parent, false);
 
-        ComposeViewHolder vh = new ComposeViewHolder(v, mListener);
+        ComposeViewHolder vh = new ComposeViewHolder(v);
         return vh;
     }
 

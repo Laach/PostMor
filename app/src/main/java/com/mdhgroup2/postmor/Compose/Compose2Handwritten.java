@@ -20,6 +20,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,15 +79,10 @@ public class Compose2Handwritten extends Fragment {
 
         mAdapter = new Compose2HandRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mAdapter, getContext()));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        mAdapter.setOnItemClickListener(new Compose2HandRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onDeleteClick(int position) {
-                mAdapter.removeItem(position);
-            }
-        });
-
-
+        
         //Ask user for permission to read/write
         int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int permission2 = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -97,7 +93,7 @@ public class Compose2Handwritten extends Fragment {
         };
 
         if(permission != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, 1);
+            ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, REQUEST_CODE);
         }
 
         //Onclick listener to open/take photo
