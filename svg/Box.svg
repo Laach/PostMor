@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="44px" height="38px" viewBox="0 0 44 38" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <desc>Created with Lunacy</desc>
+  <defs>
+    <path d="M0 0L0 24L40 24L40 0L0 0Z" transform="translate(2 14)" id="path_1" />
+    <path d="M0 0L0 8L20 8L20 0L0 0Z" transform="translate(12 14)" id="path_2" />
+    <path d="M0 0L0 8L44 8L44 0L0 0Z" transform="translate(0 8)" id="path_3" />
+    <path d="M5.5 0L0 10L44 10L38.5 0L5.5 0Z" id="path_4" />
+    <clipPath id="clip_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+    <clipPath id="clip_2">
+      <use xlink:href="#path_2" />
+    </clipPath>
+    <clipPath id="clip_3">
+      <use xlink:href="#path_3" />
+    </clipPath>
+    <clipPath id="clip_4">
+      <use xlink:href="#path_4" />
+    </clipPath>
+  </defs>
+  <g id="Box">
+    <g id="Rectangle-110">
+      <g clip-path="url(#clip_1)">
+        <use xlink:href="#path_1" fill="none" stroke="#9CAFC3" stroke-width="4" stroke-linecap="square" />
+      </g>
+    </g>
+    <g id="Rectangle-111">
+      <g clip-path="url(#clip_2)">
+        <use xlink:href="#path_2" fill="none" stroke="#9CAFC3" stroke-width="4" stroke-linecap="square" />
+      </g>
+    </g>
+    <g id="Rectangle-112">
+      <g clip-path="url(#clip_3)">
+        <use xlink:href="#path_3" fill="none" stroke="#9CAFC3" stroke-width="4" stroke-linecap="square" />
+      </g>
+    </g>
+    <g id="Rectangle-113">
+      <g clip-path="url(#clip_4)">
+        <use xlink:href="#path_4" fill="none" stroke="#9CAFC3" stroke-width="4" stroke-linecap="square" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -26,5 +26,4 @@ public class MsgCard {
     public boolean IsFriend;
     public Date DateStamp; // Delivery date if received. Sent date if written by you
     public int MsgID;
-
 }

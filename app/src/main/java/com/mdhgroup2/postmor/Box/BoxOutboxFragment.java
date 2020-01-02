@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +56,9 @@ public class BoxOutboxFragment extends Fragment {
         recyclerView = view.findViewById(R.id.boxRecyclerOutboxView);
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new BoxRecyclerViewAdapter();
+        final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+
+        mAdapter = new BoxRecyclerViewAdapter(mViewModel.getMessageList());
         recyclerView.setAdapter(mAdapter);
 
 

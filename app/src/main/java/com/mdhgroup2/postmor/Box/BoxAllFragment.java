@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,13 +50,14 @@ public class BoxAllFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.box_all_fragment, container, false);
+        final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 //        final TextView textView = view.findViewById(R.id.textViewAll);
 //        boxViewModel.setIndex(index);
 
         recyclerView = view.findViewById(R.id.boxRecyclerAllView);
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new BoxRecyclerViewAdapter();
+        mAdapter = new BoxRecyclerViewAdapter(mViewModel.getMessageList());
         recyclerView.setAdapter(mAdapter);
 
 //        boxViewModel.getText().observe(this, new Observer<String>() {
