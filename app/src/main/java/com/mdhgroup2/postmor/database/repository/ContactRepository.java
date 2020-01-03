@@ -1,16 +1,5 @@
 package com.mdhgroup2.postmor.database.repository;
 
-import android.content.Context;
-import android.os.health.SystemHealthManager;
-
-import androidx.annotation.NonNull;
-import androidx.work.Constraints;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
-
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.Entities.User;
 import com.mdhgroup2.postmor.database.db.ContactDao;
@@ -31,7 +20,7 @@ public class ContactRepository implements IContactRepository {
     private ContactDao contactdao;
     private ManageDao managedao;
 
-    public ContactRepository(ContactDao contactDao, ManageDao manageDao){
+    ContactRepository(ContactDao contactDao, ManageDao manageDao){
         this.contactdao = contactDao;
         this.managedao = manageDao;
     }

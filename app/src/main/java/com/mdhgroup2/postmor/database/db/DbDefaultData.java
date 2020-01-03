@@ -17,8 +17,8 @@ public class DbDefaultData {
                 Room.databaseBuilder(c, AppDatabase.class, "client-db")
                         .build();
 
-//        initUsers(db);
-//        initMessages(db);
+        initUsers(db);
+        initMessages(db);
 
         return db;
     }

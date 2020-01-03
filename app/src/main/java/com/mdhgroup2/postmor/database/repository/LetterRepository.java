@@ -23,7 +23,7 @@ public class LetterRepository implements ILetterRepository {
     private LetterDao letterdao;
     private ManageDao managedao;
 
-    public LetterRepository(LetterDao letterDao, ManageDao manageDao){
+    LetterRepository(LetterDao letterDao, ManageDao manageDao){
         this.letterdao = letterDao;
         this.managedao = manageDao;
     }
@@ -129,6 +129,9 @@ public class LetterRepository implements ILetterRepository {
                 }
                 array = ", \"" + array + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
             }
+        }
+        else {
+            array = String.format("\"%s\"", msg.Text);
         }
 
         String data = String.format(Locale.US, "{" +
