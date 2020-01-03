@@ -37,12 +37,13 @@ public class AccountRepository implements IAccountRepository {
 //        ls.add("Kattpissgatan 42  ");
 
         String data = String.format(Locale.US, "{" +
-                "\"amount\": : %d" +
+                "\"amount\": %d" +
                 "}", count);
 
         try {
-            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/identity/generateaddresses", new JSONObject(data), manageDb);
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/generateaddresses", new JSONObject(data), manageDb);
 
+            JSONArray arr = json.getJSONArray("addresses");
             for(int i = 0; i < arr.length(); i++){
                 ls.add(arr.getString(i));
             }
