@@ -34,21 +34,25 @@ public class DatabaseClient {
         db = DbDefaultData.DB(c);
 
         // ---------------------------------------------------------
-        // This is required.
+        c.deleteDatabase("client-db");
+        // This is required the first time setting up the db.
         db.manageDao().initInternalID(new InternalMsgID(100));
         // ---------------------------------------------------------
 
+        int i = 5000;
         Account nick = new AccountBuilder()
                 .addName("Nick")
                 .addPassword("String123!")
-                .addAddress("Tittiegatan 6")
-                .addEmail("nick@animetitties69-420.com")
-                .addPicture(Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"))
+                .addAddress("Tittiegatan " + Integer.toString(i))
+                .addEmail("nick" + Integer.toString(i) + "@smalltitties.com")
                 .build();
 
 //        boolean b = getAccountRepository().registerAccount(nick);
+//        getContactRepository().addContact(123);
 
-//        getAccountRepository().signIn("nick@animetitties.com", "String123!");
+//        boolean b = getAccountRepository().registerAccount(nick);
+
+//        getAccountRepository().signIn("nick53@smalltitties.com", "String123!");
 
 //        boolean b = db.manageDao().refreshToken();
 
@@ -74,6 +78,7 @@ public class DatabaseClient {
 
     static void nukeDatabase(){
         db.clearAllTables();
+        db.manageDao().initInternalID(new InternalMsgID(100));
     }
 
 

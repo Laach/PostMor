@@ -17,7 +17,8 @@ import java.util.List;
         "TimeStamp         as DateStamp, " +
         "InternalMessageID as MsgID, " +
         "Text              as Text, " +
-        "Images            as Images " +
+        "Images            as Images, " +
+        "DeliveryTime      as DeliveryTime " +
         "FROM Users INNER JOIN Messages on Users.ID = Messages.UserID")
 
 public class BoxMessage {
@@ -31,4 +32,5 @@ public class BoxMessage {
     public int MsgID;
     public String Text;
     public List<Bitmap> Images;
+    public Date DeliveryTime;
 }

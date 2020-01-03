@@ -19,7 +19,7 @@ public class LetterRepositoryMock implements ILetterRepository{
     }
 
     @Override
-    public EditMsg getOrStartGenerictDraft() {
+    public EditMsg getOrStartGenericDraft() {
         return null;
     }
 

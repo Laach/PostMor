@@ -70,7 +70,7 @@ public class BoxRepositoryMock implements IBoxRepository {
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
-            System.out.println(data);
+//            System.out.println(data);
              u3.Images.add(Converters.fromBase64(data));
         }
         myReader.close();
