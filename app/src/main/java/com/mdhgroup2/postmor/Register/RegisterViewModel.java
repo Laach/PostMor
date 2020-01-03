@@ -7,6 +7,7 @@ import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.repository.AccountRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +19,7 @@ public class RegisterViewModel extends ViewModel {
     private final IAccountRepository accountDB;
     private Account myAccount;
     private String confirmPassword;
-    private List<String> addresses;
+    private List<String> addresses = new ArrayList<>();
     private Random rand = new Random();
     private MutableLiveData<List<String>> callResults;
 
@@ -32,7 +33,13 @@ public class RegisterViewModel extends ViewModel {
     public RegisterViewModel(){
         accountDB = DatabaseClient.getAccountRepository();
         myAccount = new Account();
-        addresses = accountDB.getRandomAddresses(20);
+        try {
+            addresses = accountDB.getRandomAddresses(20);
+        }
+        catch (IOException e){
+            addresses.add("No addresses found.");
+            addresses.add("No addresses found.");
+        }
     }
 
     public void generateAddresses(){

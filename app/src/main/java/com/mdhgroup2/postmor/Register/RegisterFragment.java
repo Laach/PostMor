@@ -43,7 +43,11 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onChanged(List<String> strings) {
                 String temp = strings.get(0);
+                if(temp.equals("ok")){
+
+                }
                 Toast toast = Toast.makeText(getContext(),temp,Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
