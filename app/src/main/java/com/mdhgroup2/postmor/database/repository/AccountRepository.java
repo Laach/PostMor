@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.database.repository;
 
+import android.accounts.NetworkErrorException;
 import android.graphics.Bitmap;
 
 import com.mdhgroup2.postmor.database.DTO.Account;
@@ -30,7 +31,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public List<String> getRandomAddresses(int count) {
+    public List<String> getRandomAddresses(int count) throws IOException {
         List<String> ls = new ArrayList<>();
 //        ls.add("Bajskastargatan 55");
 //        ls.add("Kattpissgatan 42  ");
@@ -40,14 +41,14 @@ public class AccountRepository implements IAccountRepository {
                 "}", count);
 
         try {
-            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/identity/genereateaddresses", new JSONObject(data), manageDb);
+            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/identity/generateaddresses", new JSONObject(data), manageDb);
 
             for(int i = 0; i < arr.length(); i++){
                 ls.add(arr.getString(i));
             }
         }
-        catch (IOException | JSONException e){
-            return null;
+        catch (JSONException e){
+            throw new IOException("Invalid data received");
         }
 
         return ls;
