@@ -10,7 +10,7 @@ import java.util.Date;
 public interface ILetterRepository {
     Date getPickupTime();
     EditMsg getOrStartDraft(int recipientID);
-    EditMsg getOrStartGenerictDraft();
+    EditMsg getOrStartGenericDraft();
     void saveDraft(EditMsg msg);
     boolean sendDraft(EditMsg msg);
 

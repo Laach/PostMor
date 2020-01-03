@@ -1,20 +1,29 @@
 package com.mdhgroup2.postmor.database.repository;
 
+import android.graphics.Bitmap;
+
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.Entities.Message;
+import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.LetterDao;
 import com.mdhgroup2.postmor.database.db.ManageDao;
+import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.ILetterRepository;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class LetterRepository implements ILetterRepository {
 
     private LetterDao letterdao;
     private ManageDao managedao;
 
-    public LetterRepository(LetterDao letterDao, ManageDao manageDao){
+    LetterRepository(LetterDao letterDao, ManageDao manageDao){
         this.letterdao = letterDao;
         this.managedao = manageDao;
     }
@@ -25,7 +34,7 @@ public class LetterRepository implements ILetterRepository {
     }
 
     @Override
-    public EditMsg getOrStartGenerictDraft() {
+    public EditMsg getOrStartGenericDraft() {
         EditMsg msg = letterdao.getGenericDraft();
         if(msg == null){
             msg = new EditMsg();
@@ -99,8 +108,53 @@ public class LetterRepository implements ILetterRepository {
         msg.Images = edit.Images;
         msg.UserID = edit.RecipientID;
 
-        letterdao.incrementOutoing();
+        // Save the draft before sending
+        letterdao.updateMessage(msg);
 
+
+
+        String type = "text";
+        if(msg.Text == null || msg.Text.equals("")){
+            if(msg.Images == null || msg.Images.size() == 0){
+                return false;
+            }
+            type = "images";
+        }
+
+        String array = "";
+        if(type.equals("images")){
+            for (int i = 0; i < msg.Images.size(); i++) {
+                if(i == 0){
+                    array = "\"" + array + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
+                }
+                array = ", \"" + array + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
+            }
+        }
+        else {
+            array = String.format("\"%s\"", msg.Text);
+        }
+
+        String data = String.format(Locale.US, "{" +
+                "\"type\" : \"%s\", " +
+                "\"contactId\" : %d, " +
+                "\"message\" : [ %s ],"+
+                "}", type, msg.UserID, array);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/message/send", new JSONObject(data), managedao);
+
+            int msgId = json.getInt("messageId");
+            msg.ExternalMessageID = msgId;
+            msg.IsDraft = false;
+            msg.IsOutgoing = true;
+            letterdao.updateMessage(msg);
+            letterdao.incrementOutoing();
+
+        }
+        catch (IOException | JSONException e){
+            return false;
+
+        }
         // Send to server
 
         return true;
