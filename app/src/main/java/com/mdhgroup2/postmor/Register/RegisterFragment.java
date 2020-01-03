@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -37,17 +38,19 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.register_fragment, container, false);
+        final View view = inflater.inflate(R.layout.register_fragment, container, false);
         mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
         mViewModel.getResults().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
                 String temp = strings.get(0);
-                if(temp.equals("ok")){
-
+                if(temp.equals("Ok")){
+                    Navigation.findNavController(view).navigate(R.id.signInFragment);
                 }
-                Toast toast = Toast.makeText(getContext(),temp,Toast.LENGTH_SHORT);
-                toast.show();
+                else {
+                    Toast toast = Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 

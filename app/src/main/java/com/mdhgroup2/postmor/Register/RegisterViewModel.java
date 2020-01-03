@@ -19,9 +19,10 @@ public class RegisterViewModel extends ViewModel {
     private final IAccountRepository accountDB;
     private Account myAccount;
     private String confirmPassword;
-    private List<String> addresses = new ArrayList<>();
+    private List<String> myAddresses = new ArrayList<>();
     private Random rand = new Random();
     private MutableLiveData<List<String>> callResults;
+    private int numberOfAddress = 5;
 
     public MutableLiveData<List<String>> getResults(){
         if(callResults == null) {
@@ -33,17 +34,15 @@ public class RegisterViewModel extends ViewModel {
     public RegisterViewModel(){
         accountDB = DatabaseClient.getAccountRepository();
         myAccount = new Account();
-        try {
-            addresses = accountDB.getRandomAddresses(20);
-        }
-        catch (IOException e){
-            addresses.add("No addresses found.");
-            addresses.add("No addresses found.");
-        }
+        getAddressesFromDB(numberOfAddress);
     }
 
     public void generateAddresses(){
-        myAccount.Address = addresses.get(rand.nextInt(2));
+        myAccount.Address = myAddresses.get(rand.nextInt(numberOfAddress));
+    }
+    public void getAddressesFromDB(int amount){
+        dbAddresses get = new dbAddresses();
+        get.execute(amount);
     }
 
     public String getAddress(){return myAccount.Address;}
@@ -112,5 +111,27 @@ public class RegisterViewModel extends ViewModel {
         protected void onPostExecute(List<String> result){
             callResults.postValue(result);
         }
+    }
+
+    private class dbAddresses extends AsyncTask<Integer, Void, List<String>>{
+        @Override
+        protected List<String> doInBackground(Integer... integer){
+            List<String> result = new ArrayList<>();
+            try {
+                result = accountDB.getRandomAddresses(integer[0]);
+            }
+            catch (IOException e){
+                for(int i = 0; i < integer[0]; i++){
+                    result.add("No addresses found.");
+                }
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> addresses){
+            myAddresses = addresses;
+        }
+
     }
 }
