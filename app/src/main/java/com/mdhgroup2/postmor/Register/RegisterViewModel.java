@@ -94,7 +94,7 @@ public class RegisterViewModel extends ViewModel {
         protected List<String> doInBackground(Account... accounts) {
             List<String> result = new ArrayList<>();
             try {
-//                result = accountDB.registerAccount(accounts[0]);
+                result = accountDB.registerAccount(accounts[0]);
             }catch(Exception e){
                 result.add(e.getMessage());
             }
