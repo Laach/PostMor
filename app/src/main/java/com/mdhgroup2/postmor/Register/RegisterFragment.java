@@ -25,6 +25,7 @@ public class RegisterFragment extends Fragment {
     private RegisterViewModel mViewModel;
     private ViewPager viewPager;
     private int currentPage = 0;
+    private int amountOfPages = 3;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -38,7 +39,7 @@ public class RegisterFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new RegisterAdapter(this.getFragmentManager()));
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(amountOfPages);
 
         final Button nextFragment = view.findViewById(R.id.register_next_button);
         final Button previousFragment = view.findViewById(R.id.register_prev_button);
@@ -55,12 +56,12 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
-                if(currentPage > 0 && currentPage < 2){
+                if(currentPage > 0 && currentPage < amountOfPages - 1){
                     nextFragment.setVisibility(View.VISIBLE);
                     previousFragment.setVisibility(View.VISIBLE);
                     submit.setVisibility(View.INVISIBLE);
                 }
-                if(currentPage == 2) {
+                if(currentPage == amountOfPages - 1) {
                     nextFragment.setVisibility(View.INVISIBLE);
                     submit.setVisibility(View.VISIBLE);
                 }
@@ -79,7 +80,7 @@ public class RegisterFragment extends Fragment {
             public void onClick(View view) {
                 currentPage++;
                 previousFragment.setVisibility(View.VISIBLE);
-                if(currentPage == 2) {
+                if(currentPage == amountOfPages - 1) {
                     nextFragment.setVisibility(View.INVISIBLE);
                     submit.setVisibility(View.VISIBLE);
                 }

@@ -18,6 +18,7 @@ public class RegisterViewModel extends ViewModel {
     private String confirmPassword;
     private List<String> addresses;
     private Random rand = new Random();
+    private String callResult = "";
 
     public RegisterViewModel(){
         accountDB = DatabaseClient.getAccountRepository();
@@ -32,6 +33,8 @@ public class RegisterViewModel extends ViewModel {
     public String getAddress(){return myAccount.Address;}
 
     public void register(){
+        myAccount.Password = "String123!";
+        confirmPassword = myAccount.Password;
         dbRegister reg = new dbRegister();
         reg.execute(myAccount);
     }
@@ -77,11 +80,22 @@ public class RegisterViewModel extends ViewModel {
         return "True";
     }
 
-    private class dbRegister extends AsyncTask<Account, Void, Void>{
+    private class dbRegister extends AsyncTask<Account, Void, String>{
         @Override
-        protected Void doInBackground(Account... accounts) {
-            accountDB.registerAccount(accounts[0]);
-            return null;
+        protected String doInBackground(Account... accounts) {
+            String result = "";
+            try {
+//                result = accountDB.registerAccount(accounts[0]);
+            }catch(Exception e){
+                result = e.getMessage();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            callResult = result;
         }
     }
 }
