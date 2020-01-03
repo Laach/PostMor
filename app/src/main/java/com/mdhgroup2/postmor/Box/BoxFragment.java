@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Box;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class BoxFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.box_fragment,container,false);
         ViewPager viewPager = view.findViewById(R.id.box_view_pager);
         viewPager.setAdapter(new BoxViewPagerAdapter(getContext(),this.getFragmentManager()));
