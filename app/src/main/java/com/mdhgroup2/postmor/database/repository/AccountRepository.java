@@ -105,9 +105,10 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public boolean registerAccount(Account acc) {
-        // Query server and, on success, save to database.
+    public List<String> registerAccount(Account acc) {
+        // If returned list is empty, everything went well;
 
+        List<String> errors = new ArrayList<>();
 
         String data = String.format("{" +
                 "\"name\" : \"%s\", " +
@@ -122,8 +123,9 @@ public class AccountRepository implements IAccountRepository {
                 acc.Address,
                 Converters.bitmapToBase64(acc.Picture));
 
+        JSONObject json = null;
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/register", new JSONObject(data), manageDb);
+            json = Utils.APIPost(Utils.baseURL + "/identity/register", new JSONObject(data), manageDb);
 
             Settings s = new Settings();
             s.ID = json.getInt("id");
@@ -155,20 +157,34 @@ public class AccountRepository implements IAccountRepository {
 
             accountDb.registerAccount(s);
         }
-        catch (IOException | NullPointerException e){
-            return false;
+        catch (IOException e){
+            errors.add("Network error");
+        }
+        catch (NullPointerException e){
+            errors.add("NullPointerException: invalid data received from server");
         }
         catch(JSONException j){
             // Return an object with more descriptive errors.
-            return false;
+            if(json == null){
+                errors.add("JSON error: invalid input data");
+                return errors;
+            }
+            try {
+                JSONArray arr = json.getJSONArray("errors");
+                for(int i = 0; i < arr.length(); i++){
+                    errors.add(arr.getString(i));
+                }
+            }
+            catch (JSONException e){
+                errors.add("Server error: expected errors but received none");
+            }
         }
 
+        if(errors.size() == 0){
+            errors.add("Ok");
+        }
 
-
-
-
-
-        return false; // Server success or fail
+        return errors;
     }
 
     @Override

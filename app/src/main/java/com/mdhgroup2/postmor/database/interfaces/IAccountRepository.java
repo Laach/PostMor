@@ -10,7 +10,7 @@ import java.util.List;
 public interface IAccountRepository {
     List<String> getRandomAddresses(int count);
     AccountRepository.PasswordStatus isValidPassword(String pass);
-    boolean registerAccount(Account account); // Use an AccountBuilder
+    List<String> registerAccount(Account account); // Use an AccountBuilder
     boolean signIn(String email, String pass);
     void signOut();
 
