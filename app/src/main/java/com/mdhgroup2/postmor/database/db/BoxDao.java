@@ -5,7 +5,6 @@ import androidx.room.Query;
 
 import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
-import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.User;
 
@@ -13,12 +12,6 @@ import java.util.List;
 
 @Dao
 public interface BoxDao {
-
-    @Query("SELECT Num FROM InternalMsgID")
-    int getNextID();
-
-    @Query("Update InternalMsgID SET Num = Num + 1")
-    void incrementID();
 
     @Query("SELECT * FROM Messages")
     List<Message> getAllMessagesFull();
@@ -42,8 +35,6 @@ public interface BoxDao {
     List<BoxMessage> getOutboxMessages(int clientID, int id);
 
     @Query("SELECT COUNT(*) FROM Messages WHERE IsRead = 0 AND IsDraft = 0 AND IsOutgoing = 0")
-//    @Query("SELECT COUNT(*) FROM Users")
-//    int getNewMessageCount();
     int getNewMessageCount();
 
     @Query("SELECT * FROM Users")
@@ -51,9 +42,5 @@ public interface BoxDao {
 
     @Query("SELECT Text, Images, InternalmessageID FROM MessageContent WHERE InternalmessageID = :internalMsgId")
     MessageContent getMsgContent(int internalMsgId);
-
-//    @Transaction
-//    @Query("SELECT * FROM Users")
-//    List<UserWithMessages> getAllUsers();
 
 }

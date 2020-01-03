@@ -1,11 +1,5 @@
 package com.mdhgroup2.postmor.database.db;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

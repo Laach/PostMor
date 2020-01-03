@@ -1,12 +1,9 @@
 package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.RoomMasterTable;
-import androidx.room.RoomOpenHelper;
-import androidx.room.RoomSQLiteQuery;
 
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
@@ -14,7 +11,6 @@ import com.mdhgroup2.postmor.database.db.AccountBuilder;
 import com.mdhgroup2.postmor.database.db.AppDatabase;
 import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
-import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.DbDefaultData;
 import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
@@ -28,15 +24,22 @@ public class DatabaseClient {
 
     public static void initDb(Context c){
         appContext = c;
-//        c.deleteDatabase("client-db");
-//        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
-//                .build();
-        db = DbDefaultData.DB(c);
+        c.deleteDatabase("client-db");
+        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
+                .build();
+//        db = DbDefaultData.DB(c);
 
         // ---------------------------------------------------------
-        c.deleteDatabase("client-db");
-        // This is required the first time setting up the db.
-        db.manageDao().initInternalID(new InternalMsgID(100));
+        // Remove this in production.
+//        c.deleteDatabase("client-db");
+//         This is required the first time setting up the db.
+        try {
+            // This try will only succeed the first time when
+            // setting up the database.
+            db.manageDao().initInternalID(new InternalMsgID(100));
+        }
+        catch (SQLiteConstraintException ignore){
+        }
         // ---------------------------------------------------------
 
         int i = 5000;

@@ -17,6 +17,8 @@ public class Settings {
     @NonNull
     public String Password;
     @NonNull
+    public String Name;
+    @NonNull
     public String Address;
     public Bitmap ProfilePicture;
     @NonNull
