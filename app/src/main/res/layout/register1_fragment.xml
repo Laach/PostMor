@@ -11,60 +11,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="32dp"
         android:text="@string/register_1_description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView20"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
         android:layout_marginTop="28dp"
         android:text="@string/enter_email_label"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/textView21"
+        app:layout_constraintStart_toStartOf="@+id/textView21"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="44dp"
         android:text="@string/enter_firstname_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/editText4"
+        app:layout_constraintStart_toStartOf="@+id/textView19" />
 
     <EditText
         android:id="@+id/editText3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/enter_email_clue"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
-        app:layout_constraintStart_toStartOf="@+id/editText4" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView20" />
 
     <EditText
         android:id="@+id/editText4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/enter_firstname_clue"
         android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView21"
-        app:layout_constraintStart_toEndOf="@+id/textView21" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <Button
         android:id="@+id/button6"
+        style="@style/Whitebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="43dp"
-        android:layout_marginBottom="26dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/next_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -73,17 +78,18 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:text="@string/register_1_address_explanation_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/button7"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button7"
+        style="@style/Whitebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="79dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/register_1_regenerate_button_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText4" />

@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Register;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.register_fragment, container, false);
         viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(new RegisterAdapter(this.getFragmentManager()));

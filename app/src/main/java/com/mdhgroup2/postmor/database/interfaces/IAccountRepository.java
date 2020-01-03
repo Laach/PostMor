@@ -5,10 +5,11 @@ import android.graphics.Bitmap;
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.repository.AccountRepository;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IAccountRepository {
-    List<String> getRandomAddresses(int count);
+    List<String> getRandomAddresses(int count) throws IOException;
     AccountRepository.PasswordStatus isValidPassword(String pass);
     List<String> registerAccount(Account account); // Use an AccountBuilder
     boolean signIn(String email, String pass);
