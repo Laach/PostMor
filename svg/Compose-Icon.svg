@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="46px" height="60px" viewBox="0 0 46 60" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg width="45px" height="60px" viewBox="0 0 45 60" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
   <desc>Created with Lunacy</desc>
-  <g id="Compose-Icon" transform="translate(1 1)">
-    <path d="M29.8422 0L4.41409 0C1.97626 0 0 2.67258 0 5.99182L0 51.0039C0 54.3131 1.96942 56.9957 4.41537 56.9957L37.5848 56.9957C40.0233 56.9957 42.0001 54.3118 42.0001 51.0026L42.0001 16.4988" transform="translate(0 0.9998779)" id="Rectangle-37" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="square" />
-    <path d="M5.72205e-06 -5.72205e-06L0.0572128 4.41468L40.5263 4.93879Q40.6337 4.94018 40.7406 4.93087Q40.8476 4.92156 40.9531 4.90163Q41.0586 4.88171 41.1616 4.85137Q41.2646 4.82104 41.3641 4.78059Q41.4635 4.74014 41.5585 4.68999Q41.6534 4.63984 41.7429 4.58047Q41.8324 4.52111 41.9155 4.45313Q41.9986 4.38515 42.0745 4.30922Q42.1504 4.2333 42.2184 4.15019Q42.2864 4.06708 42.3457 3.97761Q42.4051 3.88814 42.4553 3.7932Q42.5054 3.69827 42.5459 3.5988Q42.5863 3.49934 42.6166 3.39634Q42.647 3.29335 42.6669 3.18784Q42.6868 3.08233 42.6961 2.97536Q42.7055 2.8684 42.7041 2.76103L42.704 2.75903Q42.7026 2.64963 42.6907 2.54088Q42.6787 2.43213 42.6563 2.32503Q42.6339 2.21794 42.6013 2.1135Q42.5687 2.00906 42.5262 1.90825Q42.4837 1.80745 42.4316 1.71121Q42.3796 1.61497 42.3185 1.5242Q42.2574 1.43342 42.1879 1.34896Q42.1183 1.2645 42.041 1.18714Q41.9636 1.10977 41.8791 1.04023Q41.7947 0.970681 41.7039 0.909603Q41.6131 0.848524 41.5169 0.796481Q41.4207 0.744438 41.3199 0.701916Q41.219 0.659393 41.1146 0.626787Q41.0102 0.594181 40.9031 0.571795Q40.796 0.549409 40.6872 0.537452Q40.5785 0.525495 40.4691 0.524078L5.72205e-06 -5.72205e-06Z" transform="matrix(0.7071068 -0.7071068 0.7071068 0.7071068 10.26953 30.78473)" id="Rectangle-37" fill="#CC0000" stroke="none" />
-    <path d="M7.32012 -7.41482e-05L1.09673e-05 2.84813L7.39608 5.88637L7.32012 -7.41482e-05Z" transform="matrix(0.7071068 -0.7071068 0.7071068 0.7071068 2.986085 36.9852)" id="Rectangle-38" fill="#CC0000" stroke="none" />
-    <path d="M0 0L0 2L5 2L5 0L0 0Z" transform="translate(34.00049 20.00003)" id="Rectangle-42" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L10 2L10 0L0 0Z" transform="translate(29.00061 25.00003)" id="Rectangle-50" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L15 2L15 0L0 0Z" transform="matrix(1 0 0 -1 24.00061 32.00003)" id="Rectangle-43" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L12 2L12 0L0 0Z" transform="matrix(1 0 0 -1 27.00049 55.00003)" id="Rectangle-47" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L7 2L7 0L0 0Z" transform="translate(5.000366 20)" id="Rectangle-40" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L6 2L6 0L0 0Z" transform="translate(28.00049 0)" id="Rectangle-48" fill="#000000" stroke="none" />
-    <path d="M0 0L0 2L6 2L6 0L0 0Z" transform="matrix(7.449446E-08 1 -1 7.449446E-08 43.00049 11.99997)" id="Rectangle-49" fill="#000000" stroke="none" />
-    <path d="M0 0L0 2L12 2L12 0L0 0Z" transform="translate(5.000488 15.00003)" id="Rectangle-40" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L17 2L17 0L0 0Z" transform="translate(5.00061 10)" id="Rectangle-52" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L20 2L20 0L0 0Z" transform="translate(19.00049 35.00003)" id="Rectangle-41" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L25 2L25 0L0 0Z" transform="translate(14.00061 40.00003)" id="Rectangle-51" fill="#474747" stroke="none" />
-    <path d="M0 0L0 2L34 2L34 0L0 0Z" transform="translate(5.000366 45.00003)" id="Rectangle-46" fill="#474747" stroke="none" />
+  <defs>
+    <path d="M31.2632 0L4.62427 0C2.07036 0 0 2.76656 0 6.20252L0 52.7975C0 56.223 2.0632 59 4.62561 59L39.3744 59C41.929 59 44 56.2217 44 52.7961L44 17.0789" transform="translate(0 6.103516E-05)" id="path_1" />
+    <clipPath id="clip_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+  </defs>
+  <g id="Compose-Icon">
+    <path d="M34.2253 0L3.97272 1.00006L1.47272 2.50006L0.225342 7L0 52.5871L2.97272 57.5001L5.97272 58.0001L39.9727 58.0001L42.4727 55.0001L42.3912 49.106L42.4727 12.0001L41.9727 12.0001L41.9727 5.00006L41.4727 3.00006L41.4727 2.00006L39.4727 2.00006L34.4727 2.00006L34.2253 0Z" id="New-shape" fill="#FFFFFF" stroke="none" />
+    <g id="Rectangle-37">
+      <g clip-path="url(#clip_1)">
+        <use xlink:href="#path_1" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="square" />
+      </g>
+    </g>
+    <path d="M5.72205e-06 -5.72205e-06L0.0572128 4.41468L40.5263 4.93879Q40.6337 4.94018 40.7406 4.93087Q40.8476 4.92156 40.9531 4.90163Q41.0586 4.88171 41.1616 4.85137Q41.2646 4.82104 41.3641 4.78059Q41.4635 4.74014 41.5585 4.68999Q41.6534 4.63984 41.7429 4.58047Q41.8324 4.52111 41.9155 4.45313Q41.9986 4.38515 42.0745 4.30922Q42.1504 4.2333 42.2184 4.15019Q42.2864 4.06708 42.3457 3.97761Q42.4051 3.88814 42.4553 3.7932Q42.5054 3.69827 42.5459 3.5988Q42.5863 3.49934 42.6166 3.39634Q42.647 3.29335 42.6669 3.18784Q42.6868 3.08233 42.6961 2.97536Q42.7055 2.8684 42.7041 2.76103L42.704 2.75903Q42.7026 2.64963 42.6907 2.54088Q42.6787 2.43213 42.6563 2.32503Q42.6339 2.21794 42.6013 2.1135Q42.5687 2.00906 42.5262 1.90825Q42.4837 1.80745 42.4316 1.71121Q42.3796 1.61497 42.3185 1.5242Q42.2574 1.43342 42.1879 1.34896Q42.1183 1.2645 42.041 1.18714Q41.9636 1.10977 41.8791 1.04023Q41.7947 0.970681 41.7039 0.909603Q41.6131 0.848524 41.5169 0.796481Q41.4207 0.744438 41.3199 0.701916Q41.219 0.659393 41.1146 0.626787Q41.0102 0.594181 40.9031 0.571795Q40.796 0.549409 40.6872 0.537452Q40.5785 0.525495 40.4691 0.524078L5.72205e-06 -5.72205e-06Z" transform="matrix(0.7071068 -0.7071068 0.7071068 0.7071068 11.28387 30.78461)" id="Rectangle-37" fill="#CC0000" stroke="none" />
+    <path d="M7.32009 -1.3113e-05L-1.95503e-05 2.84819L7.39605 5.88643L7.32009 -1.3113e-05Z" transform="matrix(0.7071068 -0.7071068 0.7071068 0.7071068 4 36.98492)" id="Rectangle-38" fill="#CC0000" stroke="none" />
+    <path d="M0 0L0 2L5 2L5 0L0 0Z" transform="translate(35.01489 20.00003)" id="Rectangle-42" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L10 2L10 0L0 0Z" transform="translate(30.01501 25.00003)" id="Rectangle-50" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L15 2L15 0L0 0Z" transform="matrix(1 0 0 -1 25.01501 32.00003)" id="Rectangle-43" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L12 2L12 0L0 0Z" transform="matrix(1 0 0 -1 28.01489 55.00003)" id="Rectangle-47" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L7 2L7 0L0 0Z" transform="translate(6.014771 20)" id="Rectangle-40" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L6 2L6 0L0 0Z" transform="translate(29.01489 0)" id="Rectangle-48" fill="#000000" stroke="none" />
+    <path d="M0 0L0 2L6 2L6 0L0 0Z" transform="matrix(7.449446E-08 1 -1 7.449446E-08 44.01489 11.99997)" id="Rectangle-49" fill="#000000" stroke="none" />
+    <path d="M0 0L0 2L12 2L12 0L0 0Z" transform="translate(6.014893 15.00003)" id="Rectangle-40" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L17 2L17 0L0 0Z" transform="translate(6.015015 10)" id="Rectangle-52" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L20 2L20 0L0 0Z" transform="translate(20.01489 35.00003)" id="Rectangle-41" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L25 2L25 0L0 0Z" transform="translate(15.01501 40.00003)" id="Rectangle-51" fill="#474747" stroke="none" />
+    <path d="M0 0L0 2L34 2L34 0L0 0Z" transform="translate(6.014771 45.00003)" id="Rectangle-46" fill="#474747" stroke="none" />
   </g>
 </svg>

@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.UserToUser;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -36,6 +37,7 @@ public class UserToUserFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.user_to_user_fragment, container, false);
         final MainActivityViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 
@@ -51,7 +53,7 @@ public class UserToUserFragment extends Fragment {
         ImageView iv = view.findViewById(R.id.cardImageView);
         iv.setImageBitmap(contact.Picture);
 
-        ImageButton remove = view.findViewById(R.id.removeImageButton);
+        Button remove = view.findViewById(R.id.removeImageButton);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

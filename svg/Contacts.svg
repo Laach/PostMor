@@ -2,6 +2,7 @@
 <svg width="43px" height="60px" viewBox="0 0 43 60" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
   <desc>Created with Lunacy</desc>
   <g id="Contacts">
+    <path d="M0 0L0 56L33 56L37 54L37 15L40 15L40 0L0 0Z" transform="translate(1.000061 1.999969)" id="Background-Color" fill="#FFFFFF" stroke="none" />
     <path d="M0.967246 2L21.0328 2C21.5667 2 22 1.56 22 1C22 0.45 21.5667 0 21.0328 0L0.967246 0C0.433326 0 0 0.45 0 1C0 1.56 0.433326 2 0.967246 2" transform="translate(6.422974 38.00003)" id="Fill-715" fill="#693C0B" stroke="none" />
     <path d="M0.967246 2L21.0328 2C21.5667 2 22 1.56 22 1C22 0.45 21.5667 0 21.0328 0L0.967246 0C0.433326 0 0 0.45 0 1C0 1.56 0.433326 2 0.967246 2" transform="translate(6.422852 45.00003)" id="Fill-721" fill="#693C0B" stroke="none" />
     <path d="M0.967246 2L21.0328 2C21.5667 2 22 1.55 22 1C22 0.45 21.5667 0 21.0328 0L0.967246 0C0.433326 0 0 0.45 0 1C0 1.55 0.433326 2 0.967246 2" transform="translate(6.422974 31.00003)" id="Fill-716" fill="#693C0B" stroke="none" />
