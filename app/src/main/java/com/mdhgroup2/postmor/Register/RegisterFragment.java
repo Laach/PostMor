@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Register;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.AsyncTask;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.repository.AccountRepository;
 
+import java.util.List;
+
 public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mViewModel;
@@ -36,6 +39,13 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.register_fragment, container, false);
         mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
+        mViewModel.getResults().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                String temp = strings.get(0);
+                Toast toast = Toast.makeText(getContext(),temp,Toast.LENGTH_SHORT);
+            }
+        });
 
         viewPager = view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new RegisterAdapter(this.getFragmentManager()));

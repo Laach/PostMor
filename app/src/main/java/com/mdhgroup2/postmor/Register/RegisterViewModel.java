@@ -7,9 +7,11 @@ import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.repository.AccountRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class RegisterViewModel extends ViewModel {
@@ -18,7 +20,14 @@ public class RegisterViewModel extends ViewModel {
     private String confirmPassword;
     private List<String> addresses;
     private Random rand = new Random();
-    private String callResult = "";
+    private MutableLiveData<List<String>> callResults;
+
+    public MutableLiveData<List<String>> getResults(){
+        if(callResults == null) {
+            callResults = new MutableLiveData<>();
+        }
+        return callResults;
+    }
 
     public RegisterViewModel(){
         accountDB = DatabaseClient.getAccountRepository();
@@ -80,22 +89,21 @@ public class RegisterViewModel extends ViewModel {
         return "True";
     }
 
-    private class dbRegister extends AsyncTask<Account, Void, String>{
+    private class dbRegister extends AsyncTask<Account, Void, List<String>>{
         @Override
-        protected String doInBackground(Account... accounts) {
-            String result = "";
+        protected List<String> doInBackground(Account... accounts) {
+            List<String> result = new ArrayList<>();
             try {
 //                result = accountDB.registerAccount(accounts[0]);
             }catch(Exception e){
-                result = e.getMessage();
+                result.add(e.getMessage());
             }
-
             return result;
         }
 
         @Override
-        protected void onPostExecute(String result){
-            callResult = result;
+        protected void onPostExecute(List<String> result){
+            callResults.postValue(result);
         }
     }
 }
