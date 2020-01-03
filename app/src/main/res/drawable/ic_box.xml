@@ -4,7 +4,7 @@
     android:viewportWidth="44"
     android:viewportHeight="39">
   <path
-      android:pathData="M2.5772,12.9718L3.6219,35.1667L40.453,34.945L40.5772,12.9719L2.5772,12.9718Z"
+      android:pathData="M2.5772,12.9718L3.6219,37.9718L40.453,37.7222L40.5772,12.9719L2.5772,12.9718Z"
       android:fillColor="#FFFFFF"
       android:strokeColor="#00000000"/>
   <path

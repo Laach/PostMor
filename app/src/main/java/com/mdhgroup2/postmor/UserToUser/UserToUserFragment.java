@@ -51,7 +51,7 @@ public class UserToUserFragment extends Fragment {
         ImageView iv = view.findViewById(R.id.cardImageView);
         iv.setImageBitmap(contact.Picture);
 
-        ImageButton remove = view.findViewById(R.id.removeImageButton);
+        Button remove = view.findViewById(R.id.removeImageButton);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

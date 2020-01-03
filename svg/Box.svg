@@ -40,7 +40,7 @@
     </clipPath>
   </defs>
   <g id="Box">
-    <path d="M0 0L1.04474 22.1949L37.8758 21.9732L38 3.05176e-05L0 0Z" transform="translate(2.577209 12.97183)" id="Background-Color" fill="#FFFFFF" stroke="none" />
+    <path d="M0 0L1.04474 25L37.8758 24.7504L38 3.43746e-05L0 0Z" transform="translate(2.577209 12.97183)" id="Background-Color" fill="#FFFFFF" stroke="none" />
     <path d="M35.0001 0L6.50012 0L0 6.50004L0.5 11L42 11.5L41 5.50003L35.0001 0Z" transform="translate(1.077209 0.9718016)" id="Background-Color-2" fill="#66899B" stroke="none" />
     <g id="Rectangle-110">
       <g clip-path="url(#clip_1)">
