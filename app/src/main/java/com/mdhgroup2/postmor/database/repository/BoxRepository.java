@@ -78,9 +78,13 @@ public class BoxRepository implements IBoxRepository {
     private List<MsgCard> boxMessageListToCards(List<BoxMessage> bs){
         if(bs == null){ return null; }
 
+        Date now = new Date(System.currentTimeMillis());
+
         List<MsgCard> ms = new ArrayList<>();
-        for (BoxMessage b : bs) {
-            ms.add(boxMessageToCard(b));
+        for (BoxMessage bm : bs) {
+            if(bm.DeliveryTime == null || bm.DeliveryTime.before(now)){
+                ms.add(boxMessageToCard(bm));
+            }
         }
         return ms;
     }
