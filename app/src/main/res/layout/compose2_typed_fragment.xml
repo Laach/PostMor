@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGrayBackground"
     tools:context=".Compose.Compose2Typed">
 
     <fragment
@@ -16,44 +17,56 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/recipient_fragment" />
 
-    <TextView
-        android:id="@+id/c2typed_TextView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/compose_type_instructions"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/c2typed_Recipient" />
+        app:layout_constraintTop_toBottomOf="@+id/c2typed_Recipient">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/c2typed_textInputLayout"
-        android:layout_width="341dp"
-        android:layout_height="272dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/c2typed_TextView">
+        <TextView
+            android:id="@+id/c2typed_TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/compose_type_instructions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="hint" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/c2typed_textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/c2typed_TextView"
+            app:layout_constraintStart_toStartOf="@+id/c2typed_TextView"
+            app:layout_constraintTop_toBottomOf="@+id/c2typed_TextView">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="hint" />
 
-    <Button
-        android:id="@+id/c2typed_Send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:text="@string/send_button"
-        app:layout_constraintEnd_toEndOf="@+id/c2typed_textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/c2typed_textInputLayout" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/c2typed_Send"
+            style="@style/Whitebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/send_button"
+            app:layout_constraintEnd_toEndOf="@+id/c2typed_textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/c2typed_textInputLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

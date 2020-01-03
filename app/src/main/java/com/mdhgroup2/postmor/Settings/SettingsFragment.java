@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Settings;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 
         setPreferencesFromResource(R.xml.preferences, rootKey);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
         Preference changePassword = findPreference("changePassword");
         Preference about = findPreference("about");

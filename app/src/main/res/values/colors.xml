@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="colorGrayBackground">#F1F1F1</color>
+    <color name="colorAccent">#FF1B6D</color>
+    <color name="colorGrayBackground">#DADADA</color>
+    <color name="colorCancelButton">#757575</color>
 </resources>

@@ -1,6 +1,5 @@
 package com.mdhgroup2.postmor.Register;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.AsyncTask;
@@ -38,6 +37,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.register_fragment, container, false);
         mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
         mViewModel.getResults().observe(this, new Observer<List<String>>() {

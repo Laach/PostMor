@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Compose;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class ComposeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         return inflater.inflate(R.layout.compose_fragment, container, false);
     }
 
