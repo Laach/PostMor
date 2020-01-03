@@ -1,6 +1,9 @@
 package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
+
+import androidx.room.Room;
 
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
@@ -22,14 +25,21 @@ public class DatabaseClient {
     public static void initDb(Context c){
         appContext = c;
 //        c.deleteDatabase("client-db");
-//        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
-//                .build();
-        db = DbDefaultData.DB(c);
+        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
+                .build();
+//        db = DbDefaultData.DB(c);
 
         // ---------------------------------------------------------
+        // Remove this in production.
         c.deleteDatabase("client-db");
-        // This is required the first time setting up the db.
-        db.manageDao().initInternalID(new InternalMsgID(100));
+//         This is required the first time setting up the db.
+        try {
+            // This try will only succeed the first time when
+            // setting up the database.
+            db.manageDao().initInternalID(new InternalMsgID(100));
+        }
+        catch (SQLiteConstraintException ignore){
+        }
         // ---------------------------------------------------------
 
         int i = 5000;

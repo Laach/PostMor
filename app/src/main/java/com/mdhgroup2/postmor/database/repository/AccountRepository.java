@@ -10,12 +10,14 @@ import com.mdhgroup2.postmor.database.db.ManageDao;
 import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AccountRepository implements IAccountRepository {
 
@@ -30,8 +32,24 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public List<String> getRandomAddresses(int count) {
         List<String> ls = new ArrayList<>();
-        ls.add("Bajskastargatan 55");
-        ls.add("Kattpissgatan 42  ");
+//        ls.add("Bajskastargatan 55");
+//        ls.add("Kattpissgatan 42  ");
+
+        String data = String.format(Locale.US, "{" +
+                "\"amount\": : %d" +
+                "}", count);
+
+        try {
+            JSONArray arr = Utils.APIPostArray(Utils.baseURL + "/identity/genereateaddresses", new JSONObject(data), manageDb);
+
+            for(int i = 0; i < arr.length(); i++){
+                ls.add(arr.getString(i));
+            }
+        }
+        catch (IOException | JSONException e){
+            return null;
+        }
+
         return ls;
     }
 

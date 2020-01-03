@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "aac504a87d209241ec21c30fcea78474",
+    "identityHash": "7217964be0aefdb23282779827cec177",
     "entities": [
       {
         "tableName": "Messages",
@@ -86,8 +86,14 @@
       },
       {
         "tableName": "InternalMsgID",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Num` INTEGER NOT NULL, PRIMARY KEY(`Num`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Key` INTEGER NOT NULL, `Num` INTEGER NOT NULL, PRIMARY KEY(`Key`))",
         "fields": [
+          {
+            "fieldPath": "Key",
+            "columnName": "Key",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "Num",
             "columnName": "Num",
@@ -97,7 +103,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "Num"
+            "Key"
           ],
           "autoGenerate": false
         },
@@ -273,7 +279,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aac504a87d209241ec21c30fcea78474')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7217964be0aefdb23282779827cec177')"
     ]
   }
 }

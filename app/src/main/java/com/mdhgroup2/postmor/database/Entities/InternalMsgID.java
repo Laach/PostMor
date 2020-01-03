@@ -11,5 +11,6 @@ public class InternalMsgID {
     }
 
     @PrimaryKey
+    public int Key = 1;
     public int Num;
 }
