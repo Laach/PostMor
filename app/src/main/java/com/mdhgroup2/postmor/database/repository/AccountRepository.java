@@ -1,5 +1,7 @@
 package com.mdhgroup2.postmor.database.repository;
 
+import android.graphics.Bitmap;
+
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.db.AccountDao;
@@ -108,6 +110,7 @@ public class AccountRepository implements IAccountRepository {
             Settings s = new Settings();
             s.ID = json.getInt("id");
             s.Address = acc.Address;
+            s.Name = acc.Name;
             s.ProfilePicture = acc.Picture;
             // 16:00
             String pickup = json.getString("pickupTime");
@@ -154,7 +157,7 @@ public class AccountRepository implements IAccountRepository {
     public boolean signIn(String email, String password) {
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        if(manageDb.getUserEmail().equals(email) && manageDb.getUserPassword().equals(password)){
+        if(accountDb.getMyEmail().equals(email) && accountDb.getMyPassword().equals(password)){
             // Query server
             accountDb.setSignedIn();
             return manageDb.refreshToken();
@@ -210,11 +213,42 @@ public class AccountRepository implements IAccountRepository {
     }
 
 
+    private void insertFromFetchAll(JSONObject json) throws JSONException {
+
+
+    }
+
+
 
     @Override
     public void signOut() {
         accountDb.setSignedOut();
         manageDb.setAuthToken(null);
         manageDb.setRefreshToken(null);
+    }
+
+    @Override
+    public String getMyName() {
+        return accountDb.getMyName();
+    }
+
+    @Override
+    public String getMyEmail() {
+        return accountDb.getMyEmail();
+    }
+
+    @Override
+    public String getMyAddress() {
+        return accountDb.getMyAddress();
+    }
+
+    @Override
+    public Bitmap getMyProfilePicture() {
+        return accountDb.getMyProfilePicture();
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        return accountDb.isLoggedIn();
     }
 }

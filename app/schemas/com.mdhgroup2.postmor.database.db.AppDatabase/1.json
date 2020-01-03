@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f952f475301539d0057ce8b43642cb6e",
+    "identityHash": "aac504a87d209241ec21c30fcea78474",
     "entities": [
       {
         "tableName": "Messages",
@@ -156,7 +156,7 @@
       },
       {
         "tableName": "Settings",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT NOT NULL, `Password` TEXT NOT NULL, `Address` TEXT NOT NULL, `ProfilePicture` TEXT, `PublicKey` TEXT NOT NULL, `PrivateKey` TEXT NOT NULL, `PickupTime` INTEGER NOT NULL, `DeliveryTime` INTEGER NOT NULL, `OutgoingLetterCount` INTEGER NOT NULL, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT NOT NULL, `RefreshToken` TEXT NOT NULL, PRIMARY KEY(`ID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ID` INTEGER NOT NULL, `Email` TEXT NOT NULL, `Password` TEXT NOT NULL, `Name` TEXT NOT NULL, `Address` TEXT NOT NULL, `ProfilePicture` TEXT, `PublicKey` TEXT NOT NULL, `PrivateKey` TEXT NOT NULL, `PickupTime` INTEGER NOT NULL, `DeliveryTime` INTEGER NOT NULL, `OutgoingLetterCount` INTEGER NOT NULL, `IsLoggedIn` INTEGER NOT NULL, `AuthToken` TEXT NOT NULL, `RefreshToken` TEXT NOT NULL, PRIMARY KEY(`ID`))",
         "fields": [
           {
             "fieldPath": "ID",
@@ -173,6 +173,12 @@
           {
             "fieldPath": "Password",
             "columnName": "Password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -249,8 +255,8 @@
     ],
     "views": [
       {
-        "viewName": "MsgCard",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID          as UserID, WrittenBy         as SenderID, Name              as Name, Address           as Address, ProfilePicture    as Picture, IsFriend          as IsFriend, TimeStamp         as DateStamp, InternalMessageID as MsgID FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
+        "viewName": "BoxMessage",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID          as UserID, WrittenBy         as SenderID, Name              as Name, Address           as Address, ProfilePicture    as Picture, IsFriend          as IsFriend, TimeStamp         as DateStamp, InternalMessageID as MsgID, Text              as Text, Images            as Images, DeliveryTime      as DeliveryTime FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
       },
       {
         "viewName": "MessageContent",
@@ -267,7 +273,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f952f475301539d0057ce8b43642cb6e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aac504a87d209241ec21c30fcea78474')"
     ]
   }
 }
