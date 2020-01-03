@@ -1,19 +1,16 @@
 package com.mdhgroup2.postmor.database.repository;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Database;
 
 import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.db.BoxDao;
-import com.mdhgroup2.postmor.database.db.ContactDao;
 import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.ManageDao;
 import com.mdhgroup2.postmor.database.db.Utils;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
-import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,13 +18,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 

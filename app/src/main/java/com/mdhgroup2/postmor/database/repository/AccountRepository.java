@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
@@ -21,7 +20,7 @@ public class AccountRepository implements IAccountRepository {
     private AccountDao accountDb;
     private ManageDao manageDb;
 
-    public AccountRepository(AccountDao accountDao, ManageDao manageDao){
+    AccountRepository(AccountDao accountDao, ManageDao manageDao){
         accountDb = accountDao;
         manageDb = manageDao;
     }
@@ -116,7 +115,7 @@ public class AccountRepository implements IAccountRepository {
             int minute = Integer.parseInt(pickup.split(":")[1]);
             s.PickupTime = Utils.makeTime(hour, minute, 0);
 
-            String delivery = json.getString("pickupTime");
+            String delivery = json.getString("deliveryTime");
             int hour2 = Integer.parseInt(delivery.split(":")[0]);
             int minute2 = Integer.parseInt(delivery.split(":")[1]);
 
@@ -135,7 +134,7 @@ public class AccountRepository implements IAccountRepository {
 
             accountDb.registerAccount(s);
         }
-        catch (IOException e){
+        catch (IOException | NullPointerException e){
             return false;
         }
         catch(JSONException j){
@@ -155,7 +154,7 @@ public class AccountRepository implements IAccountRepository {
     public boolean signIn(String email, String password) {
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        if(manageDb.getUserEmail() == email && manageDb.getUserPassword() == password){
+        if(manageDb.getUserEmail().equals(email) && manageDb.getUserPassword().equals(password)){
             // Query server
             accountDb.setSignedIn();
             return manageDb.refreshToken();
@@ -195,6 +194,7 @@ public class AccountRepository implements IAccountRepository {
 //            try {
 //                JSONObject json = Utils.APIPost(Utils.baseURL + "/user/fetchalldata", new JSONObject(data2), manageDb);
 //                // Prepare all data before nuking database and inserting the data.
+                  // Save tokens before fetchall and after. So it validates the correct user.
 //                DatabaseClient.nukeDatabase();
 //            }
 //            catch (JSONException | IOException e){
@@ -214,7 +214,7 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken("");
-        manageDb.setRefreshToken("");
+        manageDb.setAuthToken(null);
+        manageDb.setRefreshToken(null);
     }
 }

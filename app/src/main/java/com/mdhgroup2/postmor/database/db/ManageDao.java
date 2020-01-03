@@ -8,7 +8,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
 
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
@@ -18,9 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -132,7 +129,6 @@ public abstract class ManageDao {
         byte[] decoded = Base64.decode(token, Base64.NO_CLOSE);
         try {
             String data = new String(decoded, StandardCharsets.UTF_8);
-//            data = data.split("\\}")[1] + "}";
             JSONObject json = new JSONObject(data);
             int tokenTime = json.getInt("exp");
 

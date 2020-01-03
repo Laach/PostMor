@@ -2,19 +2,12 @@ package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
 
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.RoomMasterTable;
-import androidx.room.RoomOpenHelper;
-import androidx.room.RoomSQLiteQuery;
-
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.db.AccountBuilder;
 import com.mdhgroup2.postmor.database.db.AppDatabase;
 import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
-import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.DbDefaultData;
 import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;

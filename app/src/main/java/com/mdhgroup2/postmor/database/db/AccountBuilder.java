@@ -51,10 +51,10 @@ public class AccountBuilder {
     }
 
     public Account build(){
-        if(Name == null || Name == ""
-                || Email    == null || Email    == ""
-                || Password == null || Password == ""
-                || Address  == null || Address  == ""){
+        if(Name == null || Name.equals("")
+                || Email    == null || Email   .equals("")
+                || Password == null || Password.equals("")
+                || Address  == null || Address .equals("")){
             throw new IllegalArgumentException("One or more arguments were null or empty, or not set.");
         }
 
