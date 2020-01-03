@@ -15,6 +15,7 @@ import com.mdhgroup2.postmor.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
     public ArrayList<PhotoItem> data;
@@ -110,6 +111,17 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         Collections.swap(data, from ,to);
         notifyItemMoved(from, to);
     }
+
+    public List<Bitmap> getItems(){
+        List<Bitmap> list = new ArrayList<Bitmap>();
+
+        //foreach get all bitmaps
+        for(PhotoItem item : data){
+            list.add(item.image);
+        }
+
+        return list;
+    }
 }
 
 //Custom datatype for the data set containing the image and the image name
@@ -121,6 +133,6 @@ class PhotoItem{
     public PhotoItem(String s, Bitmap b, String f){
         this.text = s;
         this.image = b;
-        this.fileName = s;
+        this.fileName = f;
     }
 }
