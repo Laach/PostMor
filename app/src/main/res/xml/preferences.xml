@@ -37,6 +37,10 @@
             app:title="About"
             />
         <Preference
+            app:key="sign_out"
+            app:title="Sign out"
+            />
+        <Preference
             app:key="delete_account"
             app:title="Delete Account"
             />
