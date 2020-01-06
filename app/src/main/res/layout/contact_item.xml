@@ -35,11 +35,11 @@
             android:layout_marginStart="16dp"
             android:text="Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toEndOf="@+id/profilePictureImageView"
-            app:layout_constraintTop_toTopOf="@+id/profilePictureImageView" />
+            app:layout_constraintStart_toEndOf="@+id/profilePictureCardView"
+            app:layout_constraintTop_toTopOf="@+id/profilePictureCardView" />
 
         <ImageView
-            android:id="@+id/profilePictureImageView"
+            android:id="@+id/profilePictureCardView"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
