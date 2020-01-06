@@ -100,6 +100,9 @@ public class LetterRepository implements ILetterRepository {
 
     @Override
     public boolean sendDraft(EditMsg edit) {
+        if(edit.Images != null && edit.Images.size() > 3){
+            return false;
+        }
         Message msg = letterdao.getMessageById(edit.InternalMessageID);
         if(msg == null){
             return false;
