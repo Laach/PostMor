@@ -3,7 +3,6 @@ package com.mdhgroup2.postmor.UserToUser;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,17 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mdhgroup2.postmor.Contacts.ContactsViewModel;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
-
-import java.util.List;
 
 public class UserToUserFragment extends Fragment {
 
