@@ -4,7 +4,9 @@ import android.accounts.NetworkErrorException;
 import android.graphics.Bitmap;
 
 import com.mdhgroup2.postmor.database.DTO.Account;
+import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.Settings;
+import com.mdhgroup2.postmor.database.Entities.User;
 import com.mdhgroup2.postmor.database.db.AccountDao;
 import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.ManageDao;
@@ -193,7 +195,9 @@ public class AccountRepository implements IAccountRepository {
     public boolean signIn(String email, String password) {
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        if(accountDb.getMyEmail().equals(email) && accountDb.getMyPassword().equals(password)){
+        String prevEmail = accountDb.getMyEmail();
+        String prevPass  = accountDb.getMyPassword();
+        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
             // Query server
             accountDb.setSignedIn();
             return manageDb.refreshToken();
@@ -229,17 +233,57 @@ public class AccountRepository implements IAccountRepository {
             //
             // On success, empty all tables, and fetch all data.
 
-//            String data2 = String.format("{}");
-//            try {
-//                JSONObject json = Utils.APIPost(Utils.baseURL + "/user/fetchalldata", new JSONObject(data2), manageDb);
-//                // Prepare all data before nuking database and inserting the data.
-                  // Save tokens before fetchall and after. So it validates the correct user.
+            String data2 = String.format("{}");
+            try {
+
+                // Fix this. They can't be saved because there's no account
+                Settings s = new Settings();
+                s.ID = -1;
+                s.Email = "";
+                s.Password = "";
+                s.AuthToken = authToken;
+                s.RefreshToken = refreshToken;
+                s.Name = "";
+                s.Address = "";
+                s.PickupTime = Utils.makeTime(16, 0, 0);
+                s.DeliveryTime = Utils.makeTime(16, 0, 0);
+                s.OutgoingLetterCount = 0;
+                s.IsLoggedIn = false;
+                s.PublicKey = "";
+                s.PrivateKey = "";
+
+                manageDb.deleteSettings();
+                accountDb.registerAccount(s);
+
+//                manageDb.setAuthToken(authToken);
+//                manageDb.setRefreshToken(refreshToken);
+                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb);
+
+
+                JSONArray contactsjson  = json.getJSONArray ("contacts");
+                JSONArray messagesjson  = json.getJSONArray ("messages");
+                JSONObject userdata     = json.getJSONObject("userdata");
+
+                Settings      user     = parseUserdata(userdata    );
+                List<User>    contacts = parseContacts(contactsjson);
+                List<Message> messages = parseMessages(messagesjson);
+
+                user.Email = email;
+                user.Password = password;
+                user.RefreshToken = refreshToken;
+                user.AuthToken = authToken;
+
+
+
+                manageDb.nukeDbAndInsertNewData(user, contacts, messages, accountDb);
+                // Prepare all data before nuking database and inserting the data.
+                // Save tokens before fetchall and after. So it validates the correct user.
 //                DatabaseClient.nukeDatabase();
-//            }
-//            catch (JSONException | IOException e){
-//                return false;
-//            }
-            // API "/user/fetchalldata"
+            }
+            catch (JSONException | IOException e){
+                return false;
+            }
+//             API "/user/fetchalldata"
 //             Save all data
 //            manageDb.setAuthToken(authToken);
 //            manageDb.setRefreshToken(refreshToken);
@@ -249,18 +293,104 @@ public class AccountRepository implements IAccountRepository {
     }
 
 
-    private void insertFromFetchAll(JSONObject json) throws JSONException {
+    private Settings parseUserdata(JSONObject json) throws JSONException {
+        Settings s = new Settings();
+        s.ID = json.getInt("id");
+        s.Address = json.getString("address");
+        s.Name = json.getString("name");
+        s.ProfilePicture = Converters.fromBase64(json.getString("picture"));
+        // 16:00
+        String pickup   = json.getString("pickupTime");
+        int hour        = Integer.parseInt(pickup.split(":")[0]);
+        int minute      = Integer.parseInt(pickup.split(":")[1]);
+        s.PickupTime    = Utils.makeTime(hour, minute, 0);
 
+        String delivery = json.getString("deliveryTime");
+        int hour2       = Integer.parseInt(delivery.split(":")[0]);
+        int minute2     = Integer.parseInt(delivery.split(":")[1]);
 
+        s.DeliveryTime  = Utils.makeTime(hour2, minute2, 0);
+        s.PublicKey     = json.getString("publicKey");
+        s.PrivateKey    = json.getString("privateKey");
+//        s.AuthToken = json.getString("token");
+//        s.RefreshToken = json.getString("refreshToken");
+
+//        s.Email = acc.Email;
+//        s.Password = acc.Password;
+        s.OutgoingLetterCount = 0;
+        s.IsLoggedIn = true;
+        return s;
     }
+
+    private List<User> parseContacts(JSONArray arr) throws JSONException{
+        List<User> contacts = new ArrayList<>();
+        for(int i = 0; i < arr.length(); i++){
+            JSONObject contact = arr.getJSONObject(i);
+            User u = new User();
+            u.ID             = contact.getInt    ("contactId");
+            u.Name           = contact.getString ("name"     );
+            u.IsFriend       = contact.getBoolean("isFriend" );
+            u.Address        = contact.getString ("address"  );
+            u.PublicKey      = contact.getString ("publicKey");
+            u.ProfilePicture = Converters.fromBase64(contact.getString("picture"));
+            contacts.add(u);
+        }
+
+        return contacts;
+    }
+
+    private List<Message> parseMessages(JSONArray arr) throws JSONException{
+        int myId = manageDb.getUserId();
+        List<Message> messages = new ArrayList<>();
+        for(int i = 0; i < arr.length(); i++){
+            JSONObject message = arr.getJSONObject(i);
+            Message m = new Message();
+            int senderId   = message.getInt("senderId");
+            int receiverId = message.getInt("receiverId");
+            if(senderId == myId){
+                m.UserID        = receiverId;
+                m.WrittenBy     = myId;
+                m.DeliveryTime  = null;
+            }
+            else{
+                m.UserID        = senderId;
+                m.WrittenBy     = senderId;
+                m.DeliveryTime  = Utils.parseDate(message.getString("deliveryTime"));
+            }
+            m.ExternalMessageID = message.getInt("messageId");
+            m.InternalMessageID = manageDb.getNewMsgId();
+
+            String type = message.getString("type");
+            if(type.equals("text")){
+                m.Text = message.getJSONArray("content").getString(0);
+            }
+            else{
+                m.Images = new ArrayList<>();
+                JSONArray content = message.getJSONArray("content");
+                for(int j = 0; j < content.length(); j++){
+                    m.Images.add(Converters.fromBase64(content.getString(j)));
+                }
+            }
+
+            m.IsDraft = false;
+            m.IsRead = false;
+            m.IsOutgoing = false;
+
+            messages.add(m);
+        }
+
+        return messages;
+    }
+
+
 
 
 
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken(null);
-        manageDb.setRefreshToken(null);
+        manageDb.setAuthToken("");
+        manageDb.setRefreshToken("");
     }
 
     @Override
@@ -285,6 +415,10 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public boolean isLoggedIn() {
-        return accountDb.isLoggedIn();
+        if(accountDb.isLoggedIn()){
+            manageDb.refreshToken();
+            return true;
+        }
+        return false;
     }
 }
