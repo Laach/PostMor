@@ -145,13 +145,9 @@ public class BoxRepositoryMock implements IBoxRepository {
     }
 
     @Override
-    public LiveData<Integer> outgoingLetterCount() {
-        LiveData<Integer> ld =  new LiveData<Integer>() { {
-                postValue(7);
-            }
-        };
+    public int outgoingLetterCount() {
 
-        return ld;
+        return 2;
     }
 
     @Override
