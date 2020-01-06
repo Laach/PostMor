@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import android.text.Editable;
@@ -42,7 +43,8 @@ public class SignInFragment extends Fragment {
             public void onChanged(Boolean aBoolean) {
                 Boolean result = aBoolean;
                 if (result){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment);
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment,true).build());
+//                    Navigation.findNavController(view).navigate(R.id.homeFragment);
                 }
             }
         });
