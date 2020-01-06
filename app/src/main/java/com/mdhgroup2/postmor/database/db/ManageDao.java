@@ -78,7 +78,10 @@ public abstract class ManageDao {
 
     @Query("SELECT * FROM Users WHERE ID = :userID")
     public abstract User findUser(int userID);
-    
+
+    @Query("DELETE FROM Settings")
+    public abstract void deleteSettings();
+
     @Transaction
     public int getNewMsgId(){
         incrementInternalMsgID();
@@ -135,7 +138,7 @@ public abstract class ManageDao {
 
     private boolean tokenIsValid(){
         String token = getAuthToken();
-        if (token == null || token == "") {
+        if (token == null || token.equals("")) {
             return false;
         }
 //        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJOaWNrIiwianRpIjoiOGZiZGU4NjktZTdlYi00ZDQ3LTgxOWItMDZkOGE5MjUxZGRjIiwiZW1haWwiOiJuaWNrQGFuaW1ldGl0dGllcy5jb20iLCJpZCI6IjEiLCJuYmYiOjE1Nzc2OTkyODgsImV4cCI6MTU3NzY5OTMzMywiaWF0IjoxNTc3Njk5Mjg4fQ.MhFc_5KddDRj77VinASwaMbhNHS1-KyVZQ0oKr7NH7w";
