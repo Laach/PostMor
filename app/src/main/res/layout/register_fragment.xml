@@ -21,6 +21,7 @@
 
     <Button
         android:id="@+id/register_next_button"
+        style="@style/Whitebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -31,16 +32,19 @@
 
     <Button
         android:id="@+id/register_prev_button"
+        style="@style/Whitebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/previous_button"
+        android:textColor="@color/colorCancelButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/register_submit_button"
+        style="@style/Whitebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

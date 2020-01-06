@@ -39,6 +39,9 @@ public class RegisterViewModel extends ViewModel {
 
     public void generateAddresses(){
         myAccount.Address = myAddresses.get(rand.nextInt(numberOfAddress));
+
+        //For testing
+        myAccount.Address = myAccount.Address + rand.nextInt(10000);
     }
     public void getAddressesFromDB(int amount){
         dbAddresses get = new dbAddresses();
@@ -48,8 +51,6 @@ public class RegisterViewModel extends ViewModel {
     public String getAddress(){return myAccount.Address;}
 
     public void register(){
-        myAccount.Password = "String123!";
-        confirmPassword = myAccount.Password;
         dbRegister reg = new dbRegister();
         reg.execute(myAccount);
     }
@@ -75,6 +76,9 @@ public class RegisterViewModel extends ViewModel {
     public void setAccountConfirmPassword(String password){confirmPassword = password;}
 
     public AccountRepository.PasswordStatus checkPasswordValidity(){
+        if(myAccount.Password == null || confirmPassword == null){
+            return AccountRepository.PasswordStatus.ShorterThan6;
+        }
         AccountRepository.PasswordStatus valid = accountDB.isValidPassword(myAccount.Password);
         if(valid == AccountRepository.PasswordStatus.Ok);
         {
@@ -95,6 +99,7 @@ public class RegisterViewModel extends ViewModel {
         return "True";
     }
 
+    //Async task for registering
     private class dbRegister extends AsyncTask<Account, Void, List<String>>{
         @Override
         protected List<String> doInBackground(Account... accounts) {
@@ -113,6 +118,7 @@ public class RegisterViewModel extends ViewModel {
         }
     }
 
+    //Async task for getting the addresses
     private class dbAddresses extends AsyncTask<Integer, Void, List<String>>{
         @Override
         protected List<String> doInBackground(Integer... integer){

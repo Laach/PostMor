@@ -7,7 +7,7 @@
     tools:context=".Register.register3">
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/register_password_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,46 +20,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/register_password_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/enter_password_label"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="@+id/textView26"
-        app:layout_constraintStart_toStartOf="@+id/textView26"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintEnd_toEndOf="@+id/register_password_confirm_text"
+        app:layout_constraintStart_toStartOf="@+id/register_password_confirm_text"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_info" />
 
     <TextView
         android:id="@+id/register_password_confirm_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/confirm_password_label"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText6"
-        app:layout_constraintStart_toStartOf="@+id/textView17" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/register_password_confirm_input"
+        app:layout_constraintStart_toStartOf="@+id/register_password_info" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/register_password_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView25"
-        app:layout_constraintEnd_toEndOf="@+id/textView17"
-        app:layout_constraintStart_toEndOf="@+id/textView25" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/register_password_text"
+        app:layout_constraintEnd_toEndOf="@+id/register_password_info"
+        app:layout_constraintStart_toEndOf="@+id/register_password_text" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/register_password_confirm_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editText5"
-        app:layout_constraintStart_toEndOf="@+id/textView26"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintEnd_toEndOf="@+id/register_password_input"
+        app:layout_constraintStart_toEndOf="@+id/register_password_confirm_text"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_input" />
 
     <TextView
         android:id="@+id/register_password_hint"
@@ -68,7 +68,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/password_validity_feedback"
         android:textColor="#F44336"
-        app:layout_constraintStart_toStartOf="@+id/textView26"
-        app:layout_constraintTop_toBottomOf="@+id/editText6" />
+        app:layout_constraintStart_toStartOf="@+id/register_password_confirm_text"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_confirm_input" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

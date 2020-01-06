@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Register;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
@@ -37,9 +39,10 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.register_fragment, container, false);
         mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
+
+        //Checks if a submit has gone through as intended.
         mViewModel.getResults().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
@@ -73,6 +76,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
+                updateNameAndAddress(view);
                 if(currentPage > 0 && currentPage < amountOfPages - 1){
                     nextFragment.setVisibility(View.VISIBLE);
                     previousFragment.setVisibility(View.VISIBLE);
@@ -94,8 +98,9 @@ public class RegisterFragment extends Fragment {
         });
         nextFragment.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View onView) {
                 currentPage++;
+                updateNameAndAddress(view);
                 previousFragment.setVisibility(View.VISIBLE);
                 if(currentPage == amountOfPages - 1) {
                     nextFragment.setVisibility(View.INVISIBLE);
@@ -107,7 +112,7 @@ public class RegisterFragment extends Fragment {
 
         previousFragment.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View onView) {
                 currentPage--;
                 submit.setVisibility(View.INVISIBLE);
                 nextFragment.setVisibility(View.VISIBLE);
@@ -120,7 +125,7 @@ public class RegisterFragment extends Fragment {
 
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view){
+            public void onClick(View onView){
                 AccountRepository.PasswordStatus status = mViewModel.checkPasswordValidity();
                 if(status == AccountRepository.PasswordStatus.Ok){
                     String validity = mViewModel.validateAccountInformation();
@@ -145,6 +150,13 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    private void updateNameAndAddress(View view){
+        TextView tv = view.findViewById(R.id.cardName);
+        tv.setText(mViewModel.getAccountName());
+        tv = view.findViewById(R.id.cardAddress);
+        tv.setText(mViewModel.getAddress());
     }
 }
 
