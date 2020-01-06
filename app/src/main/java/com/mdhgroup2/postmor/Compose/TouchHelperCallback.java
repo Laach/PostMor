@@ -65,7 +65,7 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
 
         //Remove the actual image from internal storage
         String filename = adapter.getFileName(position);
-        c2h.removeFile(filename);
+        c2h.removeFile(filename, position);
 
         //Remove PhotoItem from adapter
         adapter.removeItem(position);
@@ -79,10 +79,6 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         View itemView = viewHolder.itemView;
 
-        //Offset is for drawing background slightly underneath the recyclerview item
-        //The offset is only relevant if rounded corners are used, it's set to 0 here because we use rectangles
-        int backgroundCornerOffset = 0;
-
         //Variables used for setting the bounds for drawing background and icon as the correct size
         int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
         int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
@@ -94,7 +90,7 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
             background.setBounds(itemView.getLeft(), itemView.getTop(),
-                    itemView.getLeft() + ((int) dX) + backgroundCornerOffset,
+                    itemView.getLeft() + ((int) dX),
                     itemView.getBottom());
         }
         else if(dX < 0){//Swiping left
@@ -102,7 +98,7 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
             int iconRight = itemView.getRight() - iconMargin;
             icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-            background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
+            background.setBounds(itemView.getRight() + ((int) dX),
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
         }else{//No swipe
             //Set the bounds to 0, makes icon and background disappear

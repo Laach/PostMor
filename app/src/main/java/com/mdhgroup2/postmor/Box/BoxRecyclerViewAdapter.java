@@ -8,15 +8,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
-import com.mdhgroup2.postmor.database.DTO.MessageContent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdhgroup2.postmor.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Date;
+
 
 class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
 
@@ -50,6 +52,12 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         public ImageButton expandButton;
         public View expandableContent;
 
+        public TextView contentText;
+        public ImageView contentImage1;
+        public ImageView contentImage2;
+        public ImageView contentImage3;
+
+
         public BoxItemsViewHolder(View mi) {
             super(mi);
             messageItem = mi;
@@ -62,6 +70,10 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             sendButton = messageItem.findViewById(R.id.sendButton);
             expandButton = messageItem.findViewById(R.id.expandButton);
             expandableContent = messageItem.findViewById(R.id.messageContents);
+            contentText = messageItem.findViewById(R.id.contentsText);
+            contentImage1 = messageItem.findViewById(R.id.contentsImage1);
+            contentImage2 = messageItem.findViewById(R.id.contentsImage2);
+            contentImage3 = messageItem.findViewById(R.id.contentsImage3);
         }
     }
 
@@ -85,9 +97,36 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         final BoxItemsViewHolder cvHolder = ((BoxItemsViewHolder) holder);
         MsgCard message = messageDataset.get(position);
         cvHolder.name.setText(message.Name);
-        cvHolder.profilePicture.setImageBitmap(message.Picture);
+
+        if(message.Picture == null)
+        {
+            cvHolder.profilePicture.setImageResource(R.drawable.anon_profile);
+        } else
+        {
+            cvHolder.profilePicture.setImageBitmap(message.Picture);
+        }
+
         cvHolder.address.setText(message.Address);
-        cvHolder.date.setText(message.DateStamp.toString());
+
+        //format the date
+        Date todayDate = new Date();
+        Date messageDate = message.DateStamp;
+        long oneDay = 1000 * 60 * 60 * 24; //milliseconds in a day
+        SimpleDateFormat x;
+        if(todayDate.getDay() == messageDate.getDay())
+        {
+            x =  new SimpleDateFormat("'Today' hh:mm");
+        } else if(todayDate.getYear() == messageDate.getYear())
+        {
+            x =  new SimpleDateFormat("E MMM d hh:mm");
+        } else
+        {
+            x =  new SimpleDateFormat("yyyy E MMM d hh:mm");
+        }
+        String formattedDate = x.format(messageDate);
+
+        cvHolder.date.setText(formattedDate);
+
         if (message.IsSentByMe) {
             cvHolder.toOrFrom.setText(R.string.box_to_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_sent_letter);
@@ -95,11 +134,40 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             cvHolder.toOrFrom.setText(R.string.box_from_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_recieved_letter);
         }
+
+        // Populate the expandable message contents
+        if(message.Text == null || message.Text.isEmpty())
+        {
+            //This is a picture message
+            if(message.Images.size() >= 1)
+            {
+                cvHolder.contentImage1.setImageBitmap(message.Images.get(0));
+                cvHolder.contentImage1.setVisibility(View.VISIBLE);
+
+            }
+            if(message.Images.size() >= 2)
+            {
+                cvHolder.contentImage2.setImageBitmap(message.Images.get(1));
+                cvHolder.contentImage2.setVisibility(View.VISIBLE);
+
+            }
+            if(message.Images.size() >= 3)
+            {
+                cvHolder.contentImage3.setImageBitmap(message.Images.get(2));
+                cvHolder.contentImage3.setVisibility(View.VISIBLE);
+            }
+        }
+        else
+        {
+            //This is a text message
+            cvHolder.contentText.setVisibility(View.VISIBLE);
+            cvHolder.contentText.setText(message.Text);
+        }
+
         cvHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View contents = cvHolder.expandableContent;
-
                 if(contents.getVisibility() == View.VISIBLE)
                 {
                     contents.setVisibility(View.GONE);
