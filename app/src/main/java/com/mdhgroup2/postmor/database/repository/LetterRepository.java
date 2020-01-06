@@ -39,6 +39,7 @@ public class LetterRepository implements ILetterRepository {
         if(msg == null){
             msg = new EditMsg();
             msg.InternalMessageID = managedao.getNewMsgId();
+            msg.RecipientID = 0;
             msg.IsDraft = true;
 
             createNewDraft(msg.InternalMessageID);
@@ -79,7 +80,7 @@ public class LetterRepository implements ILetterRepository {
         msg.WrittenBy = managedao.getUserId();
         msg.IsDraft = true;
         msg.IsOutgoing = false;
-        msg.IsRead = false;
+        msg.IsRead = true;
         msg.TimeStamp = null;
         msg.DeliveryTime = null;
 //        msg.SenderPublicKey = managedao.getUserPublicKey();
