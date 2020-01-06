@@ -11,7 +11,9 @@ import androidx.room.Transaction;
 
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
+import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.Entities.User;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -75,11 +78,32 @@ public abstract class ManageDao {
 
     @Query("SELECT * FROM Users WHERE ID = :userID")
     public abstract User findUser(int userID);
-    
+
+    @Query("DELETE FROM Settings")
+    public abstract void deleteSettings();
+
     @Transaction
     public int getNewMsgId(){
         incrementInternalMsgID();
         return getInternalMsgID();
+    }
+
+    @Transaction
+    public void nukeDbAndInsertNewData(Settings user,
+                                       List<User> contacts,
+                                       List<Message> messages,
+                                       AccountDao accountdao){
+        DatabaseClient.nukeDatabase();
+
+        accountdao.registerAccount(user);
+
+        for(User u : contacts){
+            addUser(u);
+        }
+
+        for(Message m : messages){
+            addMessage(m);
+        }
     }
 
     private boolean refresh(){
@@ -114,7 +138,7 @@ public abstract class ManageDao {
 
     private boolean tokenIsValid(){
         String token = getAuthToken();
-        if (token == null || token == "") {
+        if (token == null || token.equals("")) {
             return false;
         }
 //        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJOaWNrIiwianRpIjoiOGZiZGU4NjktZTdlYi00ZDQ3LTgxOWItMDZkOGE5MjUxZGRjIiwiZW1haWwiOiJuaWNrQGFuaW1ldGl0dGllcy5jb20iLCJpZCI6IjEiLCJuYmYiOjE1Nzc2OTkyODgsImV4cCI6MTU3NzY5OTMzMywiaWF0IjoxNTc3Njk5Mjg4fQ.MhFc_5KddDRj77VinASwaMbhNHS1-KyVZQ0oKr7NH7w";

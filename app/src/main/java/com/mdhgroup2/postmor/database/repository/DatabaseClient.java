@@ -2,6 +2,7 @@ package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
+import android.provider.ContactsContract;
 
 import androidx.room.Room;
 
@@ -42,13 +43,18 @@ public class DatabaseClient {
         }
         // ---------------------------------------------------------
 
-        int i = 5000;
-        Account nick = new AccountBuilder()
-                .addName("Nick")
-                .addPassword("String123!")
-                .addAddress("Tittiegatan " + Integer.toString(i))
-                .addEmail("nick" + Integer.toString(i) + "@smalltitties.com")
-                .build();
+//        IAccountRepository repo = DatabaseClient.getAccountRepository();
+//        boolean b = repo.signIn("nick.grannas@gmail.com", "String123!");
+//        repo.signOut();
+//        b = repo.signIn("nick.grannas@gmail.com", "String123!");
+
+//        int i = 5000;
+//        Account nick = new AccountBuilder()
+//                .addName("Nick")
+//                .addPassword("String123!")
+//                .addAddress("Tittiegatan " + Integer.toString(i))
+//                .addEmail("nick" + Integer.toString(i) + "@smalltitties.com")
+//                .build();
 
 //        boolean b = getAccountRepository().registerAccount(nick);
 //        getContactRepository().addContact(123);
@@ -79,7 +85,7 @@ public class DatabaseClient {
         return new LetterRepository(db.letterDao(), db.manageDao());
     }
 
-    static void nukeDatabase(){
+    public static void nukeDatabase(){
         db.clearAllTables();
         db.manageDao().initInternalID(new InternalMsgID(100));
     }
