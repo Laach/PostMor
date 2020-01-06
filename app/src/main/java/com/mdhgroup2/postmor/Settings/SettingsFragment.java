@@ -38,6 +38,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         Preference changePassword = findPreference("changePassword");
         Preference about = findPreference("about");
+        Preference signOut = findPreference("sign_out");
+
         changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -51,6 +53,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 Navigation.findNavController(getView()).navigate(SettingsFragmentDirections.actionSettingsFragmentToAboutFragment());
 
+                return true;
+            }
+        });
+
+        signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                //implement navigation to popup or whatever here :)
                 return true;
             }
         });
