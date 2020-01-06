@@ -11,7 +11,9 @@ import androidx.room.Transaction;
 
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
+import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.Entities.User;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -80,6 +83,24 @@ public abstract class ManageDao {
     public int getNewMsgId(){
         incrementInternalMsgID();
         return getInternalMsgID();
+    }
+
+    @Transaction
+    public void nukeDbAndInsertNewData(Settings user,
+                                       List<User> contacts,
+                                       List<Message> messages,
+                                       AccountDao accountdao){
+        DatabaseClient.nukeDatabase();
+
+        accountdao.registerAccount(user);
+
+        for(User u : contacts){
+            addUser(u);
+        }
+
+        for(Message m : messages){
+            addMessage(m);
+        }
     }
 
     private boolean refresh(){

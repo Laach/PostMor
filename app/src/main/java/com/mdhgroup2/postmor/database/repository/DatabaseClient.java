@@ -79,7 +79,7 @@ public class DatabaseClient {
         return new LetterRepository(db.letterDao(), db.manageDao());
     }
 
-    static void nukeDatabase(){
+    public static void nukeDatabase(){
         db.clearAllTables();
         db.manageDao().initInternalID(new InternalMsgID(100));
     }
