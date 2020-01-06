@@ -12,6 +12,7 @@
     <string name="search_button">search</string>
     <string name="found_user_add_button">Add</string>
     <string name="remove_contact_button">Remove</string>
+    <string name="open_button">Open</string>
 
 
     <!-- text fields -->
