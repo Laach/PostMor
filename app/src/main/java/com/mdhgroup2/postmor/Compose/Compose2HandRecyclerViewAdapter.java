@@ -90,19 +90,24 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         return data.size();
     }
 
-    //Add an item to the data set
+    // Add an item to the data set
     public void addItem(Bitmap image, String text, String fileName){
         data.add(new PhotoItem(text, image, fileName));
         notifyDataSetChanged();
     }
 
-    //Remove an item from the data set
+    // Remove an item from the data set
     public void removeItem(int position){
         data.remove(position);
         notifyDataSetChanged();
     }
 
-    //Get filename from item (used by removeFile in Compose2Handwritten)
+    public void clear(){
+        data.clear();
+        notifyDataSetChanged();
+    }
+
+    // Get filename from item (used by removeFile in Compose2Handwritten)
     public String getFileName(int position){
         return data.get(position).fileName;
     }
@@ -110,6 +115,7 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     public void swapItems(int from, int to){
         Collections.swap(data, from ,to);
         notifyItemMoved(from, to);
+
     }
 
     public List<Bitmap> getItems(){
@@ -124,7 +130,7 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     }
 }
 
-//Custom datatype for the data set containing the image and the image name
+// Custom datatype for the data set containing the image and the image name
 class PhotoItem{
     public String text;
     public Bitmap image;

@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor.Compose;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,8 +88,10 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        mViewModel = ViewModelProviders.of(this).get(Compose2HandwrittenViewModel.class);
 
-        //Ask user for permission to read/write
+
+        // Ask user for permission to read/write
         int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int permission2 = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
 
@@ -99,12 +104,12 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
             ActivityCompat.requestPermissions(getActivity(), PERMISSIONS_STORAGE, REQUEST_CODE);
         }
 
-        //Onclick listener to open/take photo
+        // Onclick listener to open/take photo
         addItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mAdapter.getItemCount() < 3){
-                    //Create temp file for the image (android.developer)
+                    // Create temp file for the image (android.developer)
                     String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                     String imageFileName = "JPEG_"+timestamp+"_";
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -138,24 +143,49 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                         cameraIntents.add(intent);
                     }
 
-                    //Create chooser for gallery option
+                    // Create chooser for gallery option
                     Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     Intent chooserIntent = Intent.createChooser(pickIntent, "Select Source");
 
-                    //Add the camera options.
+                    // Add the camera options.
                     chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
-                    //Start the chooser
+                    // Start the chooser
                     startActivityForResult(chooserIntent, REQUEST_CODE);
                 }
             }
         });
 
+        // Find the recipient ID from the recipient fragment
+        final Integer recipientID = null;
+
+        // Observe livedata for draft
+        mViewModel.getDraftMsg().observe(this, new Observer<EditMsg>() {
+            @Override
+            public void onChanged(EditMsg editMsg) {
+                // Update the ui
+                // Add all images
+                int i = 1;
+                //if(recipientID != null)
+                mAdapter.clear();
+                for (Bitmap image : editMsg.Images) {
+                    mAdapter.addItem(image, String.valueOf(i), String.valueOf(i));
+                    i++;
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // If no recipient has been chosen, send null
+        mViewModel.getDraft(null);
+        // Else send the recipient ID
+        //mViewModel.getDraft(recipientID);
+
         return view;
     }
 
     public void removeFile(String fileName){
-        //Delete the file from internal storage
+        // Delete the file from internal storage
         String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
         File file = new File(path+"/"+fileName);
         boolean deleted = file.delete();
@@ -164,20 +194,19 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(Compose2HandwrittenViewModel.class);
-        // TODO: Use the ViewModel
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //Check if the request is from our camera/gallery intent and if it finished with the correct resultcode
+        // Check if the request is from our camera/gallery intent and if it finished with the correct resultcode
         if(requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK){
             boolean isCamera;
             Bitmap photo = null;
 
-            //Determine whether the camera or the gallery was used
+            // Determine whether the camera or the gallery was used
             if(data == null || data.getData() == null){
                 isCamera = true;
             }
@@ -190,7 +219,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                 }
             }
 
-            //Depending on if the camera was used or not, choose the correct action
+            // Depending on if the camera was used or not, choose the correct action
             final Uri selectedImageUri;
             if(isCamera){
                 selectedImageUri = outputFileUri;
@@ -199,7 +228,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
             }
             try {
                 photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                //If the image is rotated, reset its rotation
+                // If the image is rotated, reset its rotation
                 if(isCamera){
                     ExifInterface exif= new ExifInterface(currentPhotoPath);
                     int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
@@ -218,9 +247,9 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                     Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
                     photo = rotatedBitmap;
                 }else{
-                    //If the image was picked from the gallery, copy the image to app storage
+                    // If the image was picked from the gallery, copy the image to app storage
 
-                    //First get file path for the gallery image
+                    // First get file path for the gallery image
                     String[] projection = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, projection, null, null, null);
                     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -228,7 +257,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                     String galleryPath = cursor.getString(column_index);
                     cursor.close();
 
-                    //Copy the file to the temp image in app storage
+                    // Copy the file to the temp image in app storage
                     File sourceFile = new File(galleryPath);
                     FileChannel source = null;
                     FileChannel destination = null;
@@ -247,11 +276,12 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //Add the image to the recycler view
-            mAdapter.addItem(photo,currentPhotoFile.getName(),currentPhotoFile.getName());
+            // Add the image to the recycler view
+            //mAdapter.addItem(photo,currentPhotoFile.getName(),currentPhotoFile.getName());
+            mViewModel.addImage(photo);
         }
         else{
-            //If the user closes the intent without choosing/taking photo, display a toast
+            // f the user closes the intent without choosing/taking photo, display a toast
             Toast.makeText(getActivity(), "No image selected or taken", Toast.LENGTH_SHORT).show();
         }
     }
