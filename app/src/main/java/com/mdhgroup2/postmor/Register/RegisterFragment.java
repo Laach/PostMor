@@ -96,6 +96,7 @@ public class RegisterFragment extends Fragment {
 
             }
         });
+
         nextFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
@@ -143,7 +144,6 @@ public class RegisterFragment extends Fragment {
                 }
             }
         });
-
         return view;
     }
 
@@ -154,9 +154,11 @@ public class RegisterFragment extends Fragment {
 
     private void updateNameAndAddress(View view){
         TextView tv = view.findViewById(R.id.cardName);
-        tv.setText(mViewModel.getAccountName());
-        tv = view.findViewById(R.id.cardAddress);
-        tv.setText(mViewModel.getAddress());
+        if(tv != null) {
+            tv.setText(mViewModel.getAccountName());
+            tv = view.findViewById(R.id.cardAddress);
+            tv.setText(mViewModel.getAddress());
+        }
     }
 }
 

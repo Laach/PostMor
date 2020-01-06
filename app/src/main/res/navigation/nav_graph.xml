@@ -87,7 +87,7 @@
     </fragment>
     <navigation
         android:id="@+id/registration_graph"
-        app:startDestination="@id/registerFragment">
+        app:startDestination="@id/signInFragment">
         <fragment
             android:id="@+id/tutorialFragment"
             android:name="com.mdhgroup2.postmor.Tutorial.TutorialFragment"
