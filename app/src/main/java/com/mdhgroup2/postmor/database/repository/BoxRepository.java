@@ -109,7 +109,7 @@ public class BoxRepository implements IBoxRepository {
     }
 
     @Override
-    public LiveData<Integer> outgoingLetterCount() {
+    public int outgoingLetterCount() {
         return managedb.getOutgoingLetterCount();
     }
 

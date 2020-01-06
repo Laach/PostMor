@@ -12,7 +12,7 @@ public interface IAccountRepository {
     List<String> getRandomAddresses(int count) throws IOException;
     AccountRepository.PasswordStatus isValidPassword(String pass);
     List<String> registerAccount(Account account); // Use an AccountBuilder
-    boolean signIn(String email, String pass);
+    List<String> signIn(String email, String pass);
     void signOut();
 
     String getMyName();
