@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Compose;
 
+import android.database.sqlite.SQLiteBlobTooBigException;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -33,8 +34,10 @@ public class Compose2HandwrittenViewModel extends ViewModel {
     }
 
     public void getDraft(Integer recipientID){
-        GetDraftTask getDraftTask = new GetDraftTask();
-        getDraftTask.execute(recipientID);
+
+            GetDraftTask getDraftTask = new GetDraftTask();
+            getDraftTask.execute(recipientID);
+
     }
 
     public void saveDraft(){
@@ -44,6 +47,11 @@ public class Compose2HandwrittenViewModel extends ViewModel {
 
     public void addImage(Bitmap image){
         editMsgDraft.Images.add(image);
+        draftMsg.postValue(editMsgDraft);
+    }
+
+    public void removeImage(int position){
+        editMsgDraft.Images.remove(position);
         draftMsg.postValue(editMsgDraft);
     }
 
@@ -65,29 +73,31 @@ public class Compose2HandwrittenViewModel extends ViewModel {
     }
 
     private class GetDraftTask extends AsyncTask<Integer, Void, EditMsg>{
-
         @Override
         protected EditMsg doInBackground(Integer... integers) {
             // Get the draft
             Integer recipientID = integers[0];
-            if(recipientID == null){
+            if (recipientID == null || recipientID == 0) {
                 Log.d("test", "doInBackground: getOrStartGENERICDraft");
                 return letterRepo.getOrStartGenericDraft();
             }
             Log.d("test", "doInBackground: getOrStartDraft");
             return letterRepo.getOrStartDraft(recipientID);
+
         }
 
         @Override
         protected void onPostExecute(EditMsg editMsg) {
-            // Update the live data
-            editMsgDraft = editMsg;
-            Log.d("test", "onPostExecute: internalMessageID: "+editMsg.InternalMessageID);
-            Log.d("test", "onPostExecute: recipientID: "+editMsg.RecipientID);;
-            if (editMsgDraft.Images == null) {
-                editMsgDraft.Images = new ArrayList<Bitmap>();
+            if(editMsg != null) {
+                // Update the live data
+                editMsgDraft = editMsg;
+                Log.d("test", "onPostExecute: internalMessageID: " + editMsg.InternalMessageID);
+                Log.d("test", "onPostExecute: recipientID: " + editMsg.RecipientID);
+                if (editMsgDraft.Images == null) {
+                    editMsgDraft.Images = new ArrayList<Bitmap>();
+                }
+                draftMsg.postValue(editMsg);
             }
-            draftMsg.postValue(editMsg);
         }
     }
 }

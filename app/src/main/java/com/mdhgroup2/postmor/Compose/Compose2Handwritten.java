@@ -177,7 +177,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
         });
 
         // If no recipient has been chosen, send null
-        mViewModel.getDraft(null);
+        mViewModel.getDraft(recipientID);
         // Else send the recipient ID
         //mViewModel.getDraft(recipientID);
 
@@ -193,15 +193,17 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mViewModel.saveDraft();
+        super.onDestroy();
     }
 
-    public void removeFile(String fileName){
+    public void removeFile(String fileName, int position){
         // Delete the file from internal storage
         String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
         File file = new File(path+"/"+fileName);
         boolean deleted = file.delete();
+
+        mViewModel.removeImage(position);
     }
 
     @Override

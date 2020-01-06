@@ -65,7 +65,7 @@ public class TouchHelperCallback extends ItemTouchHelper.Callback {
 
         //Remove the actual image from internal storage
         String filename = adapter.getFileName(position);
-        c2h.removeFile(filename);
+        c2h.removeFile(filename, position);
 
         //Remove PhotoItem from adapter
         adapter.removeItem(position);
