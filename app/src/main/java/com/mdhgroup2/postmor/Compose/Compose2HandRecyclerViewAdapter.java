@@ -15,6 +15,7 @@ import com.mdhgroup2.postmor.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compose2HandRecyclerViewAdapter.ComposeViewHolder> {
     public ArrayList<PhotoItem> data;
@@ -89,19 +90,24 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
         return data.size();
     }
 
-    //Add an item to the data set
+    // Add an item to the data set
     public void addItem(Bitmap image, String text, String fileName){
         data.add(new PhotoItem(text, image, fileName));
         notifyDataSetChanged();
     }
 
-    //Remove an item from the data set
+    // Remove an item from the data set
     public void removeItem(int position){
         data.remove(position);
         notifyDataSetChanged();
     }
 
-    //Get filename from item (used by removeFile in Compose2Handwritten)
+    public void clear(){
+        data.clear();
+        notifyDataSetChanged();
+    }
+
+    // Get filename from item (used by removeFile in Compose2Handwritten)
     public String getFileName(int position){
         return data.get(position).fileName;
     }
@@ -109,10 +115,22 @@ public class Compose2HandRecyclerViewAdapter extends RecyclerView.Adapter<Compos
     public void swapItems(int from, int to){
         Collections.swap(data, from ,to);
         notifyItemMoved(from, to);
+
+    }
+
+    public List<Bitmap> getItems(){
+        List<Bitmap> list = new ArrayList<Bitmap>();
+
+        //foreach get all bitmaps
+        for(PhotoItem item : data){
+            list.add(item.image);
+        }
+
+        return list;
     }
 }
 
-//Custom datatype for the data set containing the image and the image name
+// Custom datatype for the data set containing the image and the image name
 class PhotoItem{
     public String text;
     public Bitmap image;
@@ -121,6 +139,6 @@ class PhotoItem{
     public PhotoItem(String s, Bitmap b, String f){
         this.text = s;
         this.image = b;
-        this.fileName = s;
+        this.fileName = f;
     }
 }

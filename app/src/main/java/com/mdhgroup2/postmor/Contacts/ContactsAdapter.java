@@ -37,7 +37,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
             contactItem = ci;
             name = contactItem.findViewById(R.id.nameTextView);
             address = contactItem.findViewById(R.id.addressTextView);
-            profilePicture = contactItem.findViewById(R.id.profilePictureImageView);
+            profilePicture = contactItem.findViewById(R.id.profilePictureCardView);
             ci.setOnClickListener(this);
         }
 
