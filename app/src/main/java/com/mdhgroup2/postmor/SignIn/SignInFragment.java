@@ -36,6 +36,19 @@ public class SignInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.sign_in_fragment, container, false);
         mViewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
+
+        mViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Boolean result = aBoolean;
+                if (result){
+                    Navigation.findNavController(view).navigate(R.id.homeFragment);
+                }
+            }
+        });
+
+        mViewModel.checkLoginStatus();
+
         mViewModel.getResult().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -92,10 +105,10 @@ public class SignInFragment extends Fragment {
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View onView) {
                 String validity = mViewModel.checkValidity();
                 if(validity.equals("True")){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment);
+                    mViewModel.login();
                 }
                 else{
                     Toast toast = Toast.makeText(getContext(), "You need to enter your " + validity, Toast.LENGTH_SHORT);
@@ -106,7 +119,7 @@ public class SignInFragment extends Fragment {
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View onView) {
                 Navigation.findNavController(view).navigate(R.id.registerFragment);
             }
         });

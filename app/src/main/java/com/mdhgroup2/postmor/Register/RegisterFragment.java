@@ -32,6 +32,7 @@ public class RegisterFragment extends Fragment {
     private int currentPage = 0;
     private int amountOfPages = 3;
 
+
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
     }
@@ -145,11 +146,6 @@ public class RegisterFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     private void updateNameAndAddress(View view){

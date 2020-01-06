@@ -12,6 +12,7 @@ public class SignInViewModel extends ViewModel {
     private loginInformation account = new loginInformation();
     private final IAccountRepository accountDB;
     private MutableLiveData<Boolean> callResult;
+    private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public SignInViewModel(){
         accountDB = DatabaseClient.getAccountRepository();
@@ -22,6 +23,18 @@ public class SignInViewModel extends ViewModel {
             callResult = new MutableLiveData<>();
         }
         return callResult;
+    }
+
+    public MutableLiveData<Boolean> amILoggedIn(){
+        if(alreadyLoggedIn == null){
+            alreadyLoggedIn = new MutableLiveData<>();
+        }
+        return  alreadyLoggedIn;
+    }
+
+    public void checkLoginStatus(){
+        dbAlreadyLoggedIn status = new dbAlreadyLoggedIn();
+        status.execute();
     }
 
     public void login(){
@@ -70,6 +83,24 @@ public class SignInViewModel extends ViewModel {
         @Override
         protected void onPostExecute(Boolean result){
             callResult.postValue(result);
+        }
+    }
+
+    private class dbAlreadyLoggedIn extends AsyncTask<Void, Void, Boolean>{
+        @Override
+        protected Boolean doInBackground(Void... v){
+            Boolean result;
+            try{
+                result = accountDB.isLoggedIn();
+            }catch (Exception e){
+                result = false;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result){
+            alreadyLoggedIn.postValue(result);
         }
     }
 
