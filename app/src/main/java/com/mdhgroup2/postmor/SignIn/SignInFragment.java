@@ -43,8 +43,7 @@ public class SignInFragment extends Fragment {
             public void onChanged(Boolean aBoolean) {
                 Boolean result = aBoolean;
                 if (result){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment,true).build());
-//                    Navigation.findNavController(view).navigate(R.id.homeFragment);
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
                 }
             }
         });
@@ -56,7 +55,7 @@ public class SignInFragment extends Fragment {
             public void onChanged(Boolean aBoolean) {
                 Boolean result = aBoolean;
                 if (result){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment);
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
                 }
                 else{
                     Toast toast = Toast.makeText(getContext(), "Something went wrong." , Toast.LENGTH_SHORT);
@@ -125,7 +124,6 @@ public class SignInFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.registerFragment);
             }
         });
-
         return view;
     }
 

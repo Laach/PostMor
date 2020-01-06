@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 
@@ -49,7 +50,7 @@ public class RegisterFragment extends Fragment {
             public void onChanged(List<String> strings) {
                 String temp = strings.get(0);
                 if(temp.equals("Ok")){
-                    Navigation.findNavController(view).navigate(R.id.signInFragment);
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
                 }
                 else {
                     Toast toast = Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT);
@@ -71,7 +72,6 @@ public class RegisterFragment extends Fragment {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -94,7 +94,6 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.mdhgroup2.postmor.About.AboutFragment;
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -36,6 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preferences, rootKey);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
+        final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         Preference changePassword = findPreference("changePassword");
         Preference about = findPreference("about");
         Preference signOut = findPreference("sign_out");
@@ -52,7 +55,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Navigation.findNavController(getView()).navigate(SettingsFragmentDirections.actionSettingsFragmentToAboutFragment());
-
                 return true;
             }
         });
@@ -60,21 +62,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-
-                //implement navigation to popup or whatever here :)
+                mViewModel.logOut();
+                Navigation.findNavController(getView()).navigate(R.id.signInFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment,true).build());
                 return true;
             }
         });
-
     }
-
-
-/*
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
-        // TODO: Use the ViewModel
-    }
-*/
 }
