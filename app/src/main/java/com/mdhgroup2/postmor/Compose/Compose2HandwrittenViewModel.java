@@ -2,6 +2,7 @@ package com.mdhgroup2.postmor.Compose;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,6 +12,7 @@ import com.mdhgroup2.postmor.database.interfaces.ILetterRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import java.util.ArrayList;
+
 
 public class Compose2HandwrittenViewModel extends ViewModel {
     private ILetterRepository letterRepo;
@@ -35,9 +37,31 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         getDraftTask.execute(recipientID);
     }
 
+    public void saveDraft(){
+        SaveDraftTask saveDraftTask = new SaveDraftTask();
+        saveDraftTask.execute(editMsgDraft);
+    }
+
     public void addImage(Bitmap image){
         editMsgDraft.Images.add(image);
         draftMsg.postValue(editMsgDraft);
+    }
+
+    private class SaveDraftTask extends AsyncTask<EditMsg, Void, Void>{
+        @Override
+        protected Void doInBackground(EditMsg... editMsgs) {
+            if(editMsgs != null){
+                Log.d("test", "doInBackground: SAVING FOLLOWING MESSAGE:");
+                Log.d("test", "doInBackground:      Imageslist size: "+editMsgs[0].Images.size());
+                Log.d("test", "doInBackground:      internalMessageID: "+editMsgs[0].InternalMessageID);
+                Log.d("test", "doInBackground:      recipient: "+editMsgs[0].RecipientID);
+                Log.d("test", "doInBackground:      text: "+editMsgs[0].Text);
+                Log.d("test", "doInBackground:      isDraft: "+editMsgs[0].IsDraft);
+                Log.d("test", "doInBackground: letterRepo.saveDraft...");
+                letterRepo.saveDraft(editMsgs[0]);
+            }
+            return null;
+        }
     }
 
     private class GetDraftTask extends AsyncTask<Integer, Void, EditMsg>{
@@ -47,8 +71,10 @@ public class Compose2HandwrittenViewModel extends ViewModel {
             // Get the draft
             Integer recipientID = integers[0];
             if(recipientID == null){
+                Log.d("test", "doInBackground: getOrStartGENERICDraft");
                 return letterRepo.getOrStartGenericDraft();
             }
+            Log.d("test", "doInBackground: getOrStartDraft");
             return letterRepo.getOrStartDraft(recipientID);
         }
 
@@ -56,7 +82,11 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         protected void onPostExecute(EditMsg editMsg) {
             // Update the live data
             editMsgDraft = editMsg;
-            editMsgDraft.Images = new ArrayList<Bitmap>();
+            Log.d("test", "onPostExecute: internalMessageID: "+editMsg.InternalMessageID);
+            Log.d("test", "onPostExecute: recipientID: "+editMsg.RecipientID);;
+            if (editMsgDraft.Images == null) {
+                editMsgDraft.Images = new ArrayList<Bitmap>();
+            }
             draftMsg.postValue(editMsg);
         }
     }

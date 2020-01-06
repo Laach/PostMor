@@ -184,6 +184,19 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        //mViewModel.saveDraft();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mViewModel.saveDraft();
+    }
+
     public void removeFile(String fileName){
         // Delete the file from internal storage
         String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
