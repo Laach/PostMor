@@ -92,7 +92,7 @@ public class ContactRepository implements IContactRepository {
                 "\"contactId\" : %d", ID);
 
         try {
-            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/add", new JSONObject(data), managedao);
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/remove", new JSONObject(data), managedao);
             if(json.getBoolean("success")){
                 contactdao.deleteFriend(ID);
                 return true;
