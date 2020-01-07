@@ -28,6 +28,8 @@ public class BoxRepositoryMock implements IBoxRepository {
 
     List<MsgCard> l4 = new LinkedList<MsgCard>();
 
+    List<MsgCard> l5 = new LinkedList<MsgCard>();
+
 //    MutableLiveData<Integer> liveInt = new MutableLiveData<>();
 
     public BoxRepositoryMock(){
@@ -103,6 +105,8 @@ public class BoxRepositoryMock implements IBoxRepository {
         l4.add(u1);
         l4.add(u3);
         l4.add(u4);
+
+        l5.add(u4);
     }
 
 
@@ -113,7 +117,7 @@ public class BoxRepositoryMock implements IBoxRepository {
 
     @Override
     public List<MsgCard> getAllMessages(int ID) {
-        return l2;
+        return l5;
     }
 
     @Override

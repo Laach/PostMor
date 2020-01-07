@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor.UserToUser;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mdhgroup2.postmor.Box.BoxContentFragment;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
@@ -50,6 +52,9 @@ public class UserToUserFragment extends Fragment {
         ImageView iv = view.findViewById(R.id.cardImageView);
         iv.setImageBitmap(contact.Picture);
 
+        if(contact.IsFriend){
+
+        }
         Button remove = view.findViewById(R.id.removeImageButton);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +71,15 @@ public class UserToUserFragment extends Fragment {
                 Navigation.findNavController(view).navigateUp();
             }
         });
+
+        // Begin the transaction
+       FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        // Replace the contents of the container with the new fragment
+        ft.replace(R.id.boxContainer, new BoxContentFragment(1, id));
+        // or ft.add(R.id.your_placeholder, new FooFragment());
+        // Complete the changes added above
+        ft.commit();
+
 
         return view;
     }
