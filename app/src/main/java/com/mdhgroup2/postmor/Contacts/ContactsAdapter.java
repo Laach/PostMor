@@ -15,7 +15,7 @@ import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    public List<Contact> contacts;
+    static List<Contact> contacts;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public ContactsAdapter(List<Contact> list) {
@@ -37,14 +37,17 @@ class ContactsAdapter extends RecyclerView.Adapter {
             contactItem = ci;
             name = contactItem.findViewById(R.id.nameTextView);
             address = contactItem.findViewById(R.id.addressTextView);
-            profilePicture = contactItem.findViewById(R.id.profilePictureImageView);
+            profilePicture = contactItem.findViewById(R.id.profilePictureCardView);
             ci.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-            bundle.putInt("index", getAdapterPosition());
+            int id = contacts.get(getAdapterPosition()).UserID;
+
+//            bundle.putInt("index", getAdapterPosition());
+            bundle.putInt("id", id);
             Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
         }
     }

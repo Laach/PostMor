@@ -182,7 +182,7 @@ public class AccountRepository implements IAccountRepository {
                     errors.add(arr.getString(i));
                 }
             }
-            catch (JSONException e){
+            catch (JSONException | NullPointerException e){
                 errors.add("Server error: expected errors but received none");
             }
         }
@@ -195,7 +195,8 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public boolean signIn(String email, String password) {
+    public List<String> signIn(String email, String password) {
+        List<String> errors = new ArrayList<>();
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
         String prevEmail = accountDb.getMyEmail();
@@ -203,7 +204,13 @@ public class AccountRepository implements IAccountRepository {
         if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
             // Query server
             accountDb.setSignedIn();
-            return manageDb.refreshToken();
+            if(manageDb.refreshToken()){
+                errors.add("Ok");
+            }
+            else{
+                errors.add("Failed to validate tokens. No internet?");
+            }
+            return errors;
         }
         else{
             String data = String.format("{" +
@@ -214,9 +221,9 @@ public class AccountRepository implements IAccountRepository {
 
             String authToken;
             String refreshToken;
-
+            JSONObject json = null;
             try{
-                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data), manageDb);
+                json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data), manageDb);
 
                 authToken = json.getString("token");
 
@@ -225,10 +232,21 @@ public class AccountRepository implements IAccountRepository {
 
             }
             catch (IOException e){
-                return false;
+                errors.add("IOException 1: possibly no connection");
+                return errors;
             }
             catch (JSONException j){
-                return false;
+                try {
+                    JSONArray arr = json.getJSONArray("errors");
+                    for(int i = 0; i < arr.length(); i++){
+                        errors.add(arr.getString(i));
+                    }
+                }
+                catch (JSONException | NullPointerException e){
+                    errors.add("Server error: expected errors but received none");
+                }
+
+                return errors;
                 // Failed to update key. Possibly offline.
             }
 
@@ -260,7 +278,7 @@ public class AccountRepository implements IAccountRepository {
 
 //                manageDb.setAuthToken(authToken);
 //                manageDb.setRefreshToken(refreshToken);
-                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb);
+                json = Utils.APIPost(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb);
 
 
                 JSONArray contactsjson  = json.getJSONArray ("contacts");
@@ -283,15 +301,23 @@ public class AccountRepository implements IAccountRepository {
                 // Save tokens before fetchall and after. So it validates the correct user.
 //                DatabaseClient.nukeDatabase();
             }
-            catch (JSONException | IOException e){
-                return false;
+            catch (IOException e){
+                errors.add("IOException 2: possibly no connection");
+                return errors;
+            }
+            catch (JSONException e){
+                errors.add("Failed parsing fetch-all response");
+                return errors;
             }
 //             API "/user/fetchalldata"
 //             Save all data
 //            manageDb.setAuthToken(authToken);
 //            manageDb.setRefreshToken(refreshToken);
 
-            return true;
+            if(errors.size() == 0){
+                errors.add("Ok");
+            }
+            return errors;
         }
     }
 

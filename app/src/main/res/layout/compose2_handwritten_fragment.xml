@@ -17,17 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/recipient_fragment" />
 
-    <TextView
-        android:id="@+id/c2hand_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/compose_choose_pictures"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/c2hand_Recipient"
-        app:layout_constraintTop_toBottomOf="@+id/c2hand_Recipient" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -38,36 +27,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/c2hand_textView">
+        app:layout_constraintTop_toBottomOf="@+id/c2hand_Recipient">
+
+        <TextView
+            android:id="@+id/c2hand_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/compose_choose_pictures"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/compose2HandwrittenRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
+            android:background="#FFFFFF"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/c2hand_divider" />
-
-        <View
-            android:id="@+id/c2hand_divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/c2hand_textView" />
+            app:layout_constraintTop_toBottomOf="@+id/c2hand_textView"
+            tools:itemCount="3"
+            tools:listitem="@layout/compose2_image_item" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/addItemConstraint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:clickable="true"
             android:focusable="true"
@@ -102,9 +95,10 @@
         <Button
             android:id="@+id/c2hand_Send"
             style="@style/Whitebutton"
+            android:layout_marginBottom="16dp"
             android:text="@string/send_button"
-            app:layout_constraintEnd_toEndOf="@+id/addItemConstraint"
-            app:layout_constraintTop_toBottomOf="@+id/addItemConstraint" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/addItemConstraint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

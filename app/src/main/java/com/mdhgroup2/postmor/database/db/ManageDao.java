@@ -51,7 +51,7 @@ public abstract class ManageDao {
     public abstract Date getUserPickupTime();
 
     @Query("SELECT OutgoingLetterCount FROM Settings LIMIT 1")
-    public abstract LiveData<Integer> getOutgoingLetterCount();
+    public abstract int getOutgoingLetterCount();
 
     @Query("UPDATE InternalMsgID " +
             "SET Num = Num + 1")
