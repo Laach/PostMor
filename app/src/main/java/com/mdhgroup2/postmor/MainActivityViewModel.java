@@ -64,8 +64,11 @@ public class MainActivityViewModel extends ViewModel {
         return contactRepo.findByAddress(address);
     }
 
-    public void addUserToContacts (Contact friend){
-        contacts.add(friend);
-        contactRepo.addContact(friend.UserID);
+    public boolean addUserToContacts (Contact friend){
+        if(contactRepo.addContact(friend.UserID)){
+            contacts.add(friend);
+            return true;
+        }
+        return false;
     }
 }
