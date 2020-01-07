@@ -14,11 +14,13 @@ public class MainActivityViewModel extends ViewModel {
     private final List<Contact> contacts;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
+    private Contact chosenRecipient;
 
     public MainActivityViewModel(){
         contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
         boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
         contacts = contactRepo.getContacts();
+        chosenRecipient = null;
     }
 
     public List<Contact> getContactList(){
@@ -52,5 +54,13 @@ public class MainActivityViewModel extends ViewModel {
     public void addUserToContacts (Contact friend){
         contacts.add(friend);
         contactRepo.addContact(friend.UserID);
+    }
+
+    public void chooseRecipient(int index){
+        chosenRecipient = getContact(index);
+    }
+
+    public Contact getChosenRecipient(){
+        return chosenRecipient;
     }
 }
