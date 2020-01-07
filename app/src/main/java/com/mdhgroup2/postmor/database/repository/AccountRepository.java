@@ -53,6 +53,9 @@ public class AccountRepository implements IAccountRepository {
         catch (JSONException e){
             throw new IOException("Invalid data received");
         }
+        catch (NullPointerException e){
+            throw new IOException("Object was null");
+        }
 
         return ls;
     }
@@ -389,8 +392,8 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken("");
-        manageDb.setRefreshToken("");
+//        manageDb.setAuthToken("");
+//        manageDb.setRefreshToken("");
     }
 
     @Override

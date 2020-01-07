@@ -9,8 +9,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,13 +39,12 @@ public class SignInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.sign_in_fragment, container, false);
         mViewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
-
         mViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 Boolean result = aBoolean;
                 if (result){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment,true).build());
                 }
             }
         });
@@ -55,7 +56,7 @@ public class SignInFragment extends Fragment {
             public void onChanged(Boolean aBoolean) {
                 Boolean result = aBoolean;
                 if (result){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment, true).build());
                 }
                 else{
                     Toast toast = Toast.makeText(getContext(), "Something went wrong." , Toast.LENGTH_SHORT);
@@ -121,7 +122,7 @@ public class SignInFragment extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
-                Navigation.findNavController(view).navigate(R.id.registerFragment);
+                Navigation.findNavController(view).navigate(SignInFragmentDirections.actionSignInFragmentToRegisterFragment());
             }
         });
         return view;

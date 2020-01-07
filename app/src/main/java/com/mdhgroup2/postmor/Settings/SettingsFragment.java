@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -26,8 +28,6 @@ import com.mdhgroup2.postmor.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private SettingsViewModel mViewModel;
-
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
@@ -42,6 +42,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference changePassword = findPreference("changePassword");
         Preference about = findPreference("about");
         Preference signOut = findPreference("sign_out");
+
+        mViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Boolean result = aBoolean;
+                if (!result){
+                    Navigation.findNavController(getView()).navigate(R.id.signInFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
+                }
+            }
+        });
+
+        mViewModel.checkLoginStatus();
 
         changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

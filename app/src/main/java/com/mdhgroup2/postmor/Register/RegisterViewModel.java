@@ -39,10 +39,8 @@ public class RegisterViewModel extends ViewModel {
 
     public void generateAddresses(){
         myAccount.Address = myAddresses.get(rand.nextInt(numberOfAddress));
-
-        //For testing
-        myAccount.Address = myAccount.Address + rand.nextInt(10000);
     }
+
     public void getAddressesFromDB(int amount){
         dbAddresses get = new dbAddresses();
         get.execute(amount);
@@ -128,7 +126,7 @@ public class RegisterViewModel extends ViewModel {
             }
             catch (IOException e){
                 for(int i = 0; i < integer[0]; i++){
-                    result.add("No addresses found.");
+                    result.add("No addresses found, are you connected to the internet?");
                 }
             }
             return result;
@@ -138,6 +136,5 @@ public class RegisterViewModel extends ViewModel {
         protected void onPostExecute(List<String> addresses){
             myAddresses = addresses;
         }
-
     }
 }

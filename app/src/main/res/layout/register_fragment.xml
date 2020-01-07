@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Register.RegisterFragment">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"

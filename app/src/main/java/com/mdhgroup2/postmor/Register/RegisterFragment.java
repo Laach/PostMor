@@ -50,7 +50,7 @@ public class RegisterFragment extends Fragment {
             public void onChanged(List<String> strings) {
                 String temp = strings.get(0);
                 if(temp.equals("Ok")){
-                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
+                    Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,false).build());
                 }
                 else {
                     Toast toast = Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT);

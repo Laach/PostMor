@@ -9,6 +9,8 @@ import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 import java.util.List;
+
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MainActivityViewModel extends ViewModel {
@@ -16,10 +18,11 @@ public class MainActivityViewModel extends ViewModel {
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
     private final IAccountRepository accountRepo;
+    private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public MainActivityViewModel(){
-        contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
-        boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
+        contactRepo = DatabaseClient.getMockContactRepository();
+        boxRepo = DatabaseClient.getMockBoxRepository();
         accountRepo = DatabaseClient.getAccountRepository();
         contacts = contactRepo.getContacts();
     }
@@ -68,6 +71,36 @@ public class MainActivityViewModel extends ViewModel {
         protected Void doInBackground(Void... v){
             accountRepo.signOut();
             return null;
+        }
+    }
+
+    public void checkLoginStatus(){
+        dbAlreadyLoggedIn status = new dbAlreadyLoggedIn();
+        status.execute();
+    }
+
+    public MutableLiveData<Boolean> amILoggedIn(){
+        if(alreadyLoggedIn == null){
+            alreadyLoggedIn = new MutableLiveData<>();
+        }
+        return  alreadyLoggedIn;
+    }
+
+    private class dbAlreadyLoggedIn extends AsyncTask<Void, Void, Boolean>{
+        @Override
+        protected Boolean doInBackground(Void... v){
+            Boolean result;
+            try{
+                result = accountRepo.isLoggedIn();
+            }catch (Exception e){
+                result = false;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result){
+            alreadyLoggedIn.postValue(result);
         }
     }
 }
