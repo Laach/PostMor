@@ -77,17 +77,37 @@ public class UserToUserFragment extends Fragment {
         };
 
         Button remove = view.findViewById(R.id.removeImageButton);
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure you want to remove this contact?")
-                        .setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener )
-                        .show();
+        if(contact.IsFriend){
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Are you sure you want to remove this contact?")
+                            .setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener )
+                            .show();
 
-            }
-        });
+                }
+            });
+        }
+        else{
+            remove.setText(R.string.found_user_add_button);
+            remove.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_add_black_24dp, 0, 0, 0);
+//            remove.setBackgroundResource(R.drawable.ic_add_black_24dp);
+            remove.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Contact contact = viewModel.getContactById(id);
+                    if (viewModel.addUserToContacts(contact)){
+                        Toast.makeText(view.getContext(),String.format("%s was successfully added", contact.Name), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(view.getContext(),String.format("%s was NOT added", contact.Name), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        }
 
         // Begin the transaction
        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
