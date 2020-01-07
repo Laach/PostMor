@@ -52,7 +52,7 @@ public class BoxContentFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.box_all_fragment, container, false);
+        View view = inflater.inflate(R.layout.box_content_fragment, container, false);
         final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 //        final TextView textView = view.findViewById(R.id.textViewAll);
 //        boxViewModel.setIndex(index);
