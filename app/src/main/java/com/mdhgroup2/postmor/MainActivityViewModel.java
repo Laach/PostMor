@@ -38,7 +38,10 @@ public class MainActivityViewModel extends ViewModel {
             return boxRepo.getInboxMessages();
         }
         return boxRepo.getOutboxMessages();
+    }
 
+    public List<MsgCard> getMessageList(int index, int ID){
+        return boxRepo.getAllMessages(ID);
     }
 
     public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
@@ -64,9 +67,12 @@ public class MainActivityViewModel extends ViewModel {
         return contactRepo.findByAddress(address);
     }
 
-    public void addUserToContacts (Contact friend){
-        contacts.add(friend);
-        contactRepo.addContact(friend.UserID);
+    public boolean addUserToContacts (Contact friend){
+        if(contactRepo.addContact(friend.UserID)){
+            contacts.add(friend);
+            return true;
+        }
+        return false;
     }
 
     public void logOut(){
