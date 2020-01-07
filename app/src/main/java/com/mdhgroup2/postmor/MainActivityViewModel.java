@@ -16,8 +16,8 @@ public class MainActivityViewModel extends ViewModel {
     private final IBoxRepository boxRepo;
 
     public MainActivityViewModel(){
-        contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
-        boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
+        contactRepo = DatabaseClient.getMockContactRepository();
+        boxRepo = DatabaseClient.getMockBoxRepository();
         contacts = contactRepo.getContacts();
     }
 
