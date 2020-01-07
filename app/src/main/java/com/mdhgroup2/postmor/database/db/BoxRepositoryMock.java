@@ -68,6 +68,7 @@ public class BoxRepositoryMock implements IBoxRepository {
         u3.MsgID = 3;
         u3.IsSentByMe = false;
         u3.UserID = 3;
+        u3.Text = "gash9zidgfskg";
 
 //        u3.Images = new ArrayList<>();
 //        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
