@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Box;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mdhgroup2.postmor.R;
@@ -91,7 +93,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final BoxItemsViewHolder cvHolder = ((BoxItemsViewHolder) holder);
@@ -177,6 +179,17 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                     contents.setVisibility(View.VISIBLE);
                     cvHolder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
                 }
+            }
+        });
+
+
+        cvHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                int id = messageDataset.get(position).UserID;
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
             }
         });
     }

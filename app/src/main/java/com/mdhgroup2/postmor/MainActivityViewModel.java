@@ -35,25 +35,40 @@ public class MainActivityViewModel extends ViewModel {
             return boxRepo.getInboxMessages();
         }
         return boxRepo.getOutboxMessages();
-
     }
+
+    public List<MsgCard> getMessageList(int index, int ID){
+        return boxRepo.getAllMessages(ID);
+    }
+
+    public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
 
     public Contact getContact(int index){
         return contacts.get(index);
     }
 
-    public boolean removeContact(Contact c){
-        contacts.remove(c);
-        contactRepo.deleteContact(c.UserID);
-        return true;
+    public boolean removeContact(Contact contact){
+        if(contactRepo.deleteContact(contact.UserID)){
+            for(Contact c : contacts){
+                if(c.UserID == contact.UserID){
+                    contacts.remove(c);
+                    break;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public Contact findUserByAddress(String address){
         return contactRepo.findByAddress(address);
     }
 
-    public void addUserToContacts (Contact friend){
-        contacts.add(friend);
-        contactRepo.addContact(friend.UserID);
+    public boolean addUserToContacts (Contact friend){
+        if(contactRepo.addContact(friend.UserID)){
+            contacts.add(friend);
+            return true;
+        }
+        return false;
     }
 }

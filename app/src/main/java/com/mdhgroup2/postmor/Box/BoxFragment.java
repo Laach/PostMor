@@ -37,7 +37,7 @@ public class BoxFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.box_fragment,container,false);
         ViewPager viewPager = view.findViewById(R.id.box_view_pager);
-        viewPager.setAdapter(new BoxViewPagerAdapter(getContext(),this.getFragmentManager()));
+        viewPager.setAdapter(new BoxViewPagerAdapter(getContext(),this.getChildFragmentManager()));
         viewPager.setOffscreenPageLimit(3);
         TabLayout tabs = view.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
