@@ -25,14 +25,12 @@ public class DatabaseClient {
 
     public static void initDb(Context c){
         appContext = c;
-        c.deleteDatabase("client-db");
+//        c.deleteDatabase("client-db");
         db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
                 .build();
 //        db = DbDefaultData.DB(c);
 
         // ---------------------------------------------------------
-        // Remove this in production.
-//        c.deleteDatabase("client-db");
 //         This is required the first time setting up the db.
         try {
             // This try will only succeed the first time when
@@ -40,6 +38,10 @@ public class DatabaseClient {
             db.manageDao().initInternalID(new InternalMsgID(100));
         }
         catch (SQLiteConstraintException ignore){
+        }
+
+        if(getAccountRepository().isLoggedIn()){
+            getBoxRepository().fetchNewMessages();
         }
         // ---------------------------------------------------------
 
