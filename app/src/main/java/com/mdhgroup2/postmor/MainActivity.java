@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.activity_main);
                         NavController navController = Navigation.findNavController(dis, R.id.nav_host_fragment);
                         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-
                         NavigationUI.setupActionBarWithNavController(dis, navController, appBarConfiguration);
                     }
                 });
@@ -42,12 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-    }
-
-    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();

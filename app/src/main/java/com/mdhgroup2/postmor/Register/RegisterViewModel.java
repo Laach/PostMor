@@ -22,6 +22,7 @@ public class RegisterViewModel extends ViewModel {
     private List<String> myAddresses = new ArrayList<>();
     private Random rand = new Random();
     private MutableLiveData<List<String>> callResults;
+    public String choosenAddress;
     private int numberOfAddress = 5;
 
     public MutableLiveData<List<String>> getResults(){
@@ -46,6 +47,10 @@ public class RegisterViewModel extends ViewModel {
         get.execute(amount);
     }
 
+    public void setAddress(String address){
+        choosenAddress = address;
+    }
+
     public String getAddress(){return myAccount.Address;}
 
     public void register(){
@@ -62,6 +67,8 @@ public class RegisterViewModel extends ViewModel {
     public void setAccountEmail(String email){
         myAccount.Email = email;
     }
+
+    public String getAccountEmail(){return myAccount.Email;}
 
     public void setAccountImage(Bitmap image){
         myAccount.Picture = image;
@@ -80,10 +87,10 @@ public class RegisterViewModel extends ViewModel {
         AccountRepository.PasswordStatus valid = accountDB.isValidPassword(myAccount.Password);
         if(valid == AccountRepository.PasswordStatus.Ok);
         {
-            if (myAccount.Password.equals(confirmPassword)) {
-                return AccountRepository.PasswordStatus.Ok;
+            if(!myAccount.Password.equals(confirmPassword)) {
+                return AccountRepository.PasswordStatus.NotEqual;
             }
-            return valid;
+            return AccountRepository.PasswordStatus.Ok;
         }
     }
 

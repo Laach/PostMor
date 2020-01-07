@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
 
+import java.util.List;
+
 public class SignInFragment extends Fragment {
 
     private SignInViewModel mViewModel;
@@ -51,11 +53,11 @@ public class SignInFragment extends Fragment {
 
         mViewModel.checkLoginStatus();
 
-        mViewModel.getResult().observe(this, new Observer<Boolean>() {
+        mViewModel.getResult().observe(this, new Observer<List<String>>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                Boolean result = aBoolean;
-                if (result){
+            public void onChanged(List<String> aBoolean) {
+                List<String> result = aBoolean;
+                if (result.get(0).equals("Ok")){
                     Navigation.findNavController(view).navigate(R.id.homeFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment, true).build());
                 }
                 else{
@@ -65,7 +67,7 @@ public class SignInFragment extends Fragment {
             }
         });
 
-        Button signIn = view.findViewById(R.id.signIn_login_button);
+        final Button signIn = view.findViewById(R.id.signIn_login_button);
         Button register = view.findViewById(R.id.signIn_register_button);
 
         EditText email = view.findViewById(R.id.signIn_email_input);
@@ -122,9 +124,10 @@ public class SignInFragment extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
-                Navigation.findNavController(view).navigate(SignInFragmentDirections.actionSignInFragmentToRegisterFragment());
+                Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_register1);
             }
         });
+
         return view;
     }
 

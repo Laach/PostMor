@@ -65,6 +65,7 @@
     <string name="register_1_description">In postmor, your real name and generated "home address" are used to send you letters.</string>
     <string name="register_1_regenerate_button_title">Regenerate</string>
     <string name="register_1_address_explanation_text">Choose an address</string>
+    <string name="register_back">Back</string>
 
     <string name="register_2_description">Choose a profile picture</string>
     <string name="register_2_upload_button_title">Upload</string>

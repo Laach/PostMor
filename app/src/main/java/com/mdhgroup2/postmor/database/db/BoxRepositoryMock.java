@@ -78,14 +78,14 @@ public class BoxRepositoryMock implements IBoxRepository {
 //        }
 //        myReader.close();
 
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-//            System.out.println(data);
-             u3.Images.add(Converters.fromBase64(data));
-             u3.Images.add(u1.Picture);
-        }
-        myReader.close();
+//        Scanner myReader = new Scanner(myObj);
+//        while (myReader.hasNextLine()) {
+//            String data = myReader.nextLine();
+////            System.out.println(data);
+//             u3.Images.add(Converters.fromBase64(data));
+//             u3.Images.add(u1.Picture);
+//        }
+//        myReader.close();
 
         MsgCard u4 = new MsgCard();
         u4.Name = "Brittish Chef";

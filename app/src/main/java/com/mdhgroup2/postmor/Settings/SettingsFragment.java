@@ -48,7 +48,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             public void onChanged(Boolean aBoolean) {
                 Boolean result = aBoolean;
                 if (!result){
-                    Navigation.findNavController(getView()).navigate(R.id.signInFragment, null, new NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build());
+                    Navigation.findNavController(getView()).navigate(R.id.action_settingsFragment_to_signInFragment);
                 }
             }
         });
@@ -75,7 +75,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 mViewModel.logOut();
-                Navigation.findNavController(getView()).navigate(R.id.signInFragment, null, new NavOptions.Builder().setPopUpTo(R.id.signInFragment,true).build());
+                Navigation.findNavController(getView()).navigate(R.id.action_settingsFragment_to_signInFragment);
                 return true;
             }
         });

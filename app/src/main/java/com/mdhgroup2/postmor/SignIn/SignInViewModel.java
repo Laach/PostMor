@@ -4,6 +4,10 @@ import android.os.AsyncTask;
 
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -11,14 +15,14 @@ public class SignInViewModel extends ViewModel {
 
     private loginInformation account = new loginInformation();
     private final IAccountRepository accountDB;
-    private MutableLiveData<Boolean> callResult;
+    private MutableLiveData<List<String>> callResult;
     private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public SignInViewModel(){
         accountDB = DatabaseClient.getAccountRepository();
     }
 
-    public MutableLiveData<Boolean> getResult(){
+    public MutableLiveData<List<String>> getResult(){
         if(callResult == null) {
             callResult = new MutableLiveData<>();
         }
@@ -68,20 +72,20 @@ public class SignInViewModel extends ViewModel {
         else return "True";
     }
 
-    private class dbLogin extends AsyncTask<loginInformation, Void, Boolean>{
+    private class dbLogin extends AsyncTask<loginInformation, Void, List<String>>{
         @Override
-        protected Boolean doInBackground(loginInformation... login){
-            Boolean result;
+        protected List<String> doInBackground(loginInformation... login){
+            List<String> result = new ArrayList<>();
             try {
                 result = accountDB.signIn(login[0].email, login[0].password);
             }catch(Exception e){
-                result = false;
+                result.add(e.toString());
             }
             return result;
         }
 
         @Override
-        protected void onPostExecute(Boolean result){
+        protected void onPostExecute(List<String> result){
             callResult.postValue(result);
         }
     }

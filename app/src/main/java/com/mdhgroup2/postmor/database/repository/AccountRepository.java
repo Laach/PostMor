@@ -108,7 +108,8 @@ public class AccountRepository implements IAccountRepository {
         NeedsUppercase,
         NeedsNumeric,
         NeedsNonAlphaNumeric,
-        ShorterThan6
+        ShorterThan6,
+        NotEqual
     }
 
     @Override
