@@ -95,21 +95,21 @@ public class ContactRepositoryMock implements IContactRepository {
 
     @Override
     public boolean addContact(int ID) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean deleteContact(int ID) {
-        return false;
+        return true;
     }
 
     @Override
     public Contact getUserCard(int ID) {
         Contact u2 = new Contact();
-        u2.Name = "Arne Askersund";
+        u2.Name = "[User with ID " + ID + "]";
         u2.Address = "Mastrostvägen 13";
         u2.Picture = null;
-        u2.UserID = 2;
+        u2.UserID = ID;
         u2.IsFriend = false;
 
         return u2;
