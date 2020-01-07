@@ -35,7 +35,10 @@ public class MainActivityViewModel extends ViewModel {
             return boxRepo.getInboxMessages();
         }
         return boxRepo.getOutboxMessages();
+    }
 
+    public List<MsgCard> getMessageList(int index, int ID){
+        return boxRepo.getAllMessages(ID);
     }
 
     public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
