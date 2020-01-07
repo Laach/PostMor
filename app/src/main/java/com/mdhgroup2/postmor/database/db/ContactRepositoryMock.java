@@ -109,7 +109,7 @@ public class ContactRepositoryMock implements IContactRepository {
         u2.Name = "[User with ID " + ID + "]";
         u2.Address = "Mastrostvägen 13";
         u2.Picture = null;
-        u2.UserID = 2;
+        u2.UserID = ID;
         u2.IsFriend = false;
 
         return u2;
