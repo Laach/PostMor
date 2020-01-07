@@ -2,6 +2,7 @@ package com.mdhgroup2.postmor;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
+import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
@@ -14,10 +15,12 @@ public class MainActivityViewModel extends ViewModel {
     private final List<Contact> contacts;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
+    private final IAccountRepository accountRepo;
 
     public MainActivityViewModel(){
         contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
         boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
+        accountRepo = (IAccountRepository) DatabaseClient.getAccountRepository();
         contacts = contactRepo.getContacts();
     }
 
