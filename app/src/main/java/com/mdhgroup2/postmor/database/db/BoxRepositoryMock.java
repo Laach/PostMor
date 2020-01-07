@@ -68,18 +68,27 @@ public class BoxRepositoryMock implements IBoxRepository {
         u3.MsgID = 3;
         u3.IsSentByMe = false;
         u3.UserID = 3;
+        u3.Text = "gash9zidgfskg";
 
-        u3.Images = new ArrayList<>();
-        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
+//        u3.Images = new ArrayList<>();
+//        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
+//
+//        Scanner myReader = new Scanner(myObj);
+//        while (myReader.hasNextLine()) {
+//            String data = myReader.nextLine();
+////            System.out.println(data);
+//             u3.Images.add(Converters.fromBase64(data));
+//        }
+//        myReader.close();
 
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-//            System.out.println(data);
-             u3.Images.add(Converters.fromBase64(data));
-             u3.Images.add(u1.Picture);
-        }
-        myReader.close();
+//        Scanner myReader = new Scanner(myObj);
+//        while (myReader.hasNextLine()) {
+//            String data = myReader.nextLine();
+////            System.out.println(data);
+//             u3.Images.add(Converters.fromBase64(data));
+//             u3.Images.add(u1.Picture);
+//        }
+//        myReader.close();
 
         MsgCard u4 = new MsgCard();
         u4.Name = "Brittish Chef";
