@@ -41,9 +41,14 @@ public class MainActivityViewModel extends ViewModel {
         return contacts.get(index);
     }
 
-    public boolean removeContact(Contact c){
-        if(contactRepo.deleteContact(c.UserID)){
-            contacts.remove(c);
+    public boolean removeContact(Contact contact){
+        if(contactRepo.deleteContact(contact.UserID)){
+            for(Contact c : contacts){
+                if(c.UserID == contact.UserID){
+                    contacts.remove(c);
+                    break;
+                }
+            }
             return true;
         }
         return false;
