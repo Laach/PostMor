@@ -35,14 +35,18 @@ public class MainActivityViewModel extends ViewModel {
 
     }
 
+    public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
+
     public Contact getContact(int index){
         return contacts.get(index);
     }
 
     public boolean removeContact(Contact c){
-        contacts.remove(c);
-        contactRepo.deleteContact(c.UserID);
-        return true;
+        if(contactRepo.deleteContact(c.UserID)){
+            contacts.remove(c);
+            return true;
+        }
+        return false;
     }
 
     public Contact findUserByAddress(String address){
