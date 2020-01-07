@@ -146,8 +146,7 @@ public class BoxRepositoryMock implements IBoxRepository {
 
     @Override
     public int outgoingLetterCount() {
-
-        return 2;
+        return 3;
     }
 
     @Override
