@@ -141,7 +141,7 @@ public class LetterRepository implements ILetterRepository {
         String data = String.format(Locale.US, "{" +
                 "\"type\" : \"%s\", " +
                 "\"contactId\" : %d, " +
-                "\"message\" : [ %s ],"+
+                "\"message\" : [ %s ]"+
                 "}", type, msg.UserID, array);
 
         try {
