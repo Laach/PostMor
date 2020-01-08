@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.activity_main);
                         NavController navController = Navigation.findNavController(main, R.id.nav_host_fragment);
                         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-                        NavigationUI.setupActionBarWithNavController(dis, navController, appBarConfiguration);
+                        NavigationUI.setupActionBarWithNavController(main, navController, appBarConfiguration);
 
                         //get dps width to adapt for screen size
                         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
