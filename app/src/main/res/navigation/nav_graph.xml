@@ -25,7 +25,11 @@
         android:id="@+id/boxFragment"
         android:name="com.mdhgroup2.postmor.Box.BoxFragment"
         android:label="Box"
-        tools:layout="@layout/box_fragment" />
+        tools:layout="@layout/box_fragment" >
+        <action
+            android:id="@+id/action_boxFragment_to_userToUserFragment"
+            app:destination="@id/userToUserFragment" />
+    </fragment>
     <fragment
         android:id="@+id/composeFragment"
         android:name="com.mdhgroup2.postmor.Compose.ComposeFragment"

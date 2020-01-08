@@ -42,29 +42,24 @@ public class MainActivity extends AppCompatActivity {
                         NavController navController = Navigation.findNavController(dis, R.id.nav_host_fragment);
                         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
                         NavigationUI.setupActionBarWithNavController(dis, navController, appBarConfiguration);
+
+                        //get dps width to adapt for screen size
+                        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+                        int dpWidth = (int)(displayMetrics.widthPixels / displayMetrics.density + 0.5);
+                        mViewModel.screenWidthDp = dpWidth;
+                        if(dpWidth>= 600)
+                        {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                        } else
+                        {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        }
                     }
                 });
 
             }
         }).start();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //get dps width to adapt for screen size
-        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-        int dpWidth = (int)(displayMetrics.widthPixels / displayMetrics.density + 0.5);
-        mViewModel.screenWidthDp = dpWidth;
-        if(dpWidth>= 600)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
     }
 

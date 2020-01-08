@@ -64,12 +64,11 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         @Override
         protected Void doInBackground(EditMsg... editMsgs) {
             if(editMsgs != null){
-                editMsgs[0].Text = null;
                 Log.d("test", "doInBackground: SAVING FOLLOWING MESSAGE:");
                 Log.d("test", "doInBackground:      Imageslist size: "+editMsgs[0].Images.size());
                 Log.d("test", "doInBackground:      internalMessageID: "+editMsgs[0].InternalMessageID);
                 Log.d("test", "doInBackground:      recipient: "+editMsgs[0].RecipientID);
-                //Log.d("test", "doInBackground:      text: "+editMsgs[0].Text);
+                Log.d("test", "doInBackground:      text: "+editMsgs[0].Text);
                 Log.d("test", "doInBackground:      isDraft: "+editMsgs[0].IsDraft);
                 Log.d("test", "doInBackground: letterRepo.saveDraft...");
                 letterRepo.saveDraft(editMsgs[0]);
