@@ -47,10 +47,12 @@ public class ComposeFragment extends Fragment {
         if(getArguments() != null){
             final MainActivityViewModel mainViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
             int id = getArguments().getInt("id");
-            DTO dto = new DTO();
-            dto.ID = id;
-            dto.mvm = mainViewModel;
-            new SetRecipientAsync().execute(dto);
+            if(id != 0){
+                DTO dto = new DTO();
+                dto.ID = id;
+                dto.mvm = mainViewModel;
+                new SetRecipientAsync().execute(dto);
+            }
         }
 
         View view = getView();
