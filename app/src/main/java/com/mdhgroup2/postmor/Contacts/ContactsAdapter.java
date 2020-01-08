@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.mdhgroup2.postmor.Compose.ComposeViewModel;
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 
@@ -15,11 +18,22 @@ import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    static List<Contact> contacts;
+    public List<Contact> contacts;
+    private boolean isFromCompose;
+    private MainActivityViewModel mViewModel;
 
+    /*
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ContactsAdapter(List<Contact> list) {
+    public ContactsAdapter(List<Contact> list, boolean isFromCompose) {
         contacts = list;
+        this.isFromCompose = isFromCompose;
+    }*/
+
+    // Additional constructor when opening from compose
+    public ContactsAdapter(List<Contact> list, boolean isFromCompose, MainActivityViewModel vm){
+        contacts = list;
+        this.isFromCompose = isFromCompose;
+        mViewModel = vm;
     }
 
     // Provide a reference to the views for each data item
@@ -32,23 +46,34 @@ class ContactsAdapter extends RecyclerView.Adapter {
         public TextView address;
         public ImageView profilePicture;
         public int id;
-        public ContactsViewHolder(View ci) {
+        public boolean isFromCompose;
+        public MainActivityViewModel vm;
+
+
+        public ContactsViewHolder(View ci, boolean isFromCompose, MainActivityViewModel vm){
             super(ci);
+            this.isFromCompose = isFromCompose;
             contactItem = ci;
             name = contactItem.findViewById(R.id.nameTextView);
             address = contactItem.findViewById(R.id.addressTextView);
             profilePicture = contactItem.findViewById(R.id.profilePictureCardView);
+            this.vm = vm;
             ci.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            if(!isFromCompose) {
             Bundle bundle = new Bundle();
             int id = contacts.get(getAdapterPosition()).UserID;
-
 //            bundle.putInt("index", getAdapterPosition());
             bundle.putInt("id", id);
             Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
+            }else{
+                //navigate back to compose and update recipient fragment (through the viewmodel?)
+                vm.chooseRecipient(getAdapterPosition());
+                Navigation.findNavController(view).navigateUp();
+            }
         }
     }
 
@@ -58,8 +83,11 @@ class ContactsAdapter extends RecyclerView.Adapter {
                                                                  int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
-        ContactsViewHolder vh = new ContactsViewHolder(v);
-        return vh;
+
+            ContactsViewHolder vh = new ContactsViewHolder(v, isFromCompose, mViewModel);
+            return vh;
+
+
     }
 
     // Replace the contents of a view (invoked by the layout manager)
