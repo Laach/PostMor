@@ -1,6 +1,8 @@
 package com.mdhgroup2.postmor.Home;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 
 public class HomeFragment extends Fragment {
@@ -35,13 +38,16 @@ public class HomeFragment extends Fragment {
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         updateInfobar();
     }
@@ -50,6 +56,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+
         return view;
     }
 
@@ -57,7 +64,21 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        View view = getView();
+        final View view = getView();
+
+        final MainActivityViewModel mainViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+
+        mainViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Boolean result = aBoolean;
+                if (!result){
+                    Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_signInFragment);
+                }
+            }
+        });
+
+        mainViewModel.checkLoginStatus();
 
         navController = Navigation.findNavController(view);
 

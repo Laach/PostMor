@@ -20,8 +20,8 @@ public class HomeViewModel extends ViewModel {
 
 
     public HomeViewModel(){
-        letterRepo = (ILetterRepository) DatabaseClient.getMockLetterRepository();
-        boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
+        letterRepo = DatabaseClient.getMockLetterRepository();
+        boxRepo = DatabaseClient.getMockBoxRepository();
     }
 
     public String getOutgoingLetterCount(){
@@ -30,7 +30,7 @@ public class HomeViewModel extends ViewModel {
 
     public String getEmptyTime(){
         Date d = letterRepo.getPickupTime();
-        SimpleDateFormat x =  new SimpleDateFormat("hh:mm");
+        SimpleDateFormat x =  new SimpleDateFormat("HH:mm");
         return x.format(d);
     }
 

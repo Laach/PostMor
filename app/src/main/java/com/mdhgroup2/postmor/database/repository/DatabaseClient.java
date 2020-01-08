@@ -6,13 +6,10 @@ import android.provider.ContactsContract;
 
 import androidx.room.Room;
 
-import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
-import com.mdhgroup2.postmor.database.db.AccountBuilder;
 import com.mdhgroup2.postmor.database.db.AppDatabase;
 import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
-import com.mdhgroup2.postmor.database.db.DbDefaultData;
 import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
@@ -25,14 +22,11 @@ public class DatabaseClient {
 
     public static void initDb(Context c){
         appContext = c;
-        c.deleteDatabase("client-db");
+//        c.deleteDatabase("client-db");
         db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
                 .build();
-//        db = DbDefaultData.DB(c);
 
         // ---------------------------------------------------------
-        // Remove this in production.
-//        c.deleteDatabase("client-db");
 //         This is required the first time setting up the db.
         try {
             // This try will only succeed the first time when
@@ -41,30 +35,11 @@ public class DatabaseClient {
         }
         catch (SQLiteConstraintException ignore){
         }
+
+        if(getAccountRepository().isLoggedIn()){
+            getBoxRepository().fetchNewMessages();
+        }
         // ---------------------------------------------------------
-
-//        IAccountRepository repo = DatabaseClient.getAccountRepository();
-//        boolean b = repo.signIn("nick.grannas@gmail.com", "String123!");
-//        repo.signOut();
-//        b = repo.signIn("nick.grannas@gmail.com", "String123!");
-
-//        int i = 5000;
-//        Account nick = new AccountBuilder()
-//                .addName("Nick")
-//                .addPassword("String123!")
-//                .addAddress("Tittiegatan " + Integer.toString(i))
-//                .addEmail("nick" + Integer.toString(i) + "@smalltitties.com")
-//                .build();
-
-//        boolean b = getAccountRepository().registerAccount(nick);
-//        getContactRepository().addContact(123);
-
-//        boolean b = getAccountRepository().registerAccount(nick);
-
-//        getAccountRepository().signIn("nick53@smalltitties.com", "String123!");
-
-//        boolean b = db.manageDao().refreshToken();
-
     }
 
     public static Context appContext;

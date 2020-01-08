@@ -35,7 +35,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
+import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
 
 import java.io.File;
@@ -54,6 +56,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
     private RecyclerView.LayoutManager layoutManager;
 
     private Compose2HandwrittenViewModel mViewModel;
+    private MainActivityViewModel mainVM;
 
     private Uri outputFileUri;
     private File currentPhotoFile;
@@ -89,6 +92,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         mViewModel = ViewModelProviders.of(this).get(Compose2HandwrittenViewModel.class);
+        mainVM = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 
 
         // Ask user for permission to read/write
@@ -158,6 +162,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
 
         // Find the recipient ID from the recipient fragment
         final Integer recipientID = null;
+        final Contact recipient = mainVM.getChosenRecipient();
 
         // Observe livedata for draft
         mViewModel.getDraftMsg().observe(this, new Observer<EditMsg>() {
@@ -167,19 +172,39 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                 // Add all images
                 int i = 1;
                 //if(recipientID != null)
-                mAdapter.clear();
-                for (Bitmap image : editMsg.Images) {
-                    mAdapter.addItem(image, String.valueOf(i), String.valueOf(i));
-                    i++;
+                if(editMsg.Images != null){
+                    mAdapter.clear();
+                    for (Bitmap image : editMsg.Images) {
+                        mAdapter.addItem(image, String.valueOf(i), String.valueOf(i));
+                        i++;
+                    }
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.notifyDataSetChanged();
             }
         });
 
-        // If no recipient has been chosen, send null
-        mViewModel.getDraft(recipientID);
-        // Else send the recipient ID
-        //mViewModel.getDraft(recipientID);
+        // If compose is reopened from choosing contact,this will return false
+        // and not get a new draft.
+        if(mViewModel.isFirstTimeOpened){
+            if(recipient == null) {// If no recipient has been chosen, send null
+                mViewModel.getDraft(0);
+                mViewModel.isFirstTimeOpened = false;
+            }else{// Else send id
+                mViewModel.getDraft(recipient.UserID);
+                mViewModel.isFirstTimeOpened = false;
+            }
+        }
+
+
+
+        mainVM.getChosenRec().observe(this, new Observer<Contact>() {
+            @Override
+            public void onChanged(Contact contact) {
+                if(contact != null) {
+                    mViewModel.changeRecipient(contact.UserID);
+                }
+            }
+        });
 
         return view;
     }
@@ -194,6 +219,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
     @Override
     public void onDestroy() {
         mViewModel.saveDraft();
+        mainVM.removeRecipient();
         super.onDestroy();
     }
 
