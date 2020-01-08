@@ -451,4 +451,25 @@ public class AccountRepository implements IAccountRepository {
         }
         return false;
     }
+
+
+    // Server has not implemented this yet.
+    public boolean changePassword(String oldpass, String newpass){
+        String data = String.format("{" +
+                "\"oldPassword\" : \"%s\", " +
+                "\"newPassword\" : \"%s\"" +
+                "}", oldpass, newpass);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/user/update/password", new JSONObject(data), manageDb);
+            if(json.getBoolean("success")){
+                manageDb.updatePassword(newpass);
+                return true;
+            }
+        }
+        catch (IOException | JSONException e){
+
+        }
+        return false;
+    }
 }
