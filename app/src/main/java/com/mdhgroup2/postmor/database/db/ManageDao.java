@@ -82,6 +82,9 @@ public abstract class ManageDao {
     @Query("DELETE FROM Settings")
     public abstract void deleteSettings();
 
+    @Query("UPDATE Settings SET Password = :pass")
+    public abstract void updatePassword(String pass);
+
     @Transaction
     public int getNewMsgId(){
         incrementInternalMsgID();
