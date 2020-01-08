@@ -18,7 +18,7 @@ import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    public List<Contact> contacts;
+    public static List<Contact> contacts;
     private boolean isFromCompose;
     private MainActivityViewModel mViewModel;
 
@@ -64,11 +64,11 @@ class ContactsAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View view) {
             if(!isFromCompose) {
-            Bundle bundle = new Bundle();
-            int id = contacts.get(getAdapterPosition()).UserID;
-//            bundle.putInt("index", getAdapterPosition());
-            bundle.putInt("id", id);
-            Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
+                Bundle bundle = new Bundle();
+                int id = contacts.get(getAdapterPosition()).UserID;
+    //            bundle.putInt("index", getAdapterPosition());
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
             }else{
                 //navigate back to compose and update recipient fragment (through the viewmodel?)
                 vm.chooseRecipient(getAdapterPosition());
