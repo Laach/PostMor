@@ -200,20 +200,20 @@ public class AccountRepository implements IAccountRepository {
         List<String> errors = new ArrayList<>();
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        String prevEmail = accountDb.getMyEmail();
-        String prevPass  = accountDb.getMyPassword();
-        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
-            // Query server
-            accountDb.setSignedIn();
-            if(manageDb.refreshToken()){
-                errors.add("Ok");
-            }
-            else{
-                errors.add("Failed to validate tokens. No internet?");
-            }
-            return errors;
-        }
-        else{
+//        String prevEmail = accountDb.getMyEmail();
+//        String prevPass  = accountDb.getMyPassword();
+//        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
+//            // Query server
+//            accountDb.setSignedIn();
+//            if(manageDb.refreshToken()){
+//                errors.add("Ok");
+//            }
+//            else{
+//                errors.add("Failed to validate tokens. No internet?");
+//            }
+//            return errors;
+//        }
+//        else{
             String data = String.format("{" +
                     "\"email\" : \"%s\", " +
                     "\"password\" : \"%s\"" +
@@ -319,7 +319,7 @@ public class AccountRepository implements IAccountRepository {
                 errors.add("Ok");
             }
             return errors;
-        }
+//        }
     }
 
 
