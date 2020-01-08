@@ -16,6 +16,8 @@ public class MainActivityViewModel extends ViewModel {
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
     private final IAccountRepository accountRepo;
+    public int screenWidthDp = 0;
+    public int selectedContact = 0;
 
     public MainActivityViewModel(){
         contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
@@ -41,7 +43,18 @@ public class MainActivityViewModel extends ViewModel {
     public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
 
     public Contact getContact(int index){
-        return contacts.get(index);
+        try{
+            return contacts.get(index);
+        } catch(IndexOutOfBoundsException e)
+        {
+            Contact noContact = new Contact();
+            noContact.Address = "";
+            noContact.IsFriend = true;
+            noContact.Name = "No contact selected";
+            noContact.Picture = null;
+            noContact.UserID = -1;
+            return noContact;
+        }
     }
 
     public boolean removeContact(Contact contact){

@@ -29,12 +29,13 @@
 
     <fragment
         android:id="@+id/contactsFragment"
-        android:name="com.mdhgroup2.postmor.Contacts.ContactsFragment"
+        android:name="com.mdhgroup2.postmor.Contacts.ContactsFragmentTablet"
         android:label="Contacts"
-        tools:layout="@layout/contacts_fragment">
+        tools:layout="@layout/add_contact_popup">
         <action
-            android:id="@+id/action_contactsFragment_to_userToUserFragment"
-            app:destination="@id/userToUserFragment" />
+            android:id="@+id/action_contactsFragment_self"
+            app:destination="@+id/contactsFragment"
+            app:popUpTo="@+id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -74,16 +75,6 @@
         <action
             android:id="@+id/action_settingsFragment_to_passwordDialogFragment"
             app:destination="@id/passwordDialogFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/userToUserFragment"
-        android:name="com.mdhgroup2.postmor.UserToUser.UserToUserFragment"
-        android:label="User to user"
-        tools:layout="@layout/user_to_user_fragment" >
-        <argument
-            android:name="index"
-            app:argType="integer"
-            android:defaultValue="0" />
     </fragment>
     <navigation
         android:id="@+id/registration_graph"
@@ -130,9 +121,5 @@
         android:id="@+id/passwordDialogFragment"
         android:name="com.mdhgroup2.postmor.Settings.PasswordDialogFragment"
         android:label="change_password_fragment"
-        tools:layout="@layout/change_password_fragment" >
-        <action
-            android:id="@+id/action_passwordDialogFragment_self"
-            app:destination="@id/passwordDialogFragment" />
-    </dialog>
+        tools:layout="@layout/change_password_fragment" />
 </navigation>

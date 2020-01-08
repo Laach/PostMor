@@ -22,11 +22,11 @@ import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 
-public class UserToUserFragment extends Fragment {
+public class UserToUserFragmentTablet extends Fragment {
 
-    public int id = 0;
-    public static UserToUserFragment newInstance() {
-        return new UserToUserFragment();
+    public int id;
+    public static UserToUserFragmentTablet newInstance() {
+        return new UserToUserFragmentTablet();
     }
 
     @Override
@@ -36,10 +36,9 @@ public class UserToUserFragment extends Fragment {
         View view = inflater.inflate(R.layout.user_to_user_fragment, container, false);
         final MainActivityViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 
-//        index = getArguments().getInt("index");
-//        Contact contact = viewModel.getContact(index);
-        id = getArguments().getInt("id");
-        Contact contact = viewModel.getContact(id-1);
+        id = viewModel.selectedContact;
+
+        Contact contact = viewModel.getContact(id);
 
         TextView tv = view.findViewById(R.id.cardName);
         tv.setText(contact.Name);
@@ -49,24 +48,6 @@ public class UserToUserFragment extends Fragment {
 
         ImageView iv = view.findViewById(R.id.cardImageView);
         iv.setImageBitmap(contact.Picture);
-
-        Button remove = view.findViewById(R.id.removeImageButton);
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Contact contact = viewModel.getContact(id-1);
-
-                if (viewModel.removeContact(contact)){
-                    Toast.makeText(view.getContext(),String.format("%s was successfully removed", contact.Name), Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(view.getContext(),String.format("%s was NOT removed", contact.Name), Toast.LENGTH_SHORT).show();
-                }
-
-                Navigation.findNavController(view).navigateUp();
-            }
-        });
-
         return view;
     }
 
