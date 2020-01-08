@@ -54,6 +54,16 @@ public class UserToUserFragment extends Fragment {
         ImageView iv = view.findViewById(R.id.cardImageView);
         iv.setImageBitmap(contact.Picture);
 
+        Button bt = view.findViewById(R.id.button);
+        bt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.action_userToUserFragment_to_composeFragment, bundle);
+            }
+        });
+
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
