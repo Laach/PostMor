@@ -43,7 +43,7 @@ public class UserToUserFragment extends Fragment {
 //        index = getArguments().getInt("index");
 //        Contact contact = viewModel.getContact(index);
         id = getArguments().getInt("id");
-        Contact contact = viewModel.getContactById(id);
+        Contact contact = viewModel.getContact(id-1);
 
         TextView tv = view.findViewById(R.id.cardName);
         tv.setText(contact.Name);

@@ -6,7 +6,9 @@
     android:background="#00FFFFFF">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/contactCard"
         style="@style/CardViewStandard"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -14,7 +16,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout style="@style/InnerConstraint">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/InnerConstraint"
+            android:background="#00FFFFFF">
 
             <TextView
                 android:id="@+id/cardName"

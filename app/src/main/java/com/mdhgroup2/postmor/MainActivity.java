@@ -10,9 +10,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
+import android.graphics.Point;
+import android.graphics.Rect;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
+
 import android.os.SystemClock;
 import android.view.View;
 
@@ -46,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
                         NavController navController = Navigation.findNavController(main, R.id.nav_host_fragment);
                         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
                         NavigationUI.setupActionBarWithNavController(main, navController, appBarConfiguration);
+
+                        //get dps width to adapt for screen size
+                        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+                        int dpWidth = (int)(displayMetrics.widthPixels / displayMetrics.density + 0.5);
+                        mViewModel.screenWidthDp = dpWidth;
+                        if(dpWidth>= 600)
+                        {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                        } else
+                        {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        }
                     }
                 });
                 Runnable myRunnable = new Runnable() {
@@ -72,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
+
     }
 
     public boolean onSupportNavigateUp() {
