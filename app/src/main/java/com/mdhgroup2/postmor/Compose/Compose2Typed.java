@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Compose;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.ProgressDialog;
@@ -23,10 +24,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.mdhgroup2.postmor.MainActivity;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
+import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
 
 public class Compose2Typed extends Fragment {
 
     private Compose2TypedViewModel mViewModel;
+    private MainActivityViewModel mainVM;
+    private TextInputEditText inputEditText;
+    private Button sendButton;
+
 
     public static Compose2Typed newInstance() {
         return new Compose2Typed();

@@ -1,6 +1,17 @@
 package com.mdhgroup2.postmor.Compose;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
+import com.mdhgroup2.postmor.database.interfaces.ILetterRepository;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
+import java.util.ArrayList;
 
 public class Compose2TypedViewModel extends ViewModel {
     private ILetterRepository letterRepo;
@@ -57,7 +68,7 @@ public class Compose2TypedViewModel extends ViewModel {
         return letterRepo.sendDraft(message);
     }
 
-    private class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
+    private class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(EditMsg... editMsgs) {
