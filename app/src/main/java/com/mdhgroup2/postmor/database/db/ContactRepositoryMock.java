@@ -58,8 +58,8 @@ public class ContactRepositoryMock implements IContactRepository {
     @Override
     public List<Contact> getContacts() {
         Contact u1 = new Contact();
-        u1.Name = "Ann-Marie Josefsson";
-        u1.Address = "Isterbarnsgatan 12";
+        u1.Name = "Test";
+        u1.Address = "Test 123";
         u1.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw");
         u1.UserID = 1;
 
@@ -110,7 +110,7 @@ public class ContactRepositoryMock implements IContactRepository {
         u2.Address = "Mastrostvägen 13";
         u2.Picture = null;
         u2.UserID = ID;
-        u2.IsFriend = false;
+        u2.IsFriend = true;
 
         return u2;
     }

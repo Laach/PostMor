@@ -1,29 +1,36 @@
 package com.mdhgroup2.postmor;
 
+import android.os.AsyncTask;
+
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
-
 import java.util.List;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MainActivityViewModel extends ViewModel {
     private final List<Contact> contacts;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
+    private Contact chosenRecipient;
     private final IAccountRepository accountRepo;
     public int screenWidthDp = 0;
     public int selectedContact = 0;
+    private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public MainActivityViewModel(){
-        contactRepo = (IContactRepository) DatabaseClient.getMockContactRepository();
-        boxRepo = (IBoxRepository) DatabaseClient.getMockBoxRepository();
-        accountRepo = (IAccountRepository) DatabaseClient.getAccountRepository();
+        contactRepo = DatabaseClient.getMockContactRepository();
+        boxRepo = DatabaseClient.getMockBoxRepository();
+        accountRepo = DatabaseClient.getAccountRepository();
         contacts = contactRepo.getContacts();
+        chosenRecipient = null;
+        chosenRec.setValue(null);
     }
 
     public List<Contact> getContactList(){
@@ -37,7 +44,10 @@ public class MainActivityViewModel extends ViewModel {
             return boxRepo.getInboxMessages();
         }
         return boxRepo.getOutboxMessages();
+    }
 
+    public List<MsgCard> getMessageList(int index, int ID){
+        return boxRepo.getAllMessages(ID);
     }
 
     public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
@@ -74,8 +84,80 @@ public class MainActivityViewModel extends ViewModel {
         return contactRepo.findByAddress(address);
     }
 
-    public void addUserToContacts (Contact friend){
-        contacts.add(friend);
-        contactRepo.addContact(friend.UserID);
+    public boolean addUserToContacts (Contact friend){
+        if(contactRepo.addContact(friend.UserID)){
+            contacts.add(friend);
+            return true;
+        }
+        return false;
+    }
+
+    public void logOut(){
+        dbLogout logout = new dbLogout();
+        logout.execute();
+    }
+
+    private class dbLogout extends AsyncTask<Void,Void,Void>
+    {
+        @Override
+        protected Void doInBackground(Void... v){
+            accountRepo.signOut();
+            return null;
+        }
+    }
+
+    public void checkLoginStatus(){
+        dbAlreadyLoggedIn status = new dbAlreadyLoggedIn();
+        status.execute();
+    }
+
+    public MutableLiveData<Boolean> amILoggedIn(){
+        if(alreadyLoggedIn == null){
+            alreadyLoggedIn = new MutableLiveData<>();
+        }
+        return  alreadyLoggedIn;
+    }
+
+    private class dbAlreadyLoggedIn extends AsyncTask<Void, Void, Boolean>{
+        @Override
+        protected Boolean doInBackground(Void... v){
+            Boolean result;
+            try{
+                result = accountRepo.isLoggedIn();
+            }catch (Exception e){
+                result = false;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result){
+            alreadyLoggedIn.postValue(result);
+        }
+    }
+
+
+    private MutableLiveData<Contact> chosenRec = new MutableLiveData<>();
+
+    public MutableLiveData<Contact> getChosenRec(){
+        if(chosenRec == null) {
+            chosenRec = new MutableLiveData<>();
+        }
+        return chosenRec;
+    }
+
+
+    public void chooseRecipient(int index){
+        chosenRecipient = getContact(index);
+        chosenRec.postValue(chosenRecipient);
+    }
+
+    public Contact getChosenRecipient(){
+        return chosenRecipient;
+    }
+
+    public void removeRecipient(){
+        chosenRecipient = null;
+        chosenRec.postValue(chosenRecipient);
     }
 }

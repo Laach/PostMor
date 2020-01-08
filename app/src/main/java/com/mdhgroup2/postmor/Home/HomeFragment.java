@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Home;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -35,13 +36,16 @@ public class HomeFragment extends Fragment {
     public void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         updateInfobar();
     }
@@ -52,7 +56,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         return view;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

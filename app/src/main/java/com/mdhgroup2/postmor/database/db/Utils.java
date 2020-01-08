@@ -96,6 +96,35 @@ public class Utils {
         }
     }
 
+    private static String APIPostBodyNoRefresh(String url, JSONObject json, ManageDao managedao) throws IOException{
+
+        String token = managedao.getAuthToken();
+
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+
+        RequestBody body = RequestBody.create(json.toString(), JSON);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("authorization", "Bearer " + token)
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            String b = response.body().string();
+            return b;
+        }
+    }
+
+    public static JSONObject APIPostNoRefresh(String url, JSONObject json, ManageDao managedao) throws IOException {
+        try{
+            return new JSONObject(APIPostBodyNoRefresh(url, json, managedao));
+        }
+        catch (JSONException j){
+            return null;
+        }
+    }
 
 //    public class APIWorker extends Worker {
 //

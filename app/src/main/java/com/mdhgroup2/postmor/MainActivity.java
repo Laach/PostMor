@@ -27,13 +27,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        final MainActivity dis = this;
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 DatabaseClient.initDb(getApplicationContext());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mViewModel = ViewModelProviders.of(dis).get(MainActivityViewModel.class);
+                        setContentView(R.layout.activity_main);
+                        NavController navController = Navigation.findNavController(dis, R.id.nav_host_fragment);
+                        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+                        NavigationUI.setupActionBarWithNavController(dis, navController, appBarConfiguration);
+                    }
+                });
+
             }
         }).start();
-        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -55,11 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
-
 }

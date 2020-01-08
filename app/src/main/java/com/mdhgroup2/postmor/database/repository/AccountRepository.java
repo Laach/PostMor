@@ -53,6 +53,9 @@ public class AccountRepository implements IAccountRepository {
         catch (JSONException e){
             throw new IOException("Invalid data received");
         }
+        catch (NullPointerException e){
+            throw new IOException("Object was null");
+        }
 
         return ls;
     }
@@ -105,7 +108,8 @@ public class AccountRepository implements IAccountRepository {
         NeedsUppercase,
         NeedsNumeric,
         NeedsNonAlphaNumeric,
-        ShorterThan6
+        ShorterThan6,
+        NotEqual
     }
 
     @Override
@@ -196,20 +200,20 @@ public class AccountRepository implements IAccountRepository {
         List<String> errors = new ArrayList<>();
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        String prevEmail = accountDb.getMyEmail();
-        String prevPass  = accountDb.getMyPassword();
-        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
-            // Query server
-            accountDb.setSignedIn();
-            if(manageDb.refreshToken()){
-                errors.add("Ok");
-            }
-            else{
-                errors.add("Failed to validate tokens. No internet?");
-            }
-            return errors;
-        }
-        else{
+//        String prevEmail = accountDb.getMyEmail();
+//        String prevPass  = accountDb.getMyPassword();
+//        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
+//            // Query server
+//            accountDb.setSignedIn();
+//            if(manageDb.refreshToken()){
+//                errors.add("Ok");
+//            }
+//            else{
+//                errors.add("Failed to validate tokens. No internet?");
+//            }
+//            return errors;
+//        }
+//        else{
             String data = String.format("{" +
                     "\"email\" : \"%s\", " +
                     "\"password\" : \"%s\"" +
@@ -315,7 +319,7 @@ public class AccountRepository implements IAccountRepository {
                 errors.add("Ok");
             }
             return errors;
-        }
+//        }
     }
 
 
@@ -415,8 +419,8 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken("");
-        manageDb.setRefreshToken("");
+//        manageDb.setAuthToken("");
+//        manageDb.setRefreshToken("");
     }
 
     @Override
@@ -444,6 +448,27 @@ public class AccountRepository implements IAccountRepository {
         if(accountDb.isLoggedIn()){
             manageDb.refreshToken();
             return true;
+        }
+        return false;
+    }
+
+
+    // Server has not implemented this yet.
+    public boolean changePassword(String oldpass, String newpass){
+        String data = String.format("{" +
+                "\"oldPassword\" : \"%s\", " +
+                "\"newPassword\" : \"%s\"" +
+                "}", oldpass, newpass);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/user/update/password", new JSONObject(data), manageDb);
+            if(json.getBoolean("success")){
+                manageDb.updatePassword(newpass);
+                return true;
+            }
+        }
+        catch (IOException | JSONException e){
+
         }
         return false;
     }

@@ -120,13 +120,14 @@ public class BoxRepository implements IBoxRepository {
 
     @Override
     public int fetchNewMessages(){
-        List<Message> msgs = boxdb.getAllMessagesFull();
-        int latestMessageId = -1;
-        for (Message m : msgs) {
-            if(m.ExternalMessageID > latestMessageId){
-                latestMessageId = m.ExternalMessageID;
-            }
-        }
+//        List<Message> msgs = boxdb.getAllMessagesFull();
+//        int latestMessageId = -1;
+//        for (Message m : msgs) {
+//            if(m.ExternalMessageID > latestMessageId){
+//                latestMessageId = m.ExternalMessageID;
+//            }
+//        }
+        int latestMessageId = boxdb.getLatestId();
 
         String data  = String.format(Locale.US, "{" +
                 "\"latestMessageId\" : %d" +
@@ -135,6 +136,9 @@ public class BoxRepository implements IBoxRepository {
         try {
             int count = 0;
             JSONObject json = Utils.APIPost(Utils.baseURL + "/message/fetch/new", new JSONObject(data), managedb);
+            if(json == null){
+                return 0;
+            }
             JSONArray arr = json.getJSONArray("messages");
             Message msg;
             for(int i = 0; i < arr.length(); i++){

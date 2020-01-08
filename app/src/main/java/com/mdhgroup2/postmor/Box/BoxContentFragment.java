@@ -20,6 +20,7 @@ public class BoxContentFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private int boxIndex;
+    private int id = 0;
 
     public static BoxContentFragment newInstance(int index) {
         BoxContentFragment fragment = new BoxContentFragment(index);
@@ -31,6 +32,11 @@ public class BoxContentFragment extends Fragment {
 
     public BoxContentFragment(int index){
         boxIndex = index;
+    }
+
+    public BoxContentFragment(int index, int ID){
+        boxIndex = index;
+        id = ID;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class BoxContentFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.box_all_fragment, container, false);
+        View view = inflater.inflate(R.layout.box_content_fragment, container, false);
         final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 //        final TextView textView = view.findViewById(R.id.textViewAll);
 //        boxViewModel.setIndex(index);
@@ -54,7 +60,12 @@ public class BoxContentFragment extends Fragment {
         recyclerView = view.findViewById(R.id.boxRecyclerAllView);
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new BoxRecyclerViewAdapter(mViewModel.getMessageList(boxIndex));
+        if(id == 0){
+            mAdapter = new BoxRecyclerViewAdapter(mViewModel.getMessageList(boxIndex));
+        }
+        else{
+            mAdapter = new BoxRecyclerViewAdapter(mViewModel.getMessageList(boxIndex, id));
+        }
         recyclerView.setAdapter(mAdapter);
 
 //        boxViewModel.getText().observe(this, new Observer<String>() {
