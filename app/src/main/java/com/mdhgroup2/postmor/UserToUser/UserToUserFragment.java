@@ -39,9 +39,7 @@ public class UserToUserFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.user_to_user_fragment, container, false);
         final MainActivityViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
-
-//        index = getArguments().getInt("index");
-//        Contact contact = viewModel.getContact(index);
+        
         id = getArguments().getInt("id");
         Contact contact = viewModel.getContactById(id);
 
@@ -53,6 +51,16 @@ public class UserToUserFragment extends Fragment {
 
         ImageView iv = view.findViewById(R.id.cardImageView);
         iv.setImageBitmap(contact.Picture);
+
+        Button bt = view.findViewById(R.id.button);
+        bt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.action_userToUserFragment_to_composeFragment, bundle);
+            }
+        });
 
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override

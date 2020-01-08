@@ -182,6 +182,16 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             }
         });
 
+        cvHolder.sendButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Bundle bundle = new Bundle();
+                int id = messageDataset.get(position).UserID;
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.composeFragment, bundle);
+
+            }
+        });
 
         cvHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +199,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                 Bundle bundle = new Bundle();
                 int id = messageDataset.get(position).UserID;
                 bundle.putInt("id", id);
-                Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
+                Navigation.findNavController(view).navigate(R.id.action_boxFragment_to_userToUserFragment, bundle);
             }
         });
     }
