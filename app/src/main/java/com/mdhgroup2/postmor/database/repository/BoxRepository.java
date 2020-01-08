@@ -120,13 +120,14 @@ public class BoxRepository implements IBoxRepository {
 
     @Override
     public int fetchNewMessages(){
-        List<Message> msgs = boxdb.getAllMessagesFull();
-        int latestMessageId = -1;
-        for (Message m : msgs) {
-            if(m.ExternalMessageID > latestMessageId){
-                latestMessageId = m.ExternalMessageID;
-            }
-        }
+//        List<Message> msgs = boxdb.getAllMessagesFull();
+//        int latestMessageId = -1;
+//        for (Message m : msgs) {
+//            if(m.ExternalMessageID > latestMessageId){
+//                latestMessageId = m.ExternalMessageID;
+//            }
+//        }
+        int latestMessageId = boxdb.getLatestId();
 
         String data  = String.format(Locale.US, "{" +
                 "\"latestMessageId\" : %d" +
