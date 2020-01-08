@@ -16,6 +16,9 @@ public interface BoxDao {
     @Query("SELECT * FROM Messages")
     List<Message> getAllMessagesFull();
 
+    @Query("SELECT MAX(InternalMessageID) FROM Messages")
+    int getLatestId();
+
     @Query("SELECT * FROM BoxMessage")
     List<BoxMessage> getAllMessages();
 

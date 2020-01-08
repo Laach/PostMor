@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor;
 import android.os.AsyncTask;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
@@ -17,6 +18,7 @@ public class MainActivityViewModel extends ViewModel {
     private final List<Contact> contacts;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
+    private Contact chosenRecipient;
     private final IAccountRepository accountRepo;
     private MutableLiveData<Boolean> alreadyLoggedIn;
 
@@ -25,6 +27,8 @@ public class MainActivityViewModel extends ViewModel {
         boxRepo = DatabaseClient.getMockBoxRepository();
         accountRepo = DatabaseClient.getAccountRepository();
         contacts = contactRepo.getContacts();
+        chosenRecipient = null;
+        chosenRec.setValue(null);
     }
 
     public List<Contact> getContactList(){
@@ -121,5 +125,30 @@ public class MainActivityViewModel extends ViewModel {
         protected void onPostExecute(Boolean result){
             alreadyLoggedIn.postValue(result);
         }
+    }
+
+
+    private MutableLiveData<Contact> chosenRec = new MutableLiveData<>();
+
+    public MutableLiveData<Contact> getChosenRec(){
+        if(chosenRec == null) {
+            chosenRec = new MutableLiveData<>();
+        }
+        return chosenRec;
+    }
+
+
+    public void chooseRecipient(int index){
+        chosenRecipient = getContact(index);
+        chosenRec.postValue(chosenRecipient);
+    }
+
+    public Contact getChosenRecipient(){
+        return chosenRecipient;
+    }
+
+    public void removeRecipient(){
+        chosenRecipient = null;
+        chosenRec.postValue(chosenRecipient);
     }
 }

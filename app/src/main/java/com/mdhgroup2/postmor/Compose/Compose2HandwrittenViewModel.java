@@ -17,10 +17,12 @@ import java.util.ArrayList;
 
 public class Compose2HandwrittenViewModel extends ViewModel {
     private ILetterRepository letterRepo;
+    public boolean isFirstTimeOpened;
 
     public Compose2HandwrittenViewModel(){
         letterRepo = DatabaseClient.getLetterRepository();
         editMsgDraft = new EditMsg();
+        isFirstTimeOpened = true;
     }
 
     private MutableLiveData<EditMsg> draftMsg;
@@ -33,11 +35,9 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         return draftMsg;
     }
 
-    public void getDraft(Integer recipientID){
-
-            GetDraftTask getDraftTask = new GetDraftTask();
-            getDraftTask.execute(recipientID);
-
+    public void getDraft(int recipientID){
+        GetDraftTask getDraftTask = new GetDraftTask();
+        getDraftTask.execute(recipientID);
     }
 
     public void saveDraft(){
@@ -55,15 +55,21 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         draftMsg.postValue(editMsgDraft);
     }
 
+    public void changeRecipient(int recipientID){
+        editMsgDraft.RecipientID = recipientID;
+        draftMsg.postValue(editMsgDraft);
+    }
+
     private class SaveDraftTask extends AsyncTask<EditMsg, Void, Void>{
         @Override
         protected Void doInBackground(EditMsg... editMsgs) {
             if(editMsgs != null){
+                editMsgs[0].Text = null;
                 Log.d("test", "doInBackground: SAVING FOLLOWING MESSAGE:");
                 Log.d("test", "doInBackground:      Imageslist size: "+editMsgs[0].Images.size());
                 Log.d("test", "doInBackground:      internalMessageID: "+editMsgs[0].InternalMessageID);
                 Log.d("test", "doInBackground:      recipient: "+editMsgs[0].RecipientID);
-                Log.d("test", "doInBackground:      text: "+editMsgs[0].Text);
+                //Log.d("test", "doInBackground:      text: "+editMsgs[0].Text);
                 Log.d("test", "doInBackground:      isDraft: "+editMsgs[0].IsDraft);
                 Log.d("test", "doInBackground: letterRepo.saveDraft...");
                 letterRepo.saveDraft(editMsgs[0]);

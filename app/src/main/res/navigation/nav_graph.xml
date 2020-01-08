@@ -117,8 +117,8 @@
     <fragment
         android:id="@+id/register1"
         android:name="com.mdhgroup2.postmor.Register.register1"
-        android:label="register1_fragment"
-        tools:layout="@layout/register1_fragment" >
+        android:label="Register"
+        tools:layout="@layout/register1_fragment">
         <action
             android:id="@+id/action_register1_to_register2"
             app:destination="@id/register2" />
@@ -131,8 +131,8 @@
     <fragment
         android:id="@+id/register2"
         android:name="com.mdhgroup2.postmor.Register.register2"
-        android:label="register2_fragment"
-        tools:layout="@layout/register2_fragment" >
+        android:label="Register"
+        tools:layout="@layout/register2_fragment">
         <action
             android:id="@+id/action_register2_to_register3"
             app:destination="@id/register3" />
@@ -145,8 +145,8 @@
     <fragment
         android:id="@+id/register3"
         android:name="com.mdhgroup2.postmor.Register.register3"
-        android:label="register3_fragment"
-        tools:layout="@layout/register3_fragment" >
+        android:label="Register"
+        tools:layout="@layout/register3_fragment">
         <action
             android:id="@+id/action_register3_to_homeFragment"
             app:destination="@id/homeFragment"

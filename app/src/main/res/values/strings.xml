@@ -28,7 +28,7 @@
     <string name="home_compose_button_title">Compose</string>
     <string name="home_contacts_button_title">Contacts</string>
     <string name="sending_letters_text_1">\ of your letters</string>
-    <string name="sending_letters_text_2">will be sent at\ </string>
+    <string name="sending_letters_text_2">will be sent at \ </string>
     <string name="sending_letters_time">16:00</string>
     <string name="nr_of_letters_to_be_sent">2</string>
 
