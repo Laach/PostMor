@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor.Compose;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.mdhgroup2.postmor.Home.HomeFragmentDirections;
+import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 
 public class ComposeFragment extends Fragment {
@@ -41,6 +43,16 @@ public class ComposeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ComposeViewModel.class);
 
+
+        if(getArguments() != null){
+            final MainActivityViewModel mainViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+            int id = getArguments().getInt("id");
+            DTO dto = new DTO();
+            dto.ID = id;
+            dto.mvm = mainViewModel;
+            new SetRecipientAsync().execute(dto);
+        }
+
         View view = getView();
         navController = Navigation.findNavController(view);
 
@@ -49,6 +61,22 @@ public class ComposeFragment extends Fragment {
         typeButton.setOnClickListener(Navigation.createNavigateOnClickListener(ComposeFragmentDirections.actionComposeFragmentToCompose2Typed()));
         handButton.setOnClickListener(Navigation.createNavigateOnClickListener(ComposeFragmentDirections.actionComposeFragmentToCompose2Handwritten()));
         // TODO: Use the ViewModel
+    }
+
+    private class DTO{
+        public MainActivityViewModel mvm;
+        public int ID;
+    }
+
+    private class SetRecipientAsync extends AsyncTask<DTO, Void, Void>{
+
+        @Override
+        protected Void doInBackground(DTO... dto) {
+            int ID = dto[0].ID;
+            dto[0].mvm.chooseRecipientById(ID);
+
+            return null;
+        }
     }
 
 }
