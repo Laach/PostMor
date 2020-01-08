@@ -17,10 +17,12 @@ import java.util.ArrayList;
 
 public class Compose2HandwrittenViewModel extends ViewModel {
     private ILetterRepository letterRepo;
+    public boolean isFirstTimeOpened;
 
     public Compose2HandwrittenViewModel(){
         letterRepo = DatabaseClient.getLetterRepository();
         editMsgDraft = new EditMsg();
+        isFirstTimeOpened = true;
     }
 
     private MutableLiveData<EditMsg> draftMsg;
@@ -33,11 +35,9 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         return draftMsg;
     }
 
-    public void getDraft(Integer recipientID){
-
-            GetDraftTask getDraftTask = new GetDraftTask();
-            getDraftTask.execute(recipientID);
-
+    public void getDraft(int recipientID){
+        GetDraftTask getDraftTask = new GetDraftTask();
+        getDraftTask.execute(recipientID);
     }
 
     public void saveDraft(){
@@ -52,6 +52,11 @@ public class Compose2HandwrittenViewModel extends ViewModel {
 
     public void removeImage(int position){
         editMsgDraft.Images.remove(position);
+        draftMsg.postValue(editMsgDraft);
+    }
+
+    public void changeRecipient(int recipientID){
+        editMsgDraft.RecipientID = recipientID;
         draftMsg.postValue(editMsgDraft);
     }
 

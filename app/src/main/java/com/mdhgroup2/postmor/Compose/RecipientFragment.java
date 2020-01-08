@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor.Compose;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.graphics.Bitmap;
@@ -47,7 +48,6 @@ public class RecipientFragment extends Fragment {
         recipientPicture = view.findViewById(R.id.recipientPicture);
         chosenRecipientLayout = view.findViewById(R.id.chosenRecipientLayout);
 
-
         recipientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +64,36 @@ public class RecipientFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Contact recipient = mViewModel.getChosenRecipient();
+
+        mViewModel.getChosenRec().observe(this, new Observer<Contact>() {
+            @Override
+            public void onChanged(Contact contact) {
+                if(contact != null){
+                    recipientButton.setVisibility(View.GONE);
+                    recipientAddress.setVisibility(View.VISIBLE);
+                    recipientName.setVisibility(View.VISIBLE);
+                    recipientPicture.setVisibility(View.VISIBLE);
+
+                    recipientAddress.setText(contact.Address);
+                    recipientName.setText(contact.Name);
+                    recipientPicture.setImageBitmap(contact.Picture);
+
+                    chosenRecipientLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("isFromCompose", true);
+                            Navigation.findNavController(getView()).navigate(R.id.contactsFragment, bundle);
+                        }
+                    });
+                }else{
+                    recipientButton.setVisibility(View.VISIBLE);
+                    recipientAddress.setVisibility(View.GONE);
+                    recipientName.setVisibility(View.GONE);
+                    recipientPicture.setVisibility(View.GONE);
+                }
+            }
+        });
 
         if(recipient != null){
             recipientButton.setVisibility(View.GONE);
