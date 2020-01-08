@@ -2,6 +2,7 @@ package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
+import android.provider.ContactsContract;
 
 import androidx.room.Room;
 
@@ -24,14 +25,12 @@ public class DatabaseClient {
 
     public static void initDb(Context c){
         appContext = c;
-        c.deleteDatabase("client-db");
+//        c.deleteDatabase("client-db");
         db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
                 .build();
 //        db = DbDefaultData.DB(c);
 
         // ---------------------------------------------------------
-        // Remove this in production.
-//        c.deleteDatabase("client-db");
 //         This is required the first time setting up the db.
         try {
             // This try will only succeed the first time when
@@ -40,15 +39,24 @@ public class DatabaseClient {
         }
         catch (SQLiteConstraintException ignore){
         }
+
+        if(getAccountRepository().isLoggedIn()){
+            getBoxRepository().fetchNewMessages();
+        }
         // ---------------------------------------------------------
 
-        int i = 5000;
-        Account nick = new AccountBuilder()
-                .addName("Nick")
-                .addPassword("String123!")
-                .addAddress("Tittiegatan " + Integer.toString(i))
-                .addEmail("nick" + Integer.toString(i) + "@smalltitties.com")
-                .build();
+//        IAccountRepository repo = DatabaseClient.getAccountRepository();
+//        boolean b = repo.signIn("nick.grannas@gmail.com", "String123!");
+//        repo.signOut();
+//        b = repo.signIn("nick.grannas@gmail.com", "String123!");
+
+//        int i = 5000;
+//        Account nick = new AccountBuilder()
+//                .addName("Nick")
+//                .addPassword("String123!")
+//                .addAddress("Tittiegatan " + Integer.toString(i))
+//                .addEmail("nick" + Integer.toString(i) + "@smalltitties.com")
+//                .build();
 
 //        boolean b = getAccountRepository().registerAccount(nick);
 //        getContactRepository().addContact(123);
@@ -79,7 +87,7 @@ public class DatabaseClient {
         return new LetterRepository(db.letterDao(), db.manageDao());
     }
 
-    static void nukeDatabase(){
+    public static void nukeDatabase(){
         db.clearAllTables();
         db.manageDao().initInternalID(new InternalMsgID(100));
     }
