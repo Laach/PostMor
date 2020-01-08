@@ -16,7 +16,9 @@
         tools:layout="@layout/sign_in_fragment">
         <action
             android:id="@+id/action_signInFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/signInFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signInFragment_to_register1"
             app:destination="@id/register1" />
@@ -66,6 +68,10 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -81,7 +87,7 @@
         <action
             android:id="@+id/action_settingsFragment_to_signInFragment"
             app:destination="@+id/signInFragment"
-            app:popUpTo="@+id/signInFragment" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/userToUserFragment"
@@ -143,7 +149,9 @@
         tools:layout="@layout/register3_fragment">
         <action
             android:id="@+id/action_register3_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_register3_to_register2"
             app:destination="@id/register2"
