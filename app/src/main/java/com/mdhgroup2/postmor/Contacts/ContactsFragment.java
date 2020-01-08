@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mdhgroup2.postmor.Compose.Compose1Choice;
+import com.mdhgroup2.postmor.Compose.ComposeViewModel;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
@@ -62,93 +64,111 @@ public class ContactsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         // specify an adapter (see also next example)
-        mAdapter = new ContactsAdapter(mViewModel.getContactList());
+        mAdapter = new ContactsAdapter(mViewModel.getContactList(), false, mViewModel);
         recyclerView.setAdapter(mAdapter);
 
+        boolean isFromCompose = getArguments().getBoolean("isFromCompose");
         FloatingActionButton addContact = view.findViewById(R.id.floatingAddButton);
-        addContact.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setTitle("Search for a user by typing in their address");
-                alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
-                alertDialogBuilder.setCancelable(true);
 
-                // Init popup dialog view and it's ui controls.
-                initAddPopupViewControls();
+        if(isFromCompose){
+            // Hide the FAB when opened from compose (recipient fragment)
+            addContact.hide();
 
-                // Set the inflated layout view object to the AlertDialog builder.
-                alertDialogBuilder.setView(popupAddInputDialogView);
+            // If opened from compose, set argument to true
+            mAdapter = new ContactsAdapter(mViewModel.getContactList(), true, mViewModel);
+            recyclerView.setAdapter(mAdapter);
 
-                // Create AlertDialog and show.
-                final AlertDialog addUserDialog = alertDialogBuilder.create();
-                addUserDialog.show();
 
-                // When user click the save user data button in the popup dialog.
-                searchUserbutton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String userAddress = userSearch.getText().toString();
-                        if(userAddress.isEmpty()){
-                            Toast toast = Toast.makeText(getContext(), "You need to enter an address.", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
-                        if (!userAddress.isEmpty()){
-                            friend = mViewModel.findUserByAddress(userAddress);
-                            if (friend != null && !friend.IsFriend) {
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        }else{
+            // Only show FAB if we open the fragment from the home page
+            addContact.show();
+
+            // If NOT opened from compose, set argument to false
+            mAdapter = new ContactsAdapter(mViewModel.getContactList(), false, mViewModel);
+            recyclerView.setAdapter(mAdapter);
+
+            addContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                    alertDialogBuilder.setTitle("Search for a user by typing in their address");
+                    alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+                    alertDialogBuilder.setCancelable(true);
+
+                    // Init popup dialog view and it's ui controls.
+                    initAddPopupViewControls();
+
+                    // Set the inflated layout view object to the AlertDialog builder.
+                    alertDialogBuilder.setView(popupAddInputDialogView);
+
+                    // Create AlertDialog and show.
+                    final AlertDialog addUserDialog = alertDialogBuilder.create();
+                    addUserDialog.show();
+
+                    // When user click the save user data button in the popup dialog.
+                    searchUserbutton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String userAddress = userSearch.getText().toString();
+                            if (userAddress.isEmpty()) {
+                                Toast toast = Toast.makeText(getContext(), "You need to enter an address.", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                            if (!userAddress.isEmpty()) {
+                                friend = mViewModel.findUserByAddress(userAddress);
+                                if (friend != null && !friend.IsFriend) {
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
 //                                alertDialogBuilder.setTitle("User found");
 //                                alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
-                                alertDialogBuilder.setCancelable(true);
+                                    alertDialogBuilder.setCancelable(true);
 
-                                // Init popup dialog view and it's ui controls.
-                                initFoundPopupViewControls(friend);
+                                    // Init popup dialog view and it's ui controls.
+                                    initFoundPopupViewControls(friend);
 
-                                // Set the inflated layout view object to the AlertDialog builder.
-                                alertDialogBuilder.setView(popupFoundUserView);
+                                    // Set the inflated layout view object to the AlertDialog builder.
+                                    alertDialogBuilder.setView(popupFoundUserView);
 
-                                // Create the second AlertDialog and show.
-                                final AlertDialog foundUserDialog = alertDialogBuilder.create();
-                                foundUserDialog.show();
+                                    // Create the second AlertDialog and show.
+                                    final AlertDialog foundUserDialog = alertDialogBuilder.create();
+                                    foundUserDialog.show();
 
-                                addUserbutton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        mViewModel.addUserToContacts(friend);
-                                        mAdapter.notifyDataSetChanged();
-                                        Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
-                                        toast.show();
-                                        foundUserDialog.cancel();
-                                        addUserDialog.cancel();
-                                    }
-                                });
-                                cancelUserFoundButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        foundUserDialog.cancel();
-                                    }
-                                });
-                            }
-                            else if(friend != null && friend.IsFriend){
-                                Toast toast = Toast.makeText(getContext(), friend.Name + " is already in your contacts.", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                            else{
-                                Toast toast = Toast.makeText(getContext(), "That user could NOT be found.", Toast.LENGTH_SHORT);
-                                toast.show();
+                                    addUserbutton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            mViewModel.addUserToContacts(friend);
+                                            mAdapter.notifyDataSetChanged();
+                                            Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                            foundUserDialog.cancel();
+                                            addUserDialog.cancel();
+                                        }
+                                    });
+                                    cancelUserFoundButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            foundUserDialog.cancel();
+                                        }
+                                    });
+                                } else if (friend != null && friend.IsFriend) {
+                                    Toast toast = Toast.makeText(getContext(), friend.Name + " is already in your contacts.", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                } else {
+                                    Toast toast = Toast.makeText(getContext(), "That user could NOT be found.", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
                             }
                         }
-                    }
-                });
+                    });
 
-                cancelUserAddButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        addUserDialog.cancel();
-                    }
-                });
-            }
-        });
+                    cancelUserAddButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            addUserDialog.cancel();
+                        }
+                    });
+                }
+            });
+        }
 
         return view;
     }
