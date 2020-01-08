@@ -67,6 +67,10 @@ public class MainActivityViewModel extends ViewModel {
         }
     }
 
+    public int checkForNewMessages(){
+        return boxRepo.fetchNewMessages();
+    }
+
     public boolean removeContact(Contact contact){
         if(contactRepo.deleteContact(contact.UserID)){
             for(Contact c : contacts){
