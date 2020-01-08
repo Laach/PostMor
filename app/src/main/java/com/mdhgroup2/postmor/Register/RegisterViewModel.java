@@ -23,7 +23,7 @@ public class RegisterViewModel extends ViewModel {
     private Random rand = new Random();
     private MutableLiveData<List<String>> callResults;
     public String choosenAddress;
-    private int numberOfAddress = 5;
+    private int numberOfAddress = 20;
 
     public MutableLiveData<List<String>> getResults(){
         if(callResults == null) {
@@ -72,6 +72,10 @@ public class RegisterViewModel extends ViewModel {
 
     public void setAccountImage(Bitmap image){
         myAccount.Picture = image;
+    }
+
+    public Bitmap getAccountImage(){
+        return myAccount.Picture;
     }
 
     public void setAccountPassword(String password){

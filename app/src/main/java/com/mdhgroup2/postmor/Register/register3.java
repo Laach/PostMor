@@ -27,15 +27,7 @@ import java.util.List;
 
 public class register3 extends Fragment {
 
-//    private static final String KEY_POSITION = "position";
-
 public static register3 newInstance() {
-//        register1 reg = new register3();
-//        Bundle args = new Bundle();
-//        args.putInt(KEY_POSITION, position);
-//        reg.setArguments(args);
-//
-//        return(reg);
     return new register3();
 }
 
