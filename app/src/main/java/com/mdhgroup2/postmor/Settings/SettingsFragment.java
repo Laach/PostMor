@@ -75,7 +75,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 mViewModel.logOut();
-                Navigation.findNavController(getView()).navigate(R.id.action_settingsFragment_to_signInFragment);
+                getActivity().finishAffinity();
                 return true;
             }
         });

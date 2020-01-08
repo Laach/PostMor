@@ -199,7 +199,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                 Bundle bundle = new Bundle();
                 int id = messageDataset.get(position).UserID;
                 bundle.putInt("id", id);
-                Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
+                Navigation.findNavController(view).navigate(R.id.action_boxFragment_to_userToUserFragment, bundle);
             }
         });
     }
