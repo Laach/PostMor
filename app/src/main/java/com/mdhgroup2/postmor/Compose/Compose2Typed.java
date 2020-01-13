@@ -164,8 +164,8 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
             Log.d("test", "doInBackground: recipient: "+editMsgs[0].RecipientID);
             Log.d("test", "doInBackground: messageID: "+editMsgs[0].InternalMessageID);
             editMsgs[0].Images = null;
-            //returnValue = mViewModel.sendMessage(editMsgs[0]);
-            returnValue = true;
+            returnValue = mViewModel.sendMessage(editMsgs[0]);
+            //returnValue = true;
             Log.d("test", "doInBackground: send: "+returnValue);
         }
         return returnValue;
