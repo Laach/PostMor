@@ -153,17 +153,15 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
     @Override
     protected Boolean doInBackground(EditMsg... editMsgs) {
 
-        Log.d("test", "doInBackground: test");
-
         boolean returnValue = false;
         if(editMsgs != null){
             Log.d("test", "doInBackground: text: "+editMsgs[0].Text);
             Log.d("test", "doInBackground: recipient: "+editMsgs[0].RecipientID);
             Log.d("test", "doInBackground: messageID: "+editMsgs[0].InternalMessageID);
+            editMsgs[0].Images = null;
             returnValue = mViewModel.sendMessage(editMsgs[0]);
             Log.d("test", "doInBackground: send: "+returnValue);
         }
-
         return returnValue;
     }
 
@@ -172,6 +170,5 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
         if(mProgressDialog.isShowing()){
             mProgressDialog.dismiss();
         }
-
     }
 }
