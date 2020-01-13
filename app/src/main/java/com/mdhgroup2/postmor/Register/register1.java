@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Register;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -25,15 +26,7 @@ import java.util.List;
 
 public class register1 extends Fragment {
 
-//    private static final String KEY_POSITION = "position";
-
     public static register1 newInstance() {
-//        register1 reg = new register1();
-//        Bundle args = new Bundle();
-//        args.putInt(KEY_POSITION, position);
-//        reg.setArguments(args);
-//
-//        return(reg);
         return new register1();
     }
 
@@ -57,6 +50,15 @@ public class register1 extends Fragment {
                 mViewModel.choosenAddress = addresses;
                 address.setText(addresses);
             }
+        });
+
+        mViewModel.updateAddresses().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> List) {
+                List<String> result = List;
+                    mViewModel.setAddress(result.get(0));
+                    address.setText(result.get(0));
+                }
         });
 
         EditText emailInput = view.findViewById(R.id.register_email_input);
@@ -105,7 +107,7 @@ public class register1 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
-                Navigation.findNavController(view).navigate(register1Directions.actionRegister1ToRegister2());
+                Navigation.findNavController(view).navigate(R.id.action_register1_to_register2);
             }
         });
 
@@ -113,7 +115,7 @@ public class register1 extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
-                Navigation.findNavController(view).navigate(register1Directions.actionRegister1ToSignInFragment());
+                Navigation.findNavController(view).navigate(R.id.action_register1_to_signInFragment);
             }
         });
 
