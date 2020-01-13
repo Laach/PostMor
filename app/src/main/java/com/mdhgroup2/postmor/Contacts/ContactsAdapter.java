@@ -71,7 +71,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
                 Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
             }else{
                 //navigate back to compose and update recipient fragment (through the viewmodel?)
-                vm.chooseRecipient(getAdapterPosition());
+                vm.chooseRecipientById(contacts.get(getAdapterPosition()).UserID);
                 Navigation.findNavController(view).navigateUp();
             }
         }

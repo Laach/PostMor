@@ -77,12 +77,18 @@ public class UserToUserFragment extends Fragment {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        Contact contact = viewModel.getContactById(id);
-                        if (viewModel.removeContact(contact)){
-                            Toast.makeText(view.getContext(),String.format("%s was successfully removed", contact.Name), Toast.LENGTH_SHORT).show();
+                        Contact contact;
+                        try{
+                            contact = new GetContactByIdAsync(viewModel, id).execute().get();
+                            if (new RemoveContactAsync(viewModel).execute(contact).get()){
+                                Toast.makeText(view.getContext(),String.format("%s was successfully removed", contact.Name), Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(view.getContext(),String.format("%s was NOT removed", contact.Name), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else {
-                            Toast.makeText(view.getContext(),String.format("%s was NOT removed", contact.Name), Toast.LENGTH_SHORT).show();
+                        catch (InterruptedException | ExecutionException e){
+                            Toast.makeText(view.getContext(),String.format("Contact was NOT removed"), Toast.LENGTH_SHORT).show();
                         }
                         Navigation.findNavController(view).navigateUp();
                         break;
@@ -156,6 +162,19 @@ public class UserToUserFragment extends Fragment {
         @Override
         protected Contact doInBackground(Integer... integers) {
             return mvm.getContactById(id);
+        }
+    }
+
+    private class RemoveContactAsync extends AsyncTask<Contact, Void, Boolean>{
+        private MainActivityViewModel mvm;
+
+        public RemoveContactAsync(MainActivityViewModel m){
+            mvm = m;
+        }
+
+        @Override
+        protected Boolean doInBackground(Contact... contact) {
+            return mvm.removeContact(contact[0]);
         }
     }
 

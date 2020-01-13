@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,9 @@ import com.mdhgroup2.postmor.Compose.ComposeViewModel;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
+import java.util.List;
 
 
 public class ContactsFragment extends Fragment {
@@ -49,6 +54,8 @@ public class ContactsFragment extends Fragment {
     private Button addUserbutton = null;
     private Button cancelUserFoundButton = null;
 
+    private List<Contact> contacts = null;
+
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
     }
@@ -60,13 +67,13 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.contactsRecyclerView);
-
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
         final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        contacts = mViewModel.getContactList();
         // specify an adapter (see also next example)
-        mAdapter = new ContactsAdapter(mViewModel.getContactList(), false, mViewModel);
+        mAdapter = new ContactsAdapter(contacts, false, mViewModel);
         recyclerView.setAdapter(mAdapter);
 
         boolean isFromCompose = getArguments().getBoolean("isFromCompose");
@@ -77,7 +84,7 @@ public class ContactsFragment extends Fragment {
             addContact.hide();
 
             // If opened from compose, set argument to true
-            mAdapter = new ContactsAdapter(mViewModel.getContactList(), true, mViewModel);
+            mAdapter = new ContactsAdapter(contacts, true, mViewModel);
             recyclerView.setAdapter(mAdapter);
 
 
@@ -86,7 +93,7 @@ public class ContactsFragment extends Fragment {
             addContact.show();
 
             // If NOT opened from compose, set argument to false
-            mAdapter = new ContactsAdapter(mViewModel.getContactList(), false, mViewModel);
+            mAdapter = new ContactsAdapter(contacts, false, mViewModel);
             recyclerView.setAdapter(mAdapter);
 
             addContact.setOnClickListener(new View.OnClickListener() {
