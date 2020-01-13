@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Register;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -49,6 +50,15 @@ public class register1 extends Fragment {
                 mViewModel.choosenAddress = addresses;
                 address.setText(addresses);
             }
+        });
+
+        mViewModel.updateAddresses().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> List) {
+                List<String> result = List;
+                    mViewModel.setAddress(result.get(0));
+                    address.setText(result.get(0));
+                }
         });
 
         EditText emailInput = view.findViewById(R.id.register_email_input);
