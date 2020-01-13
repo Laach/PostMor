@@ -3,8 +3,10 @@ package com.mdhgroup2.postmor.Compose;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -137,6 +139,7 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
     private ProgressDialog mProgressDialog;
     private Context mContext;
     private Compose2TypedViewModel mViewModel;
+    private AlertDialog.Builder alertBuilder;
 
     public SendMessageTask(Context context, Compose2TypedViewModel viewmodel){
         mContext = context;
@@ -146,9 +149,10 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog.setMessage("Sending letter...");
+        mProgressDialog.setMessage("Preparing letter...");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
+        alertBuilder = new AlertDialog.Builder(mContext);
     }
 
     @Override
@@ -160,16 +164,36 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
             Log.d("test", "doInBackground: recipient: "+editMsgs[0].RecipientID);
             Log.d("test", "doInBackground: messageID: "+editMsgs[0].InternalMessageID);
             editMsgs[0].Images = null;
-            returnValue = mViewModel.sendMessage(editMsgs[0]);
+            //returnValue = mViewModel.sendMessage(editMsgs[0]);
+            returnValue = true;
             Log.d("test", "doInBackground: send: "+returnValue);
         }
         return returnValue;
     }
 
     @Override
-    protected void onPostExecute(Boolean aBoolean) {
+    protected void onPostExecute(Boolean result) {
         if(mProgressDialog.isShowing()){
             mProgressDialog.dismiss();
+        }
+
+        if(result){
+            //Update UI
+
+            alertBuilder.setTitle("Success!")
+                    .setMessage("Your letter will be sent at 16:00")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //dismiss
+                        }
+                    });
+            AlertDialog dialog = alertBuilder.create();
+            dialog.setCanceledOnTouchOutside(false);
+
+            dialog.show();
+        }else{
+            Toast.makeText(mContext, "Error: message could not be sent", Toast.LENGTH_SHORT).show();
         }
     }
 }
