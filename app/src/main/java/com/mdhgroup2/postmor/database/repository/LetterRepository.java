@@ -129,9 +129,11 @@ public class LetterRepository implements ILetterRepository {
         if(type.equals("images")){
             for (int i = 0; i < msg.Images.size(); i++) {
                 if(i == 0){
-                    array = "\"" + array + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
+                    array = "\"" + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
                 }
-                array = ", \"" + array + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
+                else{
+                    array = array + ", \"" + Converters.bitmapToBase64(msg.Images.get(i)) + "\"";
+                }
             }
         }
         else {
