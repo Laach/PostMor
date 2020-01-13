@@ -39,7 +39,7 @@ public class UserToUserFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.user_to_user_fragment, container, false);
         final MainActivityViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
-        
+
         id = getArguments().getInt("id");
         Contact contact = viewModel.getContactById(id);
 
