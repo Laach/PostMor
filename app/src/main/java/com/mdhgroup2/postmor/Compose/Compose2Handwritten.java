@@ -219,7 +219,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
     @Override
     public void onDestroy() {
         mViewModel.saveDraft();
-        mainVM.removeRecipient();
+
         super.onDestroy();
     }
 
