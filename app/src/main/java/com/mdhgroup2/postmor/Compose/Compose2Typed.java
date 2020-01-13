@@ -120,7 +120,6 @@ public class Compose2Typed extends Fragment {
         if(!mViewModel.isSend){
             mViewModel.saveDraft();
         }
-        mainVM.removeRecipient();
         super.onDestroy();
     }
 
