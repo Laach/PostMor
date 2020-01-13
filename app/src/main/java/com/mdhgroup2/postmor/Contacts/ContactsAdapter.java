@@ -100,7 +100,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
         cvHolder.address.setText(contacts.get(position).Address);
         cvHolder.id = contacts.get(position).UserID;
         if (contacts.get(position).Picture == null) {
-            cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
+            cvHolder.profilePicture.setImageResource(R.drawable.anon_profile);
         }
         else {
             cvHolder.profilePicture.setImageBitmap(contacts.get(position).Picture);
