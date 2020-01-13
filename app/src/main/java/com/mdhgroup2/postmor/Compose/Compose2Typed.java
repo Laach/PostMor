@@ -34,7 +34,7 @@ public class Compose2Typed extends Fragment {
     @Override
     public void onDestroy() {
 
-        mainVM.removeRecipient();
+
         super.onDestroy();
     }
 
