@@ -357,11 +357,11 @@ public class AccountRepository implements IAccountRepository {
         for(int i = 0; i < arr.length(); i++){
             JSONObject contact = arr.getJSONObject(i);
             User u = new User();
-            u.ID             = contact.getInt    ("contactId");
-            u.Name           = contact.getString ("name"     );
-            u.IsFriend       = contact.getBoolean("isFriend" );
-            u.Address        = contact.getString ("address"  );
-            u.PublicKey      = contact.getString ("publicKey");
+            u.ID             = contact.getInt    ("contactId"     );
+            u.Name           = contact.getString ("contactName"   );
+            u.IsFriend       = contact.getBoolean("isFriend"      );
+            u.Address        = contact.getString ("contactAddress");
+            u.PublicKey      = contact.getString ("publicKey"     );
             u.ProfilePicture = Converters.fromBase64(contact.getString("picture"));
             contacts.add(u);
         }

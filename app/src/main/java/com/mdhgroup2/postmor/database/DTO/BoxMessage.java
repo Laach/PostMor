@@ -18,7 +18,10 @@ import java.util.List;
         "InternalMessageID as MsgID, " +
         "Text              as Text, " +
         "Images            as Images, " +
-        "DeliveryTime      as DeliveryTime " +
+        "DeliveryTime      as DeliveryTime, " +
+        "IsDraft           as IsDraft, " +
+        "IsRead            as IsRead, " +
+        "IsOutgoing        as IsOutgoing " +
         "FROM Users INNER JOIN Messages on Users.ID = Messages.UserID")
 
 public class BoxMessage {
@@ -33,4 +36,7 @@ public class BoxMessage {
     public String Text;
     public List<Bitmap> Images;
     public Date DeliveryTime;
+    public boolean IsDraft;
+    public boolean IsRead;
+    public boolean IsOutgoing;
 }

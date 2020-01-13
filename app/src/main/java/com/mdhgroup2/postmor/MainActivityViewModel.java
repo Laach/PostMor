@@ -9,13 +9,15 @@ import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MainActivityViewModel extends ViewModel {
-    private final List<Contact> contacts;
+    private List<Contact> contacts = null;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
     private Contact chosenRecipient;
@@ -25,10 +27,17 @@ public class MainActivityViewModel extends ViewModel {
     private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public MainActivityViewModel(){
-        contactRepo = DatabaseClient.getMockContactRepository();
-        boxRepo = DatabaseClient.getMockBoxRepository();
+        contactRepo = DatabaseClient.getContactRepository();
+        boxRepo = DatabaseClient.getBoxRepository();
         accountRepo = DatabaseClient.getAccountRepository();
-        contacts = contactRepo.getContacts();
+        GetContactsTask task = new GetContactsTask();
+        task.execute();
+        try {
+            contacts = task.get();
+        }
+        catch(Exception e){
+
+        }
         chosenRecipient = null;
         chosenRec.setValue(null);
     }
@@ -85,12 +94,19 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public Contact findUserByAddress(String address){
-        return contactRepo.findByAddress(address);
+        FindContactByAddressTask task = new FindContactByAddressTask();
+        task.execute(address);
+        try {
+            return task.get();
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 
     public boolean addUserToContacts (Contact friend){
         if(contactRepo.addContact(friend.UserID)){
-            contacts.add(friend);
+//            contacts.add(friend);
             return true;
         }
         return false;
@@ -162,5 +178,21 @@ public class MainActivityViewModel extends ViewModel {
     public void removeRecipient(){
         chosenRecipient = null;
         chosenRec.postValue(chosenRecipient);
+    }
+
+    private class GetContactsTask extends AsyncTask<Void, Void, List<Contact>>{
+
+        @Override
+        protected List<Contact> doInBackground(Void... voids) {
+            return contactRepo.getContacts();
+        }
+    }
+
+    private class FindContactByAddressTask extends AsyncTask<String, Void, Contact>{
+
+        @Override
+        protected Contact doInBackground(String... address ) {
+            return contactRepo.findByAddress(address[0]);
+        }
     }
 }

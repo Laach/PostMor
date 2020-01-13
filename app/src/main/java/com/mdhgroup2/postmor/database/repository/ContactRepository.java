@@ -37,13 +37,15 @@ public class ContactRepository implements IContactRepository {
 
             User u = new User();
             u.ID = json.getInt("contactId");
-            u.Name = json.getString("name");
+            u.Name = json.getString("contactName");
             u.IsFriend = json.getBoolean("isFriend");
             u.Address = json.getString("address");
             u.ProfilePicture = Converters.fromBase64(json.getString("picture"));
             u.PublicKey = json.getString("publicKey");
 
-            managedao.addUser(u);
+            if(managedao.findUser(u.ID) == null){
+                managedao.addUser(u);
+            }
 
             Contact c = new Contact();
             c.UserID = u.ID;
