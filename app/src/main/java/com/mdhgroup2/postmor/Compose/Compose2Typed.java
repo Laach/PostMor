@@ -113,6 +113,7 @@ public class Compose2Typed extends Fragment {
         return view;
     }
 
+
     @Override
     public void onDestroy() {
         mViewModel.addText(inputEditText.getText().toString());
@@ -127,6 +128,7 @@ public class Compose2Typed extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(Compose2TypedViewModel.class);
+        mainVM = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         // TODO: Use the ViewModel
     }
 }
