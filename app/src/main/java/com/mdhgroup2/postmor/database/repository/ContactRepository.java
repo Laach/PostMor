@@ -91,7 +91,7 @@ public class ContactRepository implements IContactRepository {
     public boolean deleteContact(int ID) {
 
         String data = String.format(Locale.US, "{" +
-                "\"contactId\" : %d", ID);
+                "\"contactId\" : %d}", ID);
 
         try {
             JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/remove", new JSONObject(data), managedao);
