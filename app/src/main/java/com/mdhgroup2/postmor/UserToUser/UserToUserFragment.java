@@ -39,11 +39,9 @@ public class UserToUserFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.user_to_user_fragment, container, false);
         final MainActivityViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
-
-//        index = getArguments().getInt("index");
-//        Contact contact = viewModel.getContact(index);
+        
         id = getArguments().getInt("id");
-        Contact contact = viewModel.getContact(id-1);
+        Contact contact = viewModel.getContactById(id);
 
         TextView tv = view.findViewById(R.id.cardName);
         tv.setText(contact.Name);
