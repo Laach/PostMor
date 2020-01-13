@@ -150,12 +150,6 @@ public class MainActivityViewModel extends ViewModel {
         return chosenRec;
     }
 
-
-    public void chooseRecipient(int index){
-        chosenRecipient = getContact(index);
-        chosenRec.postValue(chosenRecipient);
-    }
-
     public void chooseRecipientById(int id){
         chosenRecipient = contactRepo.getUserCard(id);
         chosenRec.postValue(chosenRecipient);
