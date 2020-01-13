@@ -375,7 +375,7 @@ class SendMessageTask2 extends AsyncTask<EditMsg, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         mProgressDialog.setMessage("Sending letter...");
-        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
         mProgressDialog.show();
     }
 
