@@ -3,6 +3,8 @@ package com.mdhgroup2.postmor.Contacts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -135,7 +137,8 @@ public class ContactsFragment extends Fragment {
                                     addUserbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            mViewModel.addUserToContacts(friend);
+                                            new AddFriendAsync(mViewModel, friend).execute();
+                                            ContactsAdapter.contacts.add(friend);
                                             mAdapter.notifyDataSetChanged();
                                             Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
                                             toast.show();
@@ -209,6 +212,22 @@ public class ContactsFragment extends Fragment {
 
         addUserbutton = popupFoundUserView.findViewById(R.id.button_add_user);
         cancelUserFoundButton = popupFoundUserView.findViewById(R.id.button_cancel_user_found);
+    }
+
+    private class AddFriendAsync extends AsyncTask<Void, Void, Void>{
+        private MainActivityViewModel mvm;
+        private Contact contact;
+
+        public AddFriendAsync(MainActivityViewModel m, Contact friend){
+            mvm = m;
+            contact = friend;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mvm.addUserToContacts(contact);
+            return null;
+        }
     }
 
 }

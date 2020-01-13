@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 
+import java.util.concurrent.ExecutionException;
+
 public class UserToUserFragment extends Fragment {
 
     public int id = 0;
@@ -41,7 +44,13 @@ public class UserToUserFragment extends Fragment {
         final MainActivityViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 
         id = getArguments().getInt("id");
-        Contact contact = viewModel.getContactById(id);
+        Contact contact;
+        try{
+            contact = new GetContactByIdAsync(viewModel, id).execute().get();
+        }
+        catch (InterruptedException | ExecutionException e){
+            contact = null;
+        }
 
         TextView tv = view.findViewById(R.id.cardName);
         tv.setText(contact.Name);
@@ -132,6 +141,22 @@ public class UserToUserFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+
+    private class GetContactByIdAsync extends AsyncTask<Integer, Void, Contact>{
+        private MainActivityViewModel mvm;
+        private int id = 0;
+
+        public GetContactByIdAsync(MainActivityViewModel m, int contactId){
+            mvm = m;
+            id = contactId;
+        }
+
+        @Override
+        protected Contact doInBackground(Integer... integers) {
+            return mvm.getContactById(id);
+        }
     }
 
 }

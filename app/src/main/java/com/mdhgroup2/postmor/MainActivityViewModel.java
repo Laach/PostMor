@@ -106,7 +106,7 @@ public class MainActivityViewModel extends ViewModel {
 
     public boolean addUserToContacts (Contact friend){
         if(contactRepo.addContact(friend.UserID)){
-            contacts.add(friend);
+//            contacts.add(friend);
             return true;
         }
         return false;
