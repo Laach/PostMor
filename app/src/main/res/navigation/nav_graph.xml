@@ -36,7 +36,7 @@
         android:id="@+id/composeFragment"
         android:name="com.mdhgroup2.postmor.Compose.ComposeFragment"
         android:label="Compose"
-        tools:layout="@layout/compose_fragment" >>
+        tools:layout="@layout/compose_fragment">>
         <action
             android:id="@+id/action_composeFragment_to_compose2Handwritten"
             app:destination="@id/compose2Handwritten" />
