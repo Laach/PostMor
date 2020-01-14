@@ -146,7 +146,8 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             cvHolder.profilePicture.setImageResource(R.drawable.anon_profile);
         } else
         {
-            cvHolder.profilePicture.setImageBitmap(message.Picture);
+            Bitmap scaledPicture = Bitmap.createScaledBitmap(message.Picture, 400, 400, true);
+            cvHolder.profilePicture.setImageBitmap(scaledPicture);
         }
 
         cvHolder.address.setText(message.Address);
