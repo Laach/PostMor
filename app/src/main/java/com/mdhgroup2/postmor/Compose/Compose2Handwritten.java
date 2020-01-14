@@ -323,6 +323,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                 photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
                 // If the image is rotated, reset its rotation
                 if(isCamera){
+                    /*
                     ExifInterface exif= new ExifInterface(currentPhotoPath);
                     int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
                     Matrix matrix = new Matrix();
@@ -338,7 +339,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                             break;
                     }
                     Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
-                    photo = rotatedBitmap;
+                    photo = rotatedBitmap;*/
                 }else{
                     // If the image was picked from the gallery, copy the image to app storage
 
@@ -366,6 +367,24 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                         destination.close();
                     }
                 }
+                //Check if image is rotated
+                ExifInterface exif= new ExifInterface(currentPhotoPath);
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                Matrix matrix = new Matrix();
+                switch(orientation){
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        matrix.setRotate(90);
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        matrix.setRotate(180);
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        matrix.setRotate(270);
+                        break;
+                }
+                //Create a new bitmap with new correct rotation
+                Bitmap rotatedBitmap = Bitmap.createBitmap(photo, 0, 0, photo.getWidth(), photo.getHeight(), matrix, true);
+                photo = rotatedBitmap;
             } catch (IOException e) {
                 e.printStackTrace();
             }
