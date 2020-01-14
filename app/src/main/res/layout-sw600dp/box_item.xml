@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="8dp"
         app:cardBackgroundColor="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +47,7 @@
                         android:layout_marginEnd="8dp"
                         android:maxLines="1"
                         android:text="Address"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toStartOf="@+id/sendButton"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="@+id/addressTextView"
@@ -60,6 +61,7 @@
                         android:maxLines="1"
                         android:text="Name"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toStartOf="@+id/sendButton"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/toOrFrom"
@@ -67,19 +69,19 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/profilePictureCardView"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:contentDescription="@string/box_profile_pic_description"
-                        app:cardCornerRadius="24dp"
+                        app:cardCornerRadius="30dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
                             android:id="@+id/profilePictureImageView"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             tools:srcCompat="@tools:sample/avatars" />
                     </androidx.cardview.widget.CardView>
@@ -92,6 +94,7 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/box_to_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toEndOf="@+id/profilePictureCardView"
                         app:layout_constraintTop_toTopOf="parent" />
 
