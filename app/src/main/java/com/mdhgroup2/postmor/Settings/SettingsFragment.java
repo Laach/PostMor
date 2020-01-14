@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,7 @@ import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
-
+    private ProgressDialog mProgressDialog;
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
@@ -37,23 +38,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         setPreferencesFromResource(R.xml.preferences, rootKey);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-
+        mProgressDialog = new ProgressDialog(getContext());
         final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         Preference changePassword = findPreference("changePassword");
         Preference about = findPreference("about");
         Preference signOut = findPreference("sign_out");
-
-        mViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                Boolean result = aBoolean;
-                if (!result){
-                    Navigation.findNavController(getView()).navigate(R.id.action_settingsFragment_to_signInFragment);
-                }
-            }
-        });
-
-        mViewModel.checkLoginStatus();
 
         changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -74,6 +63,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
                 mViewModel.logOut();
                 getActivity().finishAffinity();
                 return true;

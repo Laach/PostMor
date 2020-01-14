@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor.Register;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,8 @@ import java.util.ResourceBundle;
 
 public class register3 extends Fragment {
 
+    private ProgressDialog mProgressDialog;
+
 public static register3 newInstance() {
     return new register3();
 }
@@ -43,6 +46,8 @@ public static register3 newInstance() {
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.register3_fragment, container, false);
         final RegisterViewModel mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
+        mProgressDialog = new ProgressDialog(getContext());
+
         final List<TextView> register_password_hints = new ArrayList<TextView>();
         register_password_hints.add((TextView)(view.findViewById(R.id.register_password_hint1)));
         register_password_hints.add((TextView)(view.findViewById(R.id.register_password_hint2)));
@@ -55,9 +60,15 @@ public static register3 newInstance() {
             public void onChanged(List<String> strings) {
                 String temp = strings.get(0);
                 if(temp.equals("Ok")){
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Navigation.findNavController(view).navigate(register3Directions.actionRegister3ToHomeFragment());
                 }
                 else {
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Toast toast = Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -115,12 +126,19 @@ public static register3 newInstance() {
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View onView){
+                mProgressDialog.show();
+                mProgressDialog.setCancelable(false);
+                        
+                        
                 AccountRepository.PasswordStatus status = mViewModel.checkPasswordValidity(register_password_hints);
                 String validity = mViewModel.validateAccountInformation();
                 if(validity.equals("True")&& status == AccountRepository.PasswordStatus.Ok){
                     mViewModel.register();
                 }
                 else {
+                    if(mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        }
                     Toast toast = Toast.makeText(getContext(), validity, Toast.LENGTH_SHORT);
                     toast.show();
                 }
