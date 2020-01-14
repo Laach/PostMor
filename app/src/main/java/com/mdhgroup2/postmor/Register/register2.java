@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.Image;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -228,9 +229,20 @@ public class register2 extends Fragment {
             }
             // Add the image to the recycler view
             //mAdapter.addItem(photo,currentPhotoFile.getName(),currentPhotoFile.getName());
-            mViewModel.setAccountImage(photo);
+
+            int width = photo.getWidth();
+            int height = photo.getHeight();
+            int squareCropDimensions = Math.min(width, height);
+            Bitmap croppedBitmap = ThumbnailUtils.extractThumbnail(photo, squareCropDimensions, squareCropDimensions);
+
+            Bitmap scaledImage = croppedBitmap;
+            if(squareCropDimensions > 1000) {
+                scaledImage = Bitmap.createScaledBitmap(croppedBitmap, 1000, 1000, true);
+            }
+
+            mViewModel.setAccountImage(scaledImage);
             ImageView profilePic = getView().findViewById(R.id.imageCard);
-            profilePic.setImageBitmap(photo);
+            profilePic.setImageBitmap(scaledImage);
         }
         else{
             // f the user closes the intent without choosing/taking photo, display a toast
