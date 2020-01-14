@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -44,7 +45,7 @@ public class Utils {
     public static Date parseDate(String s){
         try {
 //            DateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yy");
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 //            "2019-12-30T14:10:44.2522414Z"
             dateFormat.setLenient(false);
             return dateFormat.parse(s);
@@ -79,7 +80,11 @@ public class Utils {
             token = managedao.getAuthToken();
         }
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout  (60, TimeUnit.SECONDS)
+                .readTimeout   (60, TimeUnit.SECONDS)
+                .build();
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
@@ -100,7 +105,11 @@ public class Utils {
 
         String token = managedao.getAuthToken();
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout  (60, TimeUnit.SECONDS)
+                .readTimeout   (60, TimeUnit.SECONDS)
+                .build();
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
@@ -129,7 +138,12 @@ public class Utils {
     private static String APIPostBodyWithToken(String url, JSONObject json, ManageDao managedao, String token) throws IOException{
 
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout  (60, TimeUnit.SECONDS)
+                .readTimeout   (60, TimeUnit.SECONDS)
+                .build();
+
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
 

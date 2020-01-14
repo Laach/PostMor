@@ -91,7 +91,7 @@ public class Compose2Typed extends Fragment {
         });
 
 
-        final SendMessageTask sendMessageTask = new SendMessageTask(getContext(), this,mViewModel);
+        final Compose2Typed dis = this;
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,11 +100,17 @@ public class Compose2Typed extends Fragment {
 
                 if(mainVM.getChosenRecipient() != null) {
                     if (!text.equals("")) {
-                        mViewModel.addText(inputEditText.getText().toString());
-                        Log.d("test", "onClick: send");
-                        //mViewModel.sendMessage();
+                        if(mViewModel.getMsg().InternalMessageID != 0){
+                            mViewModel.addText(inputEditText.getText().toString());
+                            Log.d("test", "onClick: send");
+                            //mViewModel.sendMessage();
 
-                        sendMessageTask.execute(mViewModel.getMsg());
+                            SendMessageTask sendMessageTask = new SendMessageTask(getContext(), dis,mViewModel);
+                            sendMessageTask.execute(mViewModel.getMsg());
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Error! Please try again", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(getActivity(),"No message!", Toast.LENGTH_SHORT).show();
                     }
@@ -174,7 +180,6 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
 
     @Override
     protected Boolean doInBackground(EditMsg... editMsgs) {
-
         boolean returnValue = false;
         if(editMsgs != null){
             Log.d("test", "doInBackground: text: "+editMsgs[0].Text);
