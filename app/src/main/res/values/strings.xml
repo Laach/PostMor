@@ -27,10 +27,10 @@
     <string name="home_box_button_title">Box</string>
     <string name="home_compose_button_title">Compose</string>
     <string name="home_contacts_button_title">Contacts</string>
-    <string name="sending_letters_text_1">\ of your letters</string>
-    <string name="sending_letters_text_2">will be sent at \ </string>
+    <string name="sending_letters_text_1">Letters in your outbox:\ </string>
     <string name="sending_letters_time">16:00</string>
     <string name="nr_of_letters_to_be_sent">2</string>
+    <string name="outbox_empty_info">Your outbox is emptied:\ </string>
 
     <!-- box fragment -->
     <string name="box_tab_all">All</string>
@@ -58,6 +58,7 @@
     <string name="compose_choose_pictures">Choose pictures</string>
     <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
     <string name="compose_add_picture">Add a picture</string>
+    <string name="compose_enter_text_hint">Write your letter here...</string>
 
     <!-- contacts fragment -->
 

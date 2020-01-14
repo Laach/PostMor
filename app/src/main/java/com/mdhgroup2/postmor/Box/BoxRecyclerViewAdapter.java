@@ -63,8 +63,8 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         public BoxItemsViewHolder(View mi) {
             super(mi);
             messageItem = mi;
-            name = messageItem.findViewById(R.id.nameTextView);
-            address = messageItem.findViewById(R.id.addressTextView);
+            name = messageItem.findViewById(R.id.addressTextView);
+            address = messageItem.findViewById(R.id.nameTextView);
             date = messageItem.findViewById(R.id.dateTextView);
             toOrFrom = messageItem.findViewById(R.id.toOrFrom);
             toOrFromPicture = messageItem.findViewById(R.id.toOrFromImageView);

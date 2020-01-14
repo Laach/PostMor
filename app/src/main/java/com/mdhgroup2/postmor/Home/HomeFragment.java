@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,10 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
+
+import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
 
@@ -95,6 +100,7 @@ public class HomeFragment extends Fragment {
         composeButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToComposeFragment()));
         contactsButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToContactsFragment()));
         settingsButton.setOnClickListener(Navigation.createNavigateOnClickListener(HomeFragmentDirections.actionHomeFragmentToSettingsFragment()));
+
     }
 
     private void updateInfobar()
@@ -102,14 +108,65 @@ public class HomeFragment extends Fragment {
         View view = getView();
         if( ! mViewModel.getOutgoingLetterCount().equals("0"))
         {
+            GetInfobarInfo gii = new GetInfobarInfo();
+            ProfileInfo pi = null;
+            try {
+                pi = gii.execute().get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             TextView sendTime = view.findViewById(R.id.sendTime);
-            sendTime.setText(mViewModel.getEmptyTime());
             TextView letterCount = getView().findViewById(R.id.nOfLetterToBeSent);
-            letterCount.setText(mViewModel.getOutgoingLetterCount());
+            TextView nameText = view.findViewById(R.id.nameTextView);
+            TextView addressText = view.findViewById(R.id.addressTextView);
+            ImageView profilePicture = view.findViewById(R.id.profilePictureImageView);
+
+            sendTime.setText(pi.sendTime);
+            letterCount.setText(pi.nOfLetters);
+            nameText.setText(pi.name);
+            addressText.setText(pi.address);
+            if(pi.profilePicture == null)
+            {
+                profilePicture.setImageResource(R.drawable.anon_profile);
+            } else{
+                profilePicture.setImageBitmap(pi.profilePicture);
+            }
             infoBar.setVisibility(View.VISIBLE);
         } else
         {
             infoBar.setVisibility(View.GONE);
+        }
+    }
+
+    private class ProfileInfo{
+        public String name;
+        public String address;
+        public String sendTime;
+        public String nOfLetters;
+        public Bitmap profilePicture;
+    }
+
+    private class GetInfobarInfo extends AsyncTask<Void, Void, ProfileInfo> {
+        @Override
+        protected ProfileInfo doInBackground(Void... v){
+            ProfileInfo result = new ProfileInfo();
+            try{
+                result.name = mViewModel.getOwnName();
+                result.address = mViewModel.getOwnAddress();
+                result.nOfLetters = mViewModel.getOutgoingLetterCount();
+                result.sendTime = mViewModel.getEmptyTime();
+                result.profilePicture = mViewModel.getOwnProfilePicture();
+            }catch (Exception e){
+                result.name = "";
+                result.address = "";
+                result.nOfLetters = "";
+                result.sendTime = "";
+                result.profilePicture = null;
+            }
+            return result;
         }
     }
 

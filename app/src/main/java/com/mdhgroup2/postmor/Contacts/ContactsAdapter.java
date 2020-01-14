@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mdhgroup2.postmor.Compose.ComposeViewModel;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
@@ -54,8 +53,8 @@ class ContactsAdapter extends RecyclerView.Adapter {
             super(ci);
             this.isFromCompose = isFromCompose;
             contactItem = ci;
-            name = contactItem.findViewById(R.id.nameTextView);
-            address = contactItem.findViewById(R.id.addressTextView);
+            name = contactItem.findViewById(R.id.addressTextView);
+            address = contactItem.findViewById(R.id.nameTextView);
             profilePicture = contactItem.findViewById(R.id.profilePictureCardView);
             this.vm = vm;
             ci.setOnClickListener(this);
