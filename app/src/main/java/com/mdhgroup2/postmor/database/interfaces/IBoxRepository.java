@@ -21,7 +21,7 @@ public interface IBoxRepository {
 
     // Using Integer because LiveData can't use primitive int type.
     int getNewMessageCount();
-    LiveData<Integer> outgoingLetterCount();
+    int outgoingLetterCount();
 
     MessageContent getMsgContent(int MsgID);
 

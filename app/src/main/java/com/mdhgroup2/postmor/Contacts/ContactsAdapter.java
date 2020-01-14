@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mdhgroup2.postmor.Compose.ComposeViewModel;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
@@ -18,7 +17,7 @@ import java.util.List;
 
 class ContactsAdapter extends RecyclerView.Adapter {
 
-    public List<Contact> contacts;
+    public static List<Contact> contacts;
     private boolean isFromCompose;
     private MainActivityViewModel mViewModel;
 
@@ -54,8 +53,8 @@ class ContactsAdapter extends RecyclerView.Adapter {
             super(ci);
             this.isFromCompose = isFromCompose;
             contactItem = ci;
-            name = contactItem.findViewById(R.id.nameTextView);
-            address = contactItem.findViewById(R.id.addressTextView);
+            name = contactItem.findViewById(R.id.addressTextView);
+            address = contactItem.findViewById(R.id.nameTextView);
             profilePicture = contactItem.findViewById(R.id.profilePictureCardView);
             this.vm = vm;
             ci.setOnClickListener(this);
@@ -65,11 +64,13 @@ class ContactsAdapter extends RecyclerView.Adapter {
         public void onClick(View view) {
             if(!isFromCompose) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("index", getAdapterPosition());
+                int id = contacts.get(getAdapterPosition()).UserID;
+    //            bundle.putInt("index", getAdapterPosition());
+                bundle.putInt("id", id);
                 Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
             }else{
-                //navigate back to compose and update recipient fragment (through the viewmodel?)
-                vm.chooseRecipient(getAdapterPosition());
+                //navigate back to compose and update recipient fragment
+                vm.chooseRecipientById(contacts.get(getAdapterPosition()).UserID);
                 Navigation.findNavController(view).navigateUp();
             }
         }
@@ -98,7 +99,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
         cvHolder.address.setText(contacts.get(position).Address);
         cvHolder.id = contacts.get(position).UserID;
         if (contacts.get(position).Picture == null) {
-            cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
+            cvHolder.profilePicture.setImageResource(R.drawable.anon_profile);
         }
         else {
             cvHolder.profilePicture.setImageBitmap(contacts.get(position).Picture);

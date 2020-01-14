@@ -12,6 +12,7 @@
     <string name="search_button">search</string>
     <string name="found_user_add_button">Add</string>
     <string name="remove_contact_button">Remove</string>
+    <string name="open_button">Open</string>
 
 
     <!-- text fields -->
@@ -26,10 +27,10 @@
     <string name="home_box_button_title">Box</string>
     <string name="home_compose_button_title">Compose</string>
     <string name="home_contacts_button_title">Contacts</string>
-    <string name="sending_letters_text_1">\ of your letters</string>
-    <string name="sending_letters_text_2">will be sent at\ </string>
+    <string name="sending_letters_text_1">Letters in your outbox:\ </string>
     <string name="sending_letters_time">16:00</string>
     <string name="nr_of_letters_to_be_sent">2</string>
+    <string name="outbox_empty_info">Your outbox is emptied:\ </string>
 
     <!-- box fragment -->
     <string name="box_tab_all">All</string>
@@ -57,6 +58,7 @@
     <string name="compose_choose_pictures">Choose pictures</string>
     <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
     <string name="compose_add_picture">Add a picture</string>
+    <string name="compose_enter_text_hint">Write your letter here...</string>
 
     <!-- contacts fragment -->
 
@@ -64,12 +66,14 @@
     <string name="register_1_description">In postmor, your real name and generated "home address" are used to send you letters.</string>
     <string name="register_1_regenerate_button_title">Regenerate</string>
     <string name="register_1_address_explanation_text">Choose an address</string>
+    <string name="register_back">Back</string>
 
     <string name="register_2_description">Choose a profile picture</string>
     <string name="register_2_upload_button_title">Upload</string>
 
     <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
-    <string name="password_validity_feedback">* Please enter a password</string>
+    <string name="register_3_submit_button">Submit</string>
+    <string name="password_validity_feedback">Password and confirm password needs to match.</string>
 
     <!-- settings fragment -->
     <string name="old_password_text">Old Password:</string>

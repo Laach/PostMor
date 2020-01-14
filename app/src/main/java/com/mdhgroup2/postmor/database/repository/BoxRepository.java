@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -98,7 +99,7 @@ public class BoxRepository implements IBoxRepository {
             m.IsSentByMe = false;
         }
         else{
-            m.IsSentByMe = false;
+            m.IsSentByMe = true;
         }
         return m;
     }
@@ -109,7 +110,7 @@ public class BoxRepository implements IBoxRepository {
     }
 
     @Override
-    public LiveData<Integer> outgoingLetterCount() {
+    public int outgoingLetterCount() {
         return managedb.getOutgoingLetterCount();
     }
 
@@ -120,13 +121,14 @@ public class BoxRepository implements IBoxRepository {
 
     @Override
     public int fetchNewMessages(){
-        List<Message> msgs = boxdb.getAllMessagesFull();
-        int latestMessageId = -1;
-        for (Message m : msgs) {
-            if(m.ExternalMessageID > latestMessageId){
-                latestMessageId = m.ExternalMessageID;
-            }
-        }
+//        List<Message> msgs = boxdb.getAllMessagesFull();
+//        int latestMessageId = -1;
+//        for (Message m : msgs) {
+//            if(m.ExternalMessageID > latestMessageId){
+//                latestMessageId = m.ExternalMessageID;
+//            }
+//        }
+        int latestMessageId = boxdb.getLatestId();
 
         String data  = String.format(Locale.US, "{" +
                 "\"latestMessageId\" : %d" +
@@ -135,6 +137,9 @@ public class BoxRepository implements IBoxRepository {
         try {
             int count = 0;
             JSONObject json = Utils.APIPost(Utils.baseURL + "/message/fetch/new", new JSONObject(data), managedb);
+            if(json == null){
+                return 0;
+            }
             JSONArray arr = json.getJSONArray("messages");
             Message msg;
             for(int i = 0; i < arr.length(); i++){

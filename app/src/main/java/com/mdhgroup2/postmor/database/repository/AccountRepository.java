@@ -53,6 +53,9 @@ public class AccountRepository implements IAccountRepository {
         catch (JSONException e){
             throw new IOException("Invalid data received");
         }
+        catch (NullPointerException e){
+            throw new IOException("Object was null");
+        }
 
         return ls;
     }
@@ -105,7 +108,8 @@ public class AccountRepository implements IAccountRepository {
         NeedsUppercase,
         NeedsNumeric,
         NeedsNonAlphaNumeric,
-        ShorterThan6
+        ShorterThan6,
+        NotEqual
     }
 
     @Override
@@ -179,7 +183,7 @@ public class AccountRepository implements IAccountRepository {
                     errors.add(arr.getString(i));
                 }
             }
-            catch (JSONException e){
+            catch (JSONException | NullPointerException e){
                 errors.add("Server error: expected errors but received none");
             }
         }
@@ -192,17 +196,24 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public boolean signIn(String email, String password) {
+    public List<String> signIn(String email, String password) {
+        List<String> errors = new ArrayList<>();
         // Query server for login and, on success, log in locally.
         // If account is not the current in Settings, clear database.
-        String prevEmail = accountDb.getMyEmail();
-        String prevPass  = accountDb.getMyPassword();
-        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
-            // Query server
-            accountDb.setSignedIn();
-            return manageDb.refreshToken();
-        }
-        else{
+//        String prevEmail = accountDb.getMyEmail();
+//        String prevPass  = accountDb.getMyPassword();
+//        if(prevEmail != null && prevEmail.equals(email) && prevPass != null && prevPass.equals(password)){
+//            // Query server
+//            accountDb.setSignedIn();
+//            if(manageDb.refreshToken()){
+//                errors.add("Ok");
+//            }
+//            else{
+//                errors.add("Failed to validate tokens. No internet?");
+//            }
+//            return errors;
+//        }
+//        else{
             String data = String.format("{" +
                     "\"email\" : \"%s\", " +
                     "\"password\" : \"%s\"" +
@@ -211,9 +222,9 @@ public class AccountRepository implements IAccountRepository {
 
             String authToken;
             String refreshToken;
-
+            JSONObject json = null;
             try{
-                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data), manageDb);
+                json = Utils.APIPost(Utils.baseURL + "/identity/login", new JSONObject(data), manageDb);
 
                 authToken = json.getString("token");
 
@@ -222,10 +233,21 @@ public class AccountRepository implements IAccountRepository {
 
             }
             catch (IOException e){
-                return false;
+                errors.add("IOException 1: possibly no connection");
+                return errors;
             }
             catch (JSONException j){
-                return false;
+                try {
+                    JSONArray arr = json.getJSONArray("errors");
+                    for(int i = 0; i < arr.length(); i++){
+                        errors.add(arr.getString(i));
+                    }
+                }
+                catch (JSONException | NullPointerException e){
+                    errors.add("Server error: expected errors but received none");
+                }
+
+                return errors;
                 // Failed to update key. Possibly offline.
             }
 
@@ -237,27 +259,7 @@ public class AccountRepository implements IAccountRepository {
             try {
 
                 // Fix this. They can't be saved because there's no account
-                Settings s = new Settings();
-                s.ID = -1;
-                s.Email = "";
-                s.Password = "";
-                s.AuthToken = authToken;
-                s.RefreshToken = refreshToken;
-                s.Name = "";
-                s.Address = "";
-                s.PickupTime = Utils.makeTime(16, 0, 0);
-                s.DeliveryTime = Utils.makeTime(16, 0, 0);
-                s.OutgoingLetterCount = 0;
-                s.IsLoggedIn = false;
-                s.PublicKey = "";
-                s.PrivateKey = "";
-
-                manageDb.deleteSettings();
-                accountDb.registerAccount(s);
-
-//                manageDb.setAuthToken(authToken);
-//                manageDb.setRefreshToken(refreshToken);
-                JSONObject json = Utils.APIPost(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb);
+                json = Utils.APIPostWithToken(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb, authToken);
 
 
                 JSONArray contactsjson  = json.getJSONArray ("contacts");
@@ -280,16 +282,20 @@ public class AccountRepository implements IAccountRepository {
                 // Save tokens before fetchall and after. So it validates the correct user.
 //                DatabaseClient.nukeDatabase();
             }
-            catch (JSONException | IOException e){
-                return false;
+            catch (IOException e){
+                errors.add("IOException 2: possibly no connection");
+                return errors;
             }
-//             API "/user/fetchalldata"
-//             Save all data
-//            manageDb.setAuthToken(authToken);
-//            manageDb.setRefreshToken(refreshToken);
+            catch (JSONException e){
+                errors.add("Failed parsing fetch-all response");
+                return errors;
+            }
 
-            return true;
-        }
+            if(errors.size() == 0){
+                errors.add("Ok");
+            }
+            return errors;
+//        }
     }
 
 
@@ -327,11 +333,11 @@ public class AccountRepository implements IAccountRepository {
         for(int i = 0; i < arr.length(); i++){
             JSONObject contact = arr.getJSONObject(i);
             User u = new User();
-            u.ID             = contact.getInt    ("contactId");
-            u.Name           = contact.getString ("name"     );
-            u.IsFriend       = contact.getBoolean("isFriend" );
-            u.Address        = contact.getString ("address"  );
-            u.PublicKey      = contact.getString ("publicKey");
+            u.ID             = contact.getInt    ("contactId"     );
+            u.Name           = contact.getString ("contactName"   );
+            u.IsFriend       = contact.getBoolean("isFriend"      );
+            u.Address        = contact.getString ("contactAddress");
+            u.PublicKey      = contact.getString ("publicKey"     );
             u.ProfilePicture = Converters.fromBase64(contact.getString("picture"));
             contacts.add(u);
         }
@@ -359,6 +365,7 @@ public class AccountRepository implements IAccountRepository {
             }
             m.ExternalMessageID = message.getInt("messageId");
             m.InternalMessageID = manageDb.getNewMsgId();
+            m.TimeStamp = Utils.parseDate(message.getString("timestamp"));
 
             String type = message.getString("type");
             if(type.equals("text")){
@@ -389,8 +396,8 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public void signOut() {
         accountDb.setSignedOut();
-        manageDb.setAuthToken("");
-        manageDb.setRefreshToken("");
+//        manageDb.setAuthToken("");
+//        manageDb.setRefreshToken("");
     }
 
     @Override
@@ -418,6 +425,27 @@ public class AccountRepository implements IAccountRepository {
         if(accountDb.isLoggedIn()){
             manageDb.refreshToken();
             return true;
+        }
+        return false;
+    }
+
+
+    // Server has not implemented this yet.
+    public boolean changePassword(String oldpass, String newpass){
+        String data = String.format("{" +
+                "\"oldPassword\" : \"%s\", " +
+                "\"newPassword\" : \"%s\"" +
+                "}", oldpass, newpass);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/user/update/password", new JSONObject(data), manageDb);
+            if(json.getBoolean("success")){
+                manageDb.updatePassword(newpass);
+                return true;
+            }
+        }
+        catch (IOException | JSONException e){
+
         }
         return false;
     }

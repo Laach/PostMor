@@ -28,6 +28,8 @@ public class BoxRepositoryMock implements IBoxRepository {
 
     List<MsgCard> l4 = new LinkedList<MsgCard>();
 
+    List<MsgCard> l5 = new LinkedList<MsgCard>();
+
 //    MutableLiveData<Integer> liveInt = new MutableLiveData<>();
 
     public BoxRepositoryMock(){
@@ -66,18 +68,27 @@ public class BoxRepositoryMock implements IBoxRepository {
         u3.MsgID = 3;
         u3.IsSentByMe = false;
         u3.UserID = 3;
+        u3.Text = "gash9zidgfskg";
 
-        u3.Images = new ArrayList<>();
-        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
+//        u3.Images = new ArrayList<>();
+//        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.letter);
+//
+//        Scanner myReader = new Scanner(myObj);
+//        while (myReader.hasNextLine()) {
+//            String data = myReader.nextLine();
+////            System.out.println(data);
+//             u3.Images.add(Converters.fromBase64(data));
+//        }
+//        myReader.close();
 
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-//            System.out.println(data);
-             u3.Images.add(Converters.fromBase64(data));
-             u3.Images.add(u1.Picture);
-        }
-        myReader.close();
+//        Scanner myReader = new Scanner(myObj);
+//        while (myReader.hasNextLine()) {
+//            String data = myReader.nextLine();
+////            System.out.println(data);
+//             u3.Images.add(Converters.fromBase64(data));
+//             u3.Images.add(u1.Picture);
+//        }
+//        myReader.close();
 
         MsgCard u4 = new MsgCard();
         u4.Name = "Brittish Chef";
@@ -103,6 +114,8 @@ public class BoxRepositoryMock implements IBoxRepository {
         l4.add(u1);
         l4.add(u3);
         l4.add(u4);
+
+        l5.add(u4);
     }
 
 
@@ -113,7 +126,7 @@ public class BoxRepositoryMock implements IBoxRepository {
 
     @Override
     public List<MsgCard> getAllMessages(int ID) {
-        return l2;
+        return l5;
     }
 
     @Override
@@ -145,13 +158,8 @@ public class BoxRepositoryMock implements IBoxRepository {
     }
 
     @Override
-    public LiveData<Integer> outgoingLetterCount() {
-        LiveData<Integer> ld =  new LiveData<Integer>() { {
-                postValue(7);
-            }
-        };
-
-        return ld;
+    public int outgoingLetterCount() {
+        return 3;
     }
 
     @Override

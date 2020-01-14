@@ -10,10 +10,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         app:cardBackgroundColor="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,12 +38,10 @@
                     android:id="@+id/messageInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="#FFFFFF"
-                    android:elevation="4dp">
+                    android:background="#FFFFFF">
 
                     <TextView
-                        android:id="@+id/addressTextView"
+                        android:id="@+id/nameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -51,11 +49,11 @@
                         android:text="Address"
                         app:layout_constraintEnd_toStartOf="@+id/sendButton"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/nameTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+                        app:layout_constraintStart_toStartOf="@+id/addressTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
 
                     <TextView
-                        android:id="@+id/nameTextView"
+                        android:id="@+id/addressTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -107,8 +105,8 @@
                         android:text="Date"
                         app:layout_constraintEnd_toStartOf="@+id/sendButton"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/addressTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/addressTextView" />
+                        app:layout_constraintStart_toStartOf="@+id/nameTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
                     <ImageView
                         android:id="@+id/toOrFromImageView"
@@ -190,6 +188,7 @@
                         android:id="@+id/contentsImage2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitXY"
                         android:visibility="gone"
@@ -202,6 +201,7 @@
                         android:id="@+id/contentsImage3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitXY"
                         android:visibility="gone"
@@ -214,8 +214,10 @@
                         android:id="@+id/contentsText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="4dp"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

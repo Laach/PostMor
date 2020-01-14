@@ -51,7 +51,7 @@ public abstract class ManageDao {
     public abstract Date getUserPickupTime();
 
     @Query("SELECT OutgoingLetterCount FROM Settings LIMIT 1")
-    public abstract LiveData<Integer> getOutgoingLetterCount();
+    public abstract int getOutgoingLetterCount();
 
     @Query("UPDATE InternalMsgID " +
             "SET Num = Num + 1")
@@ -81,6 +81,9 @@ public abstract class ManageDao {
 
     @Query("DELETE FROM Settings")
     public abstract void deleteSettings();
+
+    @Query("UPDATE Settings SET Password = :pass")
+    public abstract void updatePassword(String pass);
 
     @Transaction
     public int getNewMsgId(){
@@ -114,14 +117,14 @@ public abstract class ManageDao {
         }
         String data = String.format("{" +
                         "\"token\" : \"%s\", " +
-                        "\"refreshToken\" : \"%s\", " +
+                        "\"refreshToken\" : \"%s\"" +
                         "}",
                 getAuthToken(),
                 getRefreshToken());
         JSONObject json;
 
         try {
-            json = Utils.APIPost("/identity/refresh", new JSONObject(data), this);
+            json = Utils.APIPostNoRefresh(Utils.baseURL + "/identity/refresh", new JSONObject(data), this);
             String refreshToken = json.getString("refreshToken");
             String authToken    = json.getString("token");
             setRefreshToken(refreshToken);
