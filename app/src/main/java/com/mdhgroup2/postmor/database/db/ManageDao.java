@@ -1,28 +1,32 @@
 package com.mdhgroup2.postmor.database.db;
 
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.util.Base64;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Transaction;
-import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
-import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+//import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
+import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.Entities.User;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 @Dao
@@ -32,16 +36,10 @@ public abstract class ManageDao {
     public abstract void addUser(User user);
 
     @Insert
-    public abstract void addMessage(Message msg);
+    public abstract long addMessage(Message msg);
 
     @Query("SELECT ID FROM Settings LIMIT 1")
     public abstract int getUserId();
-
-    @Query("SELECT Password FROM Settings LIMIT 1")
-    public abstract String getUserPassword();
-
-    @Query("SELECT Email FROM Settings LIMIT 1")
-    public abstract String getUserEmail();
 
     @Query("SELECT ProfilePicture FROM Settings LIMIT 1")
     public abstract Bitmap getUserProfilePicture();
@@ -56,17 +54,18 @@ public abstract class ManageDao {
     public abstract Date getUserPickupTime();
 
     @Query("SELECT OutgoingLetterCount FROM Settings LIMIT 1")
-    public abstract LiveData<Integer> getOutgoingLetterCount();
+    public abstract int getOutgoingLetterCount();
 
-    @Query("UPDATE InternalMsgID " +
-            "SET Num = Num + 1")
-    abstract void incrementInternalMsgID();
+//    @Query("UPDATE InternalMsgID " +
+//            "SET Num = Num + 1 " +
+//            "WHERE PK = 1")
+//    abstract void incrementInternalMsgID();
 
-    @Query("SELECT Num FROM InternalMsgID LIMIT 1")
-    abstract int getInternalMsgID();
+//    @Query("SELECT PK FROM InternalMsgID LIMIT 1")
+//    abstract int getInternalMsgID();
 
-    @Insert
-    public abstract void initInternalID(InternalMsgID i);
+//    @Insert
+//    public abstract void initInternalID(InternalMsgID i);
 
     @Query("SELECT AuthToken FROM Settings LIMIT 1")
     public abstract String getAuthToken();
@@ -80,23 +79,60 @@ public abstract class ManageDao {
     @Query("UPDATE Settings SET RefreshToken = :token")
     public abstract void setRefreshToken(String token);
 
+
+    @Query("SELECT * FROM Users WHERE ID = :userID")
+    public abstract User findUser(int userID);
+
+    @Query("DELETE FROM Settings")
+    public abstract void deleteSettings();
+
+    @Query("UPDATE Settings SET Password = :pass")
+    public abstract void updatePassword(String pass);
+
+//    @Transaction
+//    public int getNewMsgId(){
+////        incrementInternalMsgID();
+//        return getInternalMsgID();
+//    }
+
+    @RawQuery
+    public abstract int checkpoint(SupportSQLiteQuery supportSQLiteQuery);
+
     @Transaction
-    public int getNewMsgId(){
-        incrementInternalMsgID();
-        return getInternalMsgID();
+    public void nukeDbAndInsertNewData(Settings user,
+                                       List<User> contacts,
+                                       List<Message> messages,
+                                       AccountDao accountdao){
+        DatabaseClient.nukeDatabase();
+//        SystemClock.sleep(1000);
+
+        accountdao.registerAccount(user);
+
+        for(User u : contacts){
+            addUser(u);
+        }
+
+        for(Message m : messages){
+            addMessage(m);
+        }
     }
 
     private boolean refresh(){
+        String token = getAuthToken();
+        String refresh = getRefreshToken();
+        if(token == null || refresh == null){
+            return false;
+        }
         String data = String.format("{" +
-                        "\"Token\" : \"%s\", " +
-                        "\"RefreshToken\" : \"%s\", " +
+                        "\"token\" : \"%s\", " +
+                        "\"refreshToken\" : \"%s\"" +
                         "}",
                 getAuthToken(),
                 getRefreshToken());
         JSONObject json;
 
         try {
-            json = Utils.APIPost("/identity/refresh", new JSONObject(data));
+            json = Utils.APIPostNoRefresh(Utils.baseURL + "/identity/refresh", new JSONObject(data), this);
             String refreshToken = json.getString("refreshToken");
             String authToken    = json.getString("token");
             setRefreshToken(refreshToken);
@@ -113,11 +149,15 @@ public abstract class ManageDao {
 
     private boolean tokenIsValid(){
         String token = getAuthToken();
-//        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJOaWNrIiwianRpIjoiOGZiZGU4NjktZTdlYi00ZDQ3LTgxOWItMDZkOGE5MjUxZGRjIiwiZW1haWwiOiJuaWNrQGFuaW1ldGl0dGllcy5jb20iLCJpZCI6IjEiLCJuYmYiOjE1Nzc2OTkyODgsImV4cCI6MTU3NzY5OTMzMywiaWF0IjoxNTc3Njk5Mjg4fQ.MhFc_5KddDRj77VinASwaMbhNHS1-KyVZQ0oKr7NH7w";
-        byte[] decoded = Base64.decode(token, Base64.DEFAULT);
+        if (token == null || token.equals("")) {
+            return false;
+        }
+//        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJOaWNrIiwianRpIjoiOGZiZGU4NjktZTdlYi00ZDQ3LTgxOWItMDZkOGE5MjUxZGRjIiwiZW1haWwiOiJuaWNrQGFuaW1ldGl0dGllcy5jb20iLCJpZCI6IjEiLCJuYmYiOjE1Nzc2OTkyODgsImV4cCI6MTU3NzY5OTMzMywiaWF0IjoxNTc3Njk5Mjg4fQ.MhFc_5KddDRj77VinASwaMbhNHS1-KyVZQ0oKr7NH7w";
+        token = token.split("\\.")[1];
+
+        byte[] decoded = Base64.decode(token, Base64.NO_CLOSE);
         try {
             String data = new String(decoded, StandardCharsets.UTF_8);
-            data = data.split("\\}")[1] + "}";
             JSONObject json = new JSONObject(data);
             int tokenTime = json.getInt("exp");
 
@@ -142,4 +182,34 @@ public abstract class ManageDao {
         }
     }
 
+    public void downloadUserInfo(int ID){
+        if(findUser(ID) != null){
+            return;
+        }
+
+        String data = String.format(Locale.US, "{" +
+                "\"contactId\" : %d " +
+                "}", ID);
+
+        try {
+            JSONObject json = Utils.APIPost(Utils.baseURL + "/contact/get", new JSONObject(data), this);
+
+            User u = new User();
+            u.PublicKey = json.getString("publicKey");
+            u.ProfilePicture = Converters.fromBase64(json.getString("picture"));
+            u.Address = json.getString("address");
+            u.ID = ID;
+            u.IsFriend = json.getBoolean("isFriend");
+            u.Name = json.getString("name");
+
+            addUser(u);
+        }
+        catch (JSONException | IOException e){
+            return;
+        }
+        return;
+    }
+
+    @Query("SELECT * FROM Messages")
+    public abstract List<Message> getAllMessagesFull();
 }

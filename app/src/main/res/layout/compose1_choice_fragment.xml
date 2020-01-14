@@ -4,17 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     tools:context=".Compose.Compose1Choice">
 
 
     <Button
         android:id="@+id/handButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:drawableLeft="@drawable/ic_photo_camera_black_24dp"
+        android:drawablePadding="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:text="@string/compose_handwrite_text"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,14 +38,10 @@
 
     <Button
         android:id="@+id/typeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        style="@style/WhiteDrawableButton"
         android:text="@string/compose_type_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/handButton"
-        app:layout_constraintStart_toStartOf="@+id/handButton"
+        app:layout_constraintEnd_toEndOf="@+id/textView18"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

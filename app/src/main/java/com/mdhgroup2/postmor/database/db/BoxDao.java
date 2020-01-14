@@ -3,8 +3,8 @@ package com.mdhgroup2.postmor.database.db;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
-import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.User;
 
@@ -13,36 +13,31 @@ import java.util.List;
 @Dao
 public interface BoxDao {
 
-    @Query("SELECT Num FROM InternalMsgID")
-    int getNextID();
-
-    @Query("Update InternalMsgID SET Num = Num + 1")
-    void incrementID();
-
     @Query("SELECT * FROM Messages")
     List<Message> getAllMessagesFull();
 
-    @Query("SELECT * FROM MsgCard")
-    List<MsgCard> getAllMessages();
+    @Query("SELECT MAX(InternalMessageID) FROM Messages")
+    int getLatestId();
 
-    @Query("SELECT * FROM MsgCard WHERE UserID = :userID")
-    List<MsgCard> getAllMessages(int userID);
+    @Query("SELECT * FROM BoxMessage WHERE IsDraft = 0")
+    List<BoxMessage> getAllMessages();
 
-    @Query("SELECT * FROM MsgCard WHERE SenderID != :clientID")
-    List<MsgCard> getInboxMessages(int clientID);
+    @Query("SELECT * FROM BoxMessage WHERE UserID = :userID AND IsDraft = 0")
+    List<BoxMessage> getAllMessages(int userID);
 
-    @Query("SELECT * FROM MsgCard WHERE SenderID != :clientID AND UserID = :id")
-    List<MsgCard> getInboxMessages(int clientID, int id);
+    @Query("SELECT * FROM BoxMessage WHERE SenderID != :clientID AND IsDraft = 0 AND IsOutgoing = 0")
+    List<BoxMessage> getInboxMessages(int clientID);
 
-    @Query("SELECT * FROM MsgCard WHERE SenderID = :clientID")
-    List<MsgCard> getOutboxMessages(int clientID);
+    @Query("SELECT * FROM BoxMessage WHERE SenderID != :clientID AND UserID = :id AND IsDraft = 0")
+    List<BoxMessage> getInboxMessages(int clientID, int id);
 
-    @Query("SELECT * FROM MsgCard WHERE SenderID = :clientID AND UserID = :id")
-    List<MsgCard> getOutboxMessages(int clientID, int id);
+    @Query("SELECT * FROM BoxMessage WHERE SenderID = :clientID AND IsDraft = 0 AND IsOutgoing = 0")
+    List<BoxMessage> getOutboxMessages(int clientID);
+
+    @Query("SELECT * FROM BoxMessage WHERE SenderID = :clientID AND UserID = :id AND IsDraft = 0")
+    List<BoxMessage> getOutboxMessages(int clientID, int id);
 
     @Query("SELECT COUNT(*) FROM Messages WHERE IsRead = 0 AND IsDraft = 0 AND IsOutgoing = 0")
-//    @Query("SELECT COUNT(*) FROM Users")
-//    int getNewMessageCount();
     int getNewMessageCount();
 
     @Query("SELECT * FROM Users")
@@ -50,9 +45,5 @@ public interface BoxDao {
 
     @Query("SELECT Text, Images, InternalmessageID FROM MessageContent WHERE InternalmessageID = :internalMsgId")
     MessageContent getMsgContent(int internalMsgId);
-
-//    @Transaction
-//    @Query("SELECT * FROM Users")
-//    List<UserWithMessages> getAllUsers();
 
 }

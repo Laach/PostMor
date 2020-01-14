@@ -1,10 +1,15 @@
 package com.mdhgroup2.postmor.database.db;
 
+
+import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ContactRepositoryMock implements IContactRepository {
 
@@ -53,15 +58,25 @@ public class ContactRepositoryMock implements IContactRepository {
     @Override
     public List<Contact> getContacts() {
         Contact u1 = new Contact();
-        u1.Name = "Ann-Marie Josefsson";
-        u1.Address = "Isterbarnsgatan 12";
+        u1.Name = "Test";
+        u1.Address = "Test 123";
         u1.Picture = Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw");
         u1.UserID = 1;
 
         Contact u2 = new Contact();
         u2.Name = "Arne Askersund";
         u2.Address = "Mastrostvägen 13";
-        u2.Picture = null;
+
+        InputStream myObj = DatabaseClient.appContext.getResources().openRawResource(R.raw.image);
+
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+//            System.out.println(data);
+            u2.Picture = Converters.fromBase64(data);
+        }
+        myReader.close();
+
         u2.UserID = 2;
 
         Contact u3 = new Contact();
@@ -79,23 +94,23 @@ public class ContactRepositoryMock implements IContactRepository {
     }
 
     @Override
-    public void addContact(int ID) {
-
+    public boolean addContact(int ID) {
+        return true;
     }
 
     @Override
-    public void deleteContact(int ID) {
-
+    public boolean deleteContact(int ID) {
+        return true;
     }
 
     @Override
     public Contact getUserCard(int ID) {
         Contact u2 = new Contact();
-        u2.Name = "Arne Askersund";
+        u2.Name = "[User with ID " + ID + "]";
         u2.Address = "Mastrostvägen 13";
         u2.Picture = null;
-        u2.UserID = 2;
-        u2.IsFriend = false;
+        u2.UserID = ID;
+        u2.IsFriend = true;
 
         return u2;
     }

@@ -1,21 +1,17 @@
 package com.mdhgroup2.postmor.database.repository;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
+import android.provider.ContactsContract;
 
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.RoomMasterTable;
-import androidx.room.RoomOpenHelper;
-import androidx.room.RoomSQLiteQuery;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import com.mdhgroup2.postmor.database.DTO.Account;
-import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
-import com.mdhgroup2.postmor.database.db.AccountBuilder;
+//import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.db.AppDatabase;
 import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
-import com.mdhgroup2.postmor.database.db.Converters;
-import com.mdhgroup2.postmor.database.db.DbDefaultData;
 import com.mdhgroup2.postmor.database.db.LetterRepositoryMock;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
@@ -29,29 +25,14 @@ public class DatabaseClient {
     public static void initDb(Context c){
         appContext = c;
 //        c.deleteDatabase("client-db");
-//        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
-//                .build();
-        db = DbDefaultData.DB(c);
-
-        // ---------------------------------------------------------
-        // This is required.
-        db.manageDao().initInternalID(new InternalMsgID(100));
-        // ---------------------------------------------------------
-
-        Account nick = new AccountBuilder()
-                .addName("Nick")
-                .addPassword("String123!")
-                .addAddress("Tittiegatan 6")
-                .addEmail("nick@animetitties.com")
-                .addPicture(Converters.fromBase64("R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"))
+        db = Room.databaseBuilder(c, AppDatabase.class, "client-db")
                 .build();
 
-//        boolean b = getAccountRepository().registerAccount(nick);
-
-//        getAccountRepository().signIn("nick@animetitties.com", "String123!");
-
-//        boolean b = db.manageDao().refreshToken();
-
+        // ---------------------------------------------------------
+        if(getAccountRepository().isLoggedIn()){
+            getBoxRepository().fetchNewMessages();
+        }
+        // ---------------------------------------------------------
     }
 
     public static Context appContext;
@@ -74,6 +55,8 @@ public class DatabaseClient {
 
     public static void nukeDatabase(){
         db.clearAllTables();
+//        db.manageDao().checkpoint(new SimpleSQLiteQuery("pragma wal_checkpoint(full)"));
+//        db.manageDao().initInternalID(new InternalMsgID(100));
     }
 
 

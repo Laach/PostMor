@@ -12,12 +12,12 @@ import java.util.List;
 
 @Entity(tableName = "Messages")
 public class Message {
-    @PrimaryKey
-    public int InternalMessageID;
+    @PrimaryKey(autoGenerate = true)
+    public int InternalMessageID = 0;
     @Nullable
     public int ExternalMessageID;
     @Nullable
-    public int UserID; // Reference User. This is the person the message is associated with.
+    public Integer UserID; // Reference User. This is the person the message is associated with.
     @NonNull
     public int WrittenBy;
     public boolean IsDraft;
@@ -25,7 +25,7 @@ public class Message {
     public boolean IsRead;
     public Date TimeStamp;
     public Date DeliveryTime;
-    public String SenderPublicKey;
+//    public String SenderPublicKey;
 
     @Nullable
     public List<Bitmap> Images;

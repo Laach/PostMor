@@ -1,49 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:gravity="end"
+        android:text="@string/found_user_address"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/userAddresss"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/userAddresss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/add_user_address_hint"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/address"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/button_cancel_user_add"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#F8F8F8"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <TextView
-            android:gravity="end"
-            android:text="@string/found_user_address" />
-
-        <EditText
-            android:id="@+id/userName"
-            android:hint="@string/add_user_address_hint"
-            android:inputType="text" />
-
-    </TableRow>
-
-    <TableRow android:gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/button_cancel_user_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/found_user_cancel"
-            android:textSize="20dp"
-            android:textAllCaps="false"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="20dp"/>
+        android:text="@string/cancel_button"
+        android:textColor="@color/colorAccent"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/userAddresss"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
 
-        <Button
-            android:id="@+id/button_search_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_user_search"
-            android:textSize="20dp"
-            android:textAllCaps="false"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="20dp"/>
+    <Button
+        android:id="@+id/button_search_user"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:drawableLeft="@drawable/ic_search_white_24dp"
+        android:drawablePadding="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/search_button"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/userAddresss"
+        app:layout_constraintTop_toTopOf="@+id/button_cancel_user_add" />
 
-    </TableRow>
 
-</TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

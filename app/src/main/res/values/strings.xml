@@ -8,6 +8,18 @@
     <string name="finish_button">finish</string>
     <string name="confirm_button">confirm</string>
     <string name="send_button">send</string>
+    <string name="cancel_button">cancel</string>
+    <string name="search_button">search</string>
+    <string name="found_user_add_button">Add</string>
+    <string name="remove_contact_button">Remove</string>
+    <string name="open_button">Open</string>
+    <string name="register_back">Back</string>
+    <string name="register_1_regenerate_button_title">Regenerate</string>
+    <string name="register_2_upload_button_title">Upload</string>
+    <string name="register_3_submit_button">Submit</string>
+    <string name="register_button_text">Register</string>
+    <string name="sign_in_confirm_button">Sign in</string>
+
 
     <!-- text fields -->
     <string name="enter_email_label">Email:</string>
@@ -16,19 +28,25 @@
     <string name="enter_firstname_clue">Ex: John</string>
     <string name="enter_password_label">Password:</string>
     <string name="confirm_password_label">Confirm password:</string>
+    <string name="register_2_description">Choose a profile picture</string>
+    <string name="profile_pic_CD">This is your profile picture.</string>
 
     <!-- home fragment -->
     <string name="home_box_button_title">Box</string>
     <string name="home_compose_button_title">Compose</string>
     <string name="home_contacts_button_title">Contacts</string>
+    <string name="sending_letters_text_1">Letters in your outbox:\ </string>
+    <string name="sending_letters_time">16:00</string>
+    <string name="nr_of_letters_to_be_sent">2</string>
+    <string name="outbox_empty_info">Your outbox is emptied:\ </string>
 
     <!-- box fragment -->
     <string name="box_tab_all">All</string>
     <string name="box_tab_inbox">Inbox</string>
     <string name="box_tab_outbox">Outbox</string>
     <string name="box_button_reply">Reply</string>
-    <string name="box_to_text">To</string>
-    <string name="box_from_text">From</string>
+    <string name="box_to_text">To:</string>
+    <string name="box_from_text">From:</string>
     <string name="box_address">Address address 12</string>
     <string name="box_name">Name Nameson</string>
     <string name="box_date">11/11/11</string>
@@ -47,41 +65,49 @@
     <string name="compose_address_hint">Ex: Masksnöskottargatan 123</string>
     <string name="compose_choose_pictures">Choose pictures</string>
     <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
+    <string name="compose_add_picture">Add a picture</string>
+    <string name="compose_enter_text_hint">Write your letter here...</string>
 
     <!-- contacts fragment -->
 
     <!-- register fragment -->
     <string name="register_1_description">In postmor, your real name and generated "home address" are used to send you letters.</string>
-    <string name="register_1_regenerate_button_title">Regenerate</string>
     <string name="register_1_address_explanation_text">Choose an address</string>
 
-    <string name="register_2_description">Choose a profile picture</string>
-    <string name="register_2_upload_button_title">Upload</string>
 
     <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
-    <string name="password_validity_feedback">* Please enter a password</string>
+    <string name="password_validity_feedback_match">Password and confirm password needs to match.</string>
+    <string name="password_validity_feedback_length">Password must contain at least 6 characters</string>
+    <string name="password_validity_feedback_lowercase">Password must contain at least 1 lowercase letter.</string>
+    <string name="password_validity_feedback_uppercase">Password must contain at least 1 uppercase letter.</string>
+    <string name="password_validity_feedback_numeric">Password must contain at least 1 numeric character.</string>
+    <string name="password_validity_feedback_char">Password must contain at least 1 non alphanumeric character.</string>
 
     <!-- settings fragment -->
+    <string name="old_password_text">Old Password:</string>
+    <string name="new_password_text">New Password:</string>
+    <string name="confirm_new_password_text">Confirm New Password:</string>
 
     <!-- sign in fragment -->
     <string name="sign_in_description">Sign in with an already existing account</string>
     <string name="register_hint_text">Don\'t have an account?</string>
-    <string name="register_button_text">Register</string>
-    <string name="sign_in_confirm_button">Sign in</string>
+
 
     <!-- tutorial fragment -->
 
     <!-- user to user fragment -->
 
     <!-- about fragment -->
+    <string name="about_information">This app is used to send virtual mails between users. It has been constructed by five students from Mälardalens University: Alexander Andersson, Casper Andersson, Emil Elfström,
+    Philip Karlsson and Nick Grannas. This app has been part of an project in the course Mobile Application at Mälardalens University during the period 11-11-2019 to 15-1-2020.</string>
 
     <!-- User popup windows -->
     <string name="found_user_name">Name: </string>
     <string name="found_user_address">Address: </string>
-    <string name="found_user_cancel">Cancel</string>
-    <string name="found_user_add">Add</string>
     <string name="found_user_profile_pic_description">Profile pic</string>
-    <string name="add_user_search">Search</string>
     <string name="add_user_address_hint">Input user address</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

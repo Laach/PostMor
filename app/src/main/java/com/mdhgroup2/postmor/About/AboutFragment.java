@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.About;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         return inflater.inflate(R.layout.about_fragment, container, false);
     }
 
