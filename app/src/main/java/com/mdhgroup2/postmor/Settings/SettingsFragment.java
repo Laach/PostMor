@@ -44,13 +44,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference about = findPreference("about");
         Preference signOut = findPreference("sign_out");
 
-        changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Navigation.findNavController(getView()).navigate(SettingsFragmentDirections.actionSettingsFragmentToPasswordDialogFragment());
-                return true;
-            }
-        });
+//        changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                Navigation.findNavController(getView()).navigate(SettingsFragmentDirections.actionSettingsFragmentToPasswordDialogFragment());
+//                return true;
+//            }
+//        });
 
         about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

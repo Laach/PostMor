@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Settings.SettingsFragment">
 
-    <Preference
-        app:key="profile_picture"
-        app:title="Profile picture"
-        app:summary="Change profile picture"
-        />
-    <Preference
-        app:key="changePassword"
-        app:title="Password"
-        app:summary="Change Password"
-        />
+<!--    <Preference-->
+<!--        app:key="profile_picture"-->
+<!--        app:title="Profile picture"-->
+<!--        app:summary="Change profile picture"-->
+<!--        />-->
+<!--    <Preference-->
+<!--        app:key="changePassword"-->
+<!--        app:title="Password"-->
+<!--        app:summary="Change Password"-->
+<!--        />-->
     <PreferenceCategory
         app:key="help_category"
         app:title="Help">

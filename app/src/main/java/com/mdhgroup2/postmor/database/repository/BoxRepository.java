@@ -128,7 +128,8 @@ public class BoxRepository implements IBoxRepository {
 //                latestMessageId = m.ExternalMessageID;
 //            }
 //        }
-        int latestMessageId = boxdb.getLatestId();
+        int myId = managedb.getUserId();
+        int latestMessageId = boxdb.getLatestId(myId);
 
         String data  = String.format(Locale.US, "{" +
                 "\"latestMessageId\" : %d" +
@@ -183,7 +184,7 @@ public class BoxRepository implements IBoxRepository {
         msg.IsDraft = false;
         msg.IsRead = false;
         msg.IsOutgoing = false;
-        msg.TimeStamp = null;
+        msg.TimeStamp = Utils.parseDate(json.getString("timestamp"));
 
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");

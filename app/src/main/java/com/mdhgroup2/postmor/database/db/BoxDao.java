@@ -16,8 +16,8 @@ public interface BoxDao {
     @Query("SELECT * FROM Messages")
     List<Message> getAllMessagesFull();
 
-    @Query("SELECT MAX(InternalMessageID) FROM Messages")
-    int getLatestId();
+    @Query("SELECT MAX(ExternalMessageID) FROM Messages WHERE WrittenBy != :myId")
+    int getLatestId(int myId);
 
     @Query("SELECT * FROM BoxMessage WHERE IsDraft = 0")
     List<BoxMessage> getAllMessages();
