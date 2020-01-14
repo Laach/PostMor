@@ -63,20 +63,31 @@ public class RecipientFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Contact recipient = mViewModel.getChosenRecipient();
 
         mViewModel.getChosenRec().observe(this, new Observer<Contact>() {
             @Override
             public void onChanged(Contact contact) {
                 if(contact != null){
-                    recipientButton.setVisibility(View.GONE);
+                    /*recipientButton.setVisibility(View.GONE);
                     recipientAddress.setVisibility(View.VISIBLE);
                     recipientName.setVisibility(View.VISIBLE);
-                    recipientPicture.setVisibility(View.VISIBLE);
+                    recipientPicture.setVisibility(View.VISIBLE);*/
 
-                    recipientAddress.setText(contact.Address);
-                    recipientName.setText(contact.Name);
-                    recipientPicture.setImageBitmap(contact.Picture);
+                    if(contact.Address != null){
+                        recipientAddress.setText(contact.Address);
+                    }else{
+                        recipientAddress.setText("NULL");
+                    }
+                    if(contact.Name != null) {
+                        recipientName.setText(contact.Name);
+                    }else{
+                        recipientName.setText("NULL");
+                    }
+                    if(contact.Picture != null){
+                        recipientPicture.setImageBitmap(contact.Picture);
+                    }else{
+
+                    }
 
                     chosenRecipientLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -87,23 +98,25 @@ public class RecipientFragment extends Fragment {
                         }
                     });
                 }else{
+                    /*
                     recipientButton.setVisibility(View.VISIBLE);
                     recipientAddress.setVisibility(View.GONE);
                     recipientName.setVisibility(View.GONE);
-                    recipientPicture.setVisibility(View.GONE);
+                    recipientPicture.setVisibility(View.GONE);*/
                 }
             }
         });
 
+        Contact recipient = mViewModel.getChosenRecipient();
         if(recipient != null){
             recipientButton.setVisibility(View.GONE);
             recipientAddress.setVisibility(View.VISIBLE);
             recipientName.setVisibility(View.VISIBLE);
             recipientPicture.setVisibility(View.VISIBLE);
 
-            recipientAddress.setText(recipient.Address);
+            /*recipientAddress.setText(recipient.Address);
             recipientName.setText(recipient.Name);
-            recipientPicture.setImageBitmap(recipient.Picture);
+            recipientPicture.setImageBitmap(recipient.Picture);*/
 
             chosenRecipientLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

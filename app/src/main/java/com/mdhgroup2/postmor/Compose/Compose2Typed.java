@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -89,6 +90,8 @@ public class Compose2Typed extends Fragment {
             }
         });
 
+
+        final SendMessageTask sendMessageTask = new SendMessageTask(getContext(), this,mViewModel);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +103,7 @@ public class Compose2Typed extends Fragment {
                         mViewModel.addText(inputEditText.getText().toString());
                         Log.d("test", "onClick: send");
                         //mViewModel.sendMessage();
-                        SendMessageTask sendMessageTask = new SendMessageTask(getContext(), mViewModel);
+
                         sendMessageTask.execute(mViewModel.getMsg());
                     } else {
                         Toast.makeText(getActivity(),"No message!", Toast.LENGTH_SHORT).show();
@@ -112,6 +115,7 @@ public class Compose2Typed extends Fragment {
             }
         });
 
+
         return view;
     }
 
@@ -119,9 +123,10 @@ public class Compose2Typed extends Fragment {
     @Override
     public void onDestroy() {
         mViewModel.addText(inputEditText.getText().toString());
-        if(!mViewModel.isSend){
+        /*if(!mViewModel.isSend){
             mViewModel.saveDraft();
-        }
+        }*/
+        mViewModel.saveDraft();
         super.onDestroy();
     }
 
@@ -132,7 +137,17 @@ public class Compose2Typed extends Fragment {
         mainVM = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
         // TODO: Use the ViewModel
     }
+
+    public void clearDraft(){
+        inputEditText.setText("");
+    }
+
+    public void navigateHome(){
+        mainVM.removeRecipient();
+        Navigation.findNavController(getView()).navigate(Compose2TypedDirections.actionCompose2TypedToHomeFragment());
+    }
 }
+
 
 class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
 
@@ -140,11 +155,13 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
     private Context mContext;
     private Compose2TypedViewModel mViewModel;
     private AlertDialog.Builder alertBuilder;
+    private Compose2Typed compose;
 
-    public SendMessageTask(Context context, Compose2TypedViewModel viewmodel){
+    public SendMessageTask(Context context, Compose2Typed compose2Typed, Compose2TypedViewModel viewmodel){
         mContext = context;
         mProgressDialog = new ProgressDialog(mContext);
         mViewModel = viewmodel;
+        compose = compose2Typed;
     }
 
     @Override
@@ -179,13 +196,14 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
 
         if(result){
             //Update UI
+            compose.clearDraft();
 
             alertBuilder.setTitle("Success!")
                     .setMessage("Your letter will be sent at 16:00")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //dismiss
+                            compose.navigateHome();
                         }
                     });
             AlertDialog dialog = alertBuilder.create();
