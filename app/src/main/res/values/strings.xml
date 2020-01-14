@@ -76,7 +76,6 @@
 
 
     <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
-    <string name="register_3_submit_button">Submit</string>
     <string name="password_validity_feedback_match">Password and confirm password needs to match.</string>
     <string name="password_validity_feedback_length">Password must contain at least 6 characters</string>
     <string name="password_validity_feedback_lowercase">Password must contain at least 1 lowercase letter.</string>
