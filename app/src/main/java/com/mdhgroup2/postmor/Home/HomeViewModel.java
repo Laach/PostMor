@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Home;
 
+import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 
 import androidx.lifecycle.ViewModel;
@@ -17,11 +18,24 @@ public class HomeViewModel extends ViewModel {
 
     private final ILetterRepository letterRepo;
     private final IBoxRepository boxRepo;
+    private final IAccountRepository accountRepo;
 
 
     public HomeViewModel(){
         letterRepo = DatabaseClient.getMockLetterRepository();
         boxRepo = DatabaseClient.getMockBoxRepository();
+        accountRepo = DatabaseClient.getAccountRepository();
+    }
+
+    public Bitmap getOwnProfilePicture()
+    {
+        return accountRepo.getMyProfilePicture();
+    }
+    public String getOwnName(){
+        return  accountRepo.getMyName();
+    }
+    public String getOwnAddress(){
+        return  accountRepo.getMyAddress();
     }
 
     public String getOutgoingLetterCount(){
