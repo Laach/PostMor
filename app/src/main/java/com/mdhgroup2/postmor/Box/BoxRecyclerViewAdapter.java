@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Box;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +89,46 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.box_item, parent, false);
 
-        BoxItemsViewHolder vh = new BoxItemsViewHolder(v);
+        final BoxItemsViewHolder vh = new BoxItemsViewHolder(v);
+
+
+        vh.expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View contents = vh.expandableContent;
+
+                if(contents.getVisibility() == View.VISIBLE){
+                    contents.setVisibility(View.GONE);
+                    vh.expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp);
+                }else{
+                    contents.setVisibility(View.VISIBLE);
+                    vh.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
+                }
+            }
+        });
+
+        vh.sendButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Bundle bundle = new Bundle();
+                int id = messageDataset.get(vh.getAdapterPosition()).UserID;
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.composeFragment, bundle);
+            }
+        });
+
+        vh.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                int id = messageDataset.get(vh.getAdapterPosition()).UserID;
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.action_boxFragment_to_userToUserFragment, bundle);
+            }
+        });
+
+
+
         return vh;
     }
 
@@ -106,7 +146,8 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             cvHolder.profilePicture.setImageResource(R.drawable.anon_profile);
         } else
         {
-            cvHolder.profilePicture.setImageBitmap(message.Picture);
+            Bitmap scaledPicture = Bitmap.createScaledBitmap(message.Picture, 400, 400, true);
+            cvHolder.profilePicture.setImageBitmap(scaledPicture);
         }
 
         cvHolder.address.setText(message.Address);
@@ -137,16 +178,30 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         if (message.IsSentByMe) {
             cvHolder.toOrFrom.setText(R.string.box_to_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_sent_letter);
-            cvHolder.sendButton.setVisibility(View.INVISIBLE);
+            cvHolder.sendButton.setVisibility(View.GONE);
         } else {
             cvHolder.toOrFrom.setText(R.string.box_from_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_recieved_letter);
+            cvHolder.sendButton.setVisibility(View.VISIBLE);
+            cvHolder.sendButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Bundle bundle = new Bundle();
+                    int id = messageDataset.get(position).UserID;
+                    bundle.putInt("id", id);
+                    Navigation.findNavController(view).navigate(R.id.composeFragment, bundle);
+
+                }
+            });
         }
 
         // Populate the expandable message contents
+        cvHolder.expandableContent.setVisibility(View.GONE);
+        cvHolder.expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp);
         if(message.Text == null || message.Text.isEmpty())
         {
             //This is a picture message
+            cvHolder.contentText.setVisibility(View.GONE);
             if(message.Images.size() >= 1)
             {
                 cvHolder.contentImage1.setImageBitmap(message.Images.get(0));
@@ -170,7 +225,11 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             //This is a text message
             cvHolder.contentText.setVisibility(View.VISIBLE);
             cvHolder.contentText.setText(message.Text);
+            cvHolder.contentImage1.setVisibility(View.GONE);
+            cvHolder.contentImage2.setVisibility(View.GONE);
+            cvHolder.contentImage3.setVisibility(View.GONE);
         }
+
 
         cvHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,17 +244,6 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                     contents.setVisibility(View.VISIBLE);
                     cvHolder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
                 }
-            }
-        });
-
-        cvHolder.sendButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Bundle bundle = new Bundle();
-                int id = messageDataset.get(position).UserID;
-                bundle.putInt("id", id);
-                Navigation.findNavController(view).navigate(R.id.composeFragment, bundle);
-
             }
         });
 

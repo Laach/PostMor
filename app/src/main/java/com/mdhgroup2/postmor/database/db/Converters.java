@@ -44,6 +44,16 @@ public class Converters {
             return "";
         }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        while(width > 2000 || height > 2000){
+            width  /= 2;
+            height /= 2;
+        }
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+
         bitmap.compress(Bitmap.CompressFormat.JPEG, 10, outputStream);
 
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
