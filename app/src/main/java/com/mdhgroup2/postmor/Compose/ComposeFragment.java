@@ -37,6 +37,18 @@ public class ComposeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
 
+        /*
+        int id = 0;
+        try{
+            id = getArguments().getInt("id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(id != 0){
+            mainVM.chooseRecipientById(id);
+        }*/
+
         View view = inflater.inflate(R.layout.compose_fragment, container, false);
         return view;
     }
@@ -58,10 +70,7 @@ public class ComposeFragment extends Fragment {
         if(getArguments() != null){
             int id = getArguments().getInt("id");
             if(id != 0){
-                DTO dto = new DTO();
-                dto.ID = id;
-                dto.mvm = mainVM;
-                new SetRecipientAsync().execute(dto);
+                mainVM.chooseRecipientById(id);
             }
         }
 
@@ -73,22 +82,6 @@ public class ComposeFragment extends Fragment {
         typeButton.setOnClickListener(Navigation.createNavigateOnClickListener(ComposeFragmentDirections.actionComposeFragmentToCompose2Typed()));
         handButton.setOnClickListener(Navigation.createNavigateOnClickListener(ComposeFragmentDirections.actionComposeFragmentToCompose2Handwritten()));
         // TODO: Use the ViewModel
-    }
-
-    private class DTO{
-        public MainActivityViewModel mvm;
-        public int ID;
-    }
-
-    private class SetRecipientAsync extends AsyncTask<DTO, Void, Void>{
-
-        @Override
-        protected Void doInBackground(DTO... dto) {
-            int ID = dto[0].ID;
-            dto[0].mvm.chooseRecipientById(ID);
-
-            return null;
-        }
     }
 
 }
