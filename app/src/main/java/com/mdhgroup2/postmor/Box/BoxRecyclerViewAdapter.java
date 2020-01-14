@@ -111,7 +111,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         cvHolder.address.setText(message.Address);
 
         //format the date
-        Date todayDate = new Date();
+        Date todayDate = new Date(System.currentTimeMillis());
         Date messageDate = message.DateStamp;
         long oneDay = 1000 * 60 * 60 * 24; //milliseconds in a day
         SimpleDateFormat x;
