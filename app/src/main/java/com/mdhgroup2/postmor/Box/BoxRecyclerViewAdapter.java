@@ -137,6 +137,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         if (message.IsSentByMe) {
             cvHolder.toOrFrom.setText(R.string.box_to_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_sent_letter);
+            cvHolder.sendButton.setVisibility(View.INVISIBLE);
         } else {
             cvHolder.toOrFrom.setText(R.string.box_from_text);
             cvHolder.toOrFromPicture.setImageResource(R.drawable.ic_recieved_letter);
