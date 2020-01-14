@@ -22,8 +22,8 @@ public class HomeViewModel extends ViewModel {
 
 
     public HomeViewModel(){
-        letterRepo = DatabaseClient.getMockLetterRepository();
-        boxRepo = DatabaseClient.getMockBoxRepository();
+        letterRepo = DatabaseClient.getLetterRepository();
+        boxRepo = DatabaseClient.getBoxRepository();
         accountRepo = DatabaseClient.getAccountRepository();
     }
 

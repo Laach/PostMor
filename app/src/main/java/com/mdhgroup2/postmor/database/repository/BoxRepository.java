@@ -99,7 +99,7 @@ public class BoxRepository implements IBoxRepository {
             m.IsSentByMe = false;
         }
         else{
-            m.IsSentByMe = false;
+            m.IsSentByMe = true;
         }
         return m;
     }

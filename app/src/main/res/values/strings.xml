@@ -13,6 +13,12 @@
     <string name="found_user_add_button">Add</string>
     <string name="remove_contact_button">Remove</string>
     <string name="open_button">Open</string>
+    <string name="register_back">Back</string>
+    <string name="register_1_regenerate_button_title">Regenerate</string>
+    <string name="register_2_upload_button_title">Upload</string>
+    <string name="register_3_submit_button">Submit</string>
+    <string name="register_button_text">Register</string>
+    <string name="sign_in_confirm_button">Sign in</string>
 
 
     <!-- text fields -->
@@ -22,6 +28,8 @@
     <string name="enter_firstname_clue">Ex: John</string>
     <string name="enter_password_label">Password:</string>
     <string name="confirm_password_label">Confirm password:</string>
+    <string name="register_2_description">Choose a profile picture</string>
+    <string name="profile_pic_CD">This is your profile picture.</string>
 
     <!-- home fragment -->
     <string name="home_box_button_title">Box</string>
@@ -64,12 +72,8 @@
 
     <!-- register fragment -->
     <string name="register_1_description">In postmor, your real name and generated "home address" are used to send you letters.</string>
-    <string name="register_1_regenerate_button_title">Regenerate</string>
     <string name="register_1_address_explanation_text">Choose an address</string>
-    <string name="register_back">Back</string>
 
-    <string name="register_2_description">Choose a profile picture</string>
-    <string name="register_2_upload_button_title">Upload</string>
 
     <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
     <string name="register_3_submit_button">Submit</string>
@@ -83,19 +87,20 @@
     <!-- settings fragment -->
     <string name="old_password_text">Old Password:</string>
     <string name="new_password_text">New Password:</string>
-    <string name="repeat_new_password_text">Repeat New Password:</string>
+    <string name="confirm_new_password_text">Confirm New Password:</string>
 
     <!-- sign in fragment -->
     <string name="sign_in_description">Sign in with an already existing account</string>
     <string name="register_hint_text">Don\'t have an account?</string>
-    <string name="register_button_text">Register</string>
-    <string name="sign_in_confirm_button">Sign in</string>
+
 
     <!-- tutorial fragment -->
 
     <!-- user to user fragment -->
 
     <!-- about fragment -->
+    <string name="about_information">This app is used to send virtual mails between users. It has been constructed by five students from Mälardalens University: Alexander Andersson, Casper Andersson, Emil Elfström,
+    Philip Karlsson and Nick Grannas. This app has been part of an project in the course Mobile Application at Mälardalens University during the period 11-11-2019 to 15-1-2020.</string>
 
     <!-- User popup windows -->
     <string name="found_user_name">Name: </string>
