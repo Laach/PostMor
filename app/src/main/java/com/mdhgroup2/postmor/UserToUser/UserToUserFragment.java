@@ -67,6 +67,7 @@ public class UserToUserFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", id);
+                //Navigation.findNavController(view).navigate(R.id.action_userToUserFragment_to_composeFragment);
                 Navigation.findNavController(view).navigate(R.id.action_userToUserFragment_to_composeFragment, bundle);
             }
         });
