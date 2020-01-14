@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,7 +140,11 @@ public class Compose2Typed extends Fragment {
 
     public void clearDraft(){
         inputEditText.setText("");
+    }
 
+    public void navigateHome(){
+        mainVM.removeRecipient();
+        Navigation.findNavController(getView()).navigate(Compose2TypedDirections.actionCompose2TypedToHomeFragment());
     }
 }
 
@@ -198,7 +203,7 @@ class SendMessageTask extends AsyncTask<EditMsg, Void, Boolean>{
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //dismiss
+                            compose.navigateHome();
                         }
                     });
             AlertDialog dialog = alertBuilder.create();
