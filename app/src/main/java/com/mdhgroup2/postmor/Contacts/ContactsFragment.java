@@ -143,7 +143,6 @@ public class ContactsFragment extends Fragment {
                                         @Override
                                         public void onClick(View view) {
                                             new AddFriendAsync(mViewModel, friend).execute();
-                                            ContactsAdapter.contacts.add(friend);
                                             mAdapter.notifyDataSetChanged();
                                             Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
                                             toast.show();
@@ -230,7 +229,9 @@ public class ContactsFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            mvm.addUserToContacts(contact);
+            if(mvm.addUserToContacts(contact)){
+                ContactsAdapter.contacts.add(contact);
+            }
             return null;
         }
     }
