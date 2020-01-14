@@ -71,7 +71,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
                 Navigation.findNavController(view).navigate(R.id.userToUserFragment, bundle);
             }else{
                 //navigate back to compose and update recipient fragment (through the viewmodel?)
-                vm.chooseRecipient(getAdapterPosition());
+                vm.chooseRecipientById(contacts.get(getAdapterPosition()).UserID);
                 Navigation.findNavController(view).navigateUp();
             }
         }
@@ -100,7 +100,7 @@ class ContactsAdapter extends RecyclerView.Adapter {
         cvHolder.address.setText(contacts.get(position).Address);
         cvHolder.id = contacts.get(position).UserID;
         if (contacts.get(position).Picture == null) {
-            cvHolder.profilePicture.setImageResource(R.mipmap.ic_launcher);
+            cvHolder.profilePicture.setImageResource(R.drawable.anon_profile);
         }
         else {
             cvHolder.profilePicture.setImageBitmap(contacts.get(position).Picture);

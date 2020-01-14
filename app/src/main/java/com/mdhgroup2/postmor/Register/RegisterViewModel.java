@@ -23,17 +23,25 @@ public class RegisterViewModel extends ViewModel {
     private final IAccountRepository accountDB;
     private Account myAccount;
     private String confirmPassword;
-    private List<String> myAddresses = new ArrayList<>();
+    private MutableLiveData<List<String>> myAddresses;
+    private List<String> recievedAddresses;
     private Random rand = new Random();
     private MutableLiveData<List<String>> callResults;
     public String choosenAddress;
-    private int numberOfAddress = 5;
+    private int numberOfAddress = 40;
 
     public MutableLiveData<List<String>> getResults(){
         if(callResults == null) {
             callResults = new MutableLiveData<>();
         }
         return callResults;
+    }
+
+    public MutableLiveData<List<String>> updateAddresses(){
+        if(myAddresses == null){
+            myAddresses = new MutableLiveData<>();
+        }
+        return  myAddresses;
     }
 
     public RegisterViewModel(){
@@ -43,7 +51,7 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void generateAddresses(){
-        myAccount.Address = myAddresses.get(rand.nextInt(numberOfAddress));
+        myAccount.Address = recievedAddresses.get(rand.nextInt(numberOfAddress));
     }
 
     public void getAddressesFromDB(int amount){
@@ -76,6 +84,10 @@ public class RegisterViewModel extends ViewModel {
 
     public void setAccountImage(Bitmap image){
         myAccount.Picture = image;
+    }
+
+    public Bitmap getAccountImage(){
+        return myAccount.Picture;
     }
 
     public void setAccountPassword(String password){
@@ -173,7 +185,8 @@ public class RegisterViewModel extends ViewModel {
 
         @Override
         protected void onPostExecute(List<String> addresses){
-            myAddresses = addresses;
+            myAddresses.setValue(addresses);
+            recievedAddresses = addresses;
         }
     }
 }

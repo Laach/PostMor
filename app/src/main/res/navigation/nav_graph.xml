@@ -16,7 +16,9 @@
         tools:layout="@layout/sign_in_fragment">
         <action
             android:id="@+id/action_signInFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/signInFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signInFragment_to_register1"
             app:destination="@id/register1" />
@@ -25,12 +27,16 @@
         android:id="@+id/boxFragment"
         android:name="com.mdhgroup2.postmor.Box.BoxFragment"
         android:label="Box"
-        tools:layout="@layout/box_fragment" />
+        tools:layout="@layout/box_fragment" >
+        <action
+            android:id="@+id/action_boxFragment_to_userToUserFragment"
+            app:destination="@id/userToUserFragment" />
+    </fragment>
     <fragment
         android:id="@+id/composeFragment"
         android:name="com.mdhgroup2.postmor.Compose.ComposeFragment"
         android:label="Compose"
-        tools:layout="@layout/compose_fragment" >>
+        tools:layout="@layout/compose_fragment">>
         <action
             android:id="@+id/action_composeFragment_to_compose2Handwritten"
             app:destination="@id/compose2Handwritten" />
@@ -66,6 +72,10 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -81,7 +91,7 @@
         <action
             android:id="@+id/action_settingsFragment_to_signInFragment"
             app:destination="@+id/signInFragment"
-            app:popUpTo="@+id/signInFragment" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/userToUserFragment"
@@ -92,6 +102,9 @@
             android:name="index"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_userToUserFragment_to_composeFragment"
+            app:destination="@id/composeFragment" />
     </fragment>
     <fragment
         android:id="@+id/compose2Handwritten"
@@ -143,7 +156,9 @@
         tools:layout="@layout/register3_fragment">
         <action
             android:id="@+id/action_register3_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_register3_to_register2"
             app:destination="@id/register2"
