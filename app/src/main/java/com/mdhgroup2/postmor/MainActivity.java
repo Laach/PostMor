@@ -13,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 
 import android.app.Notification;
@@ -20,6 +21,7 @@ import android.app.NotificationManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import android.os.SystemClock;
