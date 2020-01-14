@@ -19,22 +19,22 @@ public interface BoxDao {
     @Query("SELECT MAX(InternalMessageID) FROM Messages")
     int getLatestId();
 
-    @Query("SELECT * FROM BoxMessage")
+    @Query("SELECT * FROM BoxMessage WHERE IsDraft = 0")
     List<BoxMessage> getAllMessages();
 
-    @Query("SELECT * FROM BoxMessage WHERE UserID = :userID")
+    @Query("SELECT * FROM BoxMessage WHERE UserID = :userID AND IsDraft = 0")
     List<BoxMessage> getAllMessages(int userID);
 
-    @Query("SELECT * FROM BoxMessage WHERE SenderID != :clientID")
+    @Query("SELECT * FROM BoxMessage WHERE SenderID != :clientID AND IsDraft = 0 AND IsOutgoing = 0")
     List<BoxMessage> getInboxMessages(int clientID);
 
-    @Query("SELECT * FROM BoxMessage WHERE SenderID != :clientID AND UserID = :id")
+    @Query("SELECT * FROM BoxMessage WHERE SenderID != :clientID AND UserID = :id AND IsDraft = 0")
     List<BoxMessage> getInboxMessages(int clientID, int id);
 
-    @Query("SELECT * FROM BoxMessage WHERE SenderID = :clientID")
+    @Query("SELECT * FROM BoxMessage WHERE SenderID = :clientID AND IsDraft = 0 AND IsOutgoing = 0")
     List<BoxMessage> getOutboxMessages(int clientID);
 
-    @Query("SELECT * FROM BoxMessage WHERE SenderID = :clientID AND UserID = :id")
+    @Query("SELECT * FROM BoxMessage WHERE SenderID = :clientID AND UserID = :id AND IsDraft = 0")
     List<BoxMessage> getOutboxMessages(int clientID, int id);
 
     @Query("SELECT COUNT(*) FROM Messages WHERE IsRead = 0 AND IsDraft = 0 AND IsOutgoing = 0")

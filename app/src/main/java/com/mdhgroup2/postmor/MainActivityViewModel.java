@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
@@ -9,13 +10,16 @@ import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.interfaces.IContactRepository;
 import com.mdhgroup2.postmor.database.interfaces.IBoxRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MainActivityViewModel extends ViewModel {
-    private final List<Contact> contacts;
     private final IContactRepository contactRepo;
     private final IBoxRepository boxRepo;
     private Contact chosenRecipient;
@@ -25,17 +29,24 @@ public class MainActivityViewModel extends ViewModel {
     private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public MainActivityViewModel(){
-        contactRepo = DatabaseClient.getMockContactRepository();
-        boxRepo = DatabaseClient.getMockBoxRepository();
+        contactRepo = DatabaseClient.getContactRepository();
+        boxRepo = DatabaseClient.getBoxRepository();
         accountRepo = DatabaseClient.getAccountRepository();
-        contacts = contactRepo.getContacts();
         chosenRecipient = null;
         chosenRec.setValue(null);
     }
 
     public List<Contact> getContactList(){
-        return contacts;
+        try {
+
+            return new GetContactsTask().execute().get();
+        }
+        catch(Exception e){
+
+        }
+        return new ArrayList<>();
     }
+
     public List<MsgCard> getMessageList(int index){
         if (index == 1) {
             return boxRepo.getAllMessages();
@@ -52,45 +63,29 @@ public class MainActivityViewModel extends ViewModel {
 
     public Contact getContactById(int id){ return contactRepo.getUserCard(id);}
 
-    public Contact getContact(int index){
-        try{
-            return contacts.get(index);
-        } catch(IndexOutOfBoundsException e)
-        {
-            Contact noContact = new Contact();
-            noContact.Address = "";
-            noContact.IsFriend = true;
-            noContact.Name = "No contact selected";
-            noContact.Picture = null;
-            noContact.UserID = -1;
-            return noContact;
-        }
-    }
 
     public int checkForNewMessages(){
         return boxRepo.fetchNewMessages();
     }
 
     public boolean removeContact(Contact contact){
-        if(contactRepo.deleteContact(contact.UserID)){
-            for(Contact c : contacts){
-                if(c.UserID == contact.UserID){
-                    contacts.remove(c);
-                    break;
-                }
-            }
-            return true;
-        }
-        return false;
+        return contactRepo.deleteContact(contact.UserID);
     }
 
     public Contact findUserByAddress(String address){
-        return contactRepo.findByAddress(address);
+        FindContactByAddressTask task = new FindContactByAddressTask();
+        task.execute(address);
+        try {
+            return task.get();
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 
     public boolean addUserToContacts (Contact friend){
         if(contactRepo.addContact(friend.UserID)){
-            contacts.add(friend);
+//            contacts.add(friend);
             return true;
         }
         return false;
@@ -151,13 +146,25 @@ public class MainActivityViewModel extends ViewModel {
     }
 
 
-    public void chooseRecipient(int index){
-        chosenRecipient = getContact(index);
-        chosenRec.postValue(chosenRecipient);
-    }
+//    public void chooseRecipient(int id){
+//        try{
+//
+//            chosenRecipient = new GetContactByIdAsync().execute(id).get();
+//        }
+//        catch (ExecutionException | InterruptedException e){
+//            chosenRecipient = null;
+//        }
+//        chosenRec.postValue(chosenRecipient);
+//    }
 
     public void chooseRecipientById(int id){
-        chosenRecipient = contactRepo.getUserCard(id);
+        try{
+
+            chosenRecipient = new GetContactByIdAsync().execute(id).get();
+        }
+        catch (ExecutionException | InterruptedException e){
+            chosenRecipient = null;
+        }
         chosenRec.postValue(chosenRecipient);
     }
 
@@ -169,4 +176,29 @@ public class MainActivityViewModel extends ViewModel {
         chosenRecipient = null;
         chosenRec.postValue(chosenRecipient);
     }
+
+    private class GetContactsTask extends AsyncTask<Void, Void, List<Contact>>{
+
+        @Override
+        protected List<Contact> doInBackground(Void... voids) {
+            return contactRepo.getContacts();
+        }
+    }
+
+    private class FindContactByAddressTask extends AsyncTask<String, Void, Contact>{
+
+        @Override
+        protected Contact doInBackground(String... address ) {
+            return contactRepo.findByAddress(address[0]);
+        }
+    }
+
+    public class GetContactByIdAsync extends AsyncTask<Integer, Void, Contact>{
+
+        @Override
+        protected Contact doInBackground(Integer... id) {
+            return getContactById(id[0]);
+        }
+    }
+
 }

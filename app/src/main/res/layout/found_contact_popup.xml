@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
 
 
     <TextView
@@ -16,8 +17,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/found_user_profile_pic"
-        app:layout_constraintTop_toTopOf="@+id/found_user_profile_pic" />
+        app:layout_constraintStart_toEndOf="@+id/profile_pic_card"
+        app:layout_constraintTop_toTopOf="@+id/profile_pic_card" />
 
     <TextView
         android:id="@+id/found_user_address"
@@ -38,8 +39,8 @@
         android:text="@string/cancel_button"
         android:textAllCaps="true"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/found_user_profile_pic"
-        app:layout_constraintStart_toEndOf="@+id/found_user_profile_pic" />
+        app:layout_constraintBottom_toBottomOf="@+id/profile_pic_card"
+        app:layout_constraintStart_toEndOf="@+id/profile_pic_card" />
 
     <Button
         android:id="@+id/button_add_user"
@@ -54,18 +55,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_cancel_user_found" />
 
-    <ImageView
-        android:id="@+id/found_user_profile_pic"
-        android:layout_width="115dp"
-        android:layout_height="110dp"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profile_pic_card"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/found_user_profile_pic_description"
+        app:cardCornerRadius="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[3]" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/found_user_profile_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/found_user_profile_pic_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars[3]" />
+
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

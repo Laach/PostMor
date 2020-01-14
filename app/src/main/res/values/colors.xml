@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C2FCF3</color>
+    <color name="colorPrimary">#60BAAE</color>
     <color name="colorPrimaryDark">#60BAAE</color>
     <color name="colorAccent">#FF1B6D</color>
-    <color name="colorGrayBackground">#99C9C2</color>
+    <color name="colorGrayBackground">#FCFCFC</color>
     <color name="colorCancelButton">#757575</color>
     <color name="colorText">#000000</color>
     <color name="colorPressedCard">#ECECEC</color>
