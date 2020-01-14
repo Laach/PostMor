@@ -26,6 +26,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -262,6 +263,11 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
         }
     }
 
+    public void navigateHome(){
+        mainVM.removeRecipient();
+        Navigation.findNavController(getView()).navigate(Compose2HandwrittenDirections.actionCompose2HandwrittenToHomeFragment());
+    }
+
     public void removeFile(String fileName, int position){
         // Delete the file from internal storage
         String path =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath();
@@ -428,7 +434,7 @@ class SendMessageTask2 extends AsyncTask<EditMsg, Void, Boolean> {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //dismiss
+                            compose.navigateHome();
                         }
                     });
             AlertDialog dialog = alertBuilder.create();
