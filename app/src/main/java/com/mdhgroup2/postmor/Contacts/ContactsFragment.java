@@ -2,6 +2,7 @@ package com.mdhgroup2.postmor.Contacts;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.ProgressDialog;
@@ -55,7 +56,7 @@ public class ContactsFragment extends Fragment {
     private Button cancelUserFoundButton = null;
 
     private List<Contact> contacts = null;
-    private ProgressDialog mProgressDialog;
+
 
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
@@ -66,7 +67,6 @@ public class ContactsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
-        mProgressDialog = new ProgressDialog(getContext());
 
         recyclerView = view.findViewById(R.id.contactsRecyclerView);
         // use a linear layout manager
@@ -121,12 +121,10 @@ public class ContactsFragment extends Fragment {
                     searchUserbutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            mProgressDialog.show();
-                            mProgressDialog.getWindow().setGravity(Gravity.TOP);
+
                             String userAddress = userSearch.getText().toString();
 
                             if (userAddress.isEmpty()) {
-                                mProgressDialog.dismiss();
                                 Toast toast = Toast.makeText(getContext(), "You need to enter an address.", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
@@ -151,10 +149,8 @@ public class ContactsFragment extends Fragment {
                                         @Override
                                         public void onClick(View view) {
                                             new AddFriendAsync(mViewModel, friend).execute();
-                                            mAdapter.notifyDataSetChanged();
                                             Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
                                             toast.show();
-                                            mProgressDialog.cancel();
                                             foundUserDialog.cancel();
                                             addUserDialog.cancel();
                                         }
@@ -162,21 +158,19 @@ public class ContactsFragment extends Fragment {
                                     cancelUserFoundButton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            mProgressDialog.cancel();
                                             foundUserDialog.cancel();
                                         }
                                     });
 
                                 } else if (friend != null && friend.IsFriend) {
-                                    mProgressDialog.dismiss();
                                     Toast toast = Toast.makeText(getContext(), friend.Name + " is already in your contacts.", Toast.LENGTH_SHORT);
                                     toast.show();
 
                                 } else {
-                                    mProgressDialog.dismiss();
                                     Toast toast = Toast.makeText(getContext(), "That user could NOT be found.", Toast.LENGTH_SHORT);
                                     toast.show();
                                 }
+
                             }
 
                         }
@@ -185,14 +179,12 @@ public class ContactsFragment extends Fragment {
                     cancelUserAddButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            mProgressDialog.dismiss();
                             addUserDialog.cancel();
                         }
                     });
                 }
             });
         }
-        mProgressDialog.getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
         return view;
     }
 
@@ -234,9 +226,10 @@ public class ContactsFragment extends Fragment {
         cancelUserFoundButton = popupFoundUserView.findViewById(R.id.button_cancel_user_found);
     }
 
-    private class AddFriendAsync extends AsyncTask<Void, Void, Void>{
+    private class AddFriendAsync extends AsyncTask<Void, Void, Contact>{
         private MainActivityViewModel mvm;
         private Contact contact;
+
 
         public AddFriendAsync(MainActivityViewModel m, Contact friend){
             mvm = m;
@@ -244,12 +237,23 @@ public class ContactsFragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Contact doInBackground(Void... voids) {
             if(mvm.addUserToContacts(contact)){
-                ContactsAdapter.contacts.add(contact);
+                return contact;
             }
-            return null;
+            return new Contact();
+        }
+
+        @Override
+        protected void onPostExecute(Contact c){
+            if(c.Name != null) {
+                update(c);
+            }
         }
     }
 
+    public void update(Contact c){
+        ContactsAdapter.contacts.add(c);
+        mAdapter.notifyDataSetChanged();
+    }
 }
