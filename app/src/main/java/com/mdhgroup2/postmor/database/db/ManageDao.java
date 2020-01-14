@@ -36,7 +36,7 @@ public abstract class ManageDao {
     public abstract void addUser(User user);
 
     @Insert
-    public abstract void addMessage(Message msg);
+    public abstract long addMessage(Message msg);
 
     @Query("SELECT ID FROM Settings LIMIT 1")
     public abstract int getUserId();

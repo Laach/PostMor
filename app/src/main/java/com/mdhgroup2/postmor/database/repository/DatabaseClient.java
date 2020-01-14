@@ -8,6 +8,7 @@ import androidx.room.Room;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 //import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.db.AppDatabase;
 import com.mdhgroup2.postmor.database.db.BoxRepositoryMock;
 import com.mdhgroup2.postmor.database.db.ContactRepositoryMock;
@@ -28,15 +29,6 @@ public class DatabaseClient {
                 .build();
 
         // ---------------------------------------------------------
-//         This is required the first time setting up the db.
-        try {
-            // This try will only succeed the first time when
-            // setting up the database.
-//            db.manageDao().initInternalID(new InternalMsgID(100));
-        }
-        catch (SQLiteConstraintException ignore){
-        }
-
         if(getAccountRepository().isLoggedIn()){
             getBoxRepository().fetchNewMessages();
         }

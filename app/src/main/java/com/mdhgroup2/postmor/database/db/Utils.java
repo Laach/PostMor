@@ -45,7 +45,7 @@ public class Utils {
     public static Date parseDate(String s){
         try {
 //            DateFormat dateFormat = new SimpleDateFormat("hh:mm dd/MM/yy");
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 //            "2019-12-30T14:10:44.2522414Z"
             dateFormat.setLenient(false);
             return dateFormat.parse(s);
