@@ -198,5 +198,4 @@ public class MainActivityViewModel extends ViewModel {
             return getContactById(id[0]);
         }
     }
-
 }
