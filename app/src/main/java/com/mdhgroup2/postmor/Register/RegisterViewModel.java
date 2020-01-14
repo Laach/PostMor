@@ -61,6 +61,7 @@ public class RegisterViewModel extends ViewModel {
 
     public void setAddress(String address){
         choosenAddress = address;
+        myAccount.Address = address;
     }
 
     public String getAddress(){return myAccount.Address;}
@@ -145,6 +146,8 @@ public class RegisterViewModel extends ViewModel {
             return "Address field cannot be empty, press the regenerate button.";
         else if (myAccount.Name == null || myAccount.Name.equals(""))
             return "Name field cannot be empty";
+        else if (myAccount.Password == null)
+            return "Password field cannot be empty";
         else if (!myAccount.Password.equals(confirmPassword))
             return "Password and comfirm password must match";
         return "True";

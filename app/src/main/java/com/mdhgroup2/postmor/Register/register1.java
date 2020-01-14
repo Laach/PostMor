@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mdhgroup2.postmor.R;
 
@@ -107,7 +108,14 @@ public class register1 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
-                Navigation.findNavController(view).navigate(R.id.action_register1_to_register2);
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                String email =mViewModel.getAccountEmail();
+                if (email != null && email.matches(emailPattern))
+                    Navigation.findNavController(view).navigate(R.id.action_register1_to_register2);
+                else {
+                    Toast toast = Toast.makeText(getContext(), "Invalid Email address", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 
