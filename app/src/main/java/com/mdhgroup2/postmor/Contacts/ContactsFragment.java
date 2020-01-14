@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,7 @@ public class ContactsFragment extends Fragment {
     private Button cancelUserFoundButton = null;
 
     private List<Contact> contacts = null;
+    private ProgressDialog mProgressDialog;
 
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
@@ -63,6 +66,7 @@ public class ContactsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
+        mProgressDialog = new ProgressDialog(getContext());
 
         recyclerView = view.findViewById(R.id.contactsRecyclerView);
         // use a linear layout manager
@@ -112,21 +116,25 @@ public class ContactsFragment extends Fragment {
                     final AlertDialog addUserDialog = alertDialogBuilder.create();
                     addUserDialog.show();
 
+
                     // When user click the save user data button in the popup dialog.
                     searchUserbutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            mProgressDialog.show();
+                            mProgressDialog.getWindow().setGravity(Gravity.TOP);
                             String userAddress = userSearch.getText().toString();
+
                             if (userAddress.isEmpty()) {
+                                mProgressDialog.dismiss();
                                 Toast toast = Toast.makeText(getContext(), "You need to enter an address.", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
+
                             if (!userAddress.isEmpty()) {
                                 friend = mViewModel.findUserByAddress(userAddress);
                                 if (friend != null && !friend.IsFriend) {
                                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-//                                alertDialogBuilder.setTitle("User found");
-//                                alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
                                     alertDialogBuilder.setCancelable(true);
 
                                     // Init popup dialog view and it's ui controls.
@@ -146,6 +154,7 @@ public class ContactsFragment extends Fragment {
                                             mAdapter.notifyDataSetChanged();
                                             Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
                                             toast.show();
+                                            mProgressDialog.cancel();
                                             foundUserDialog.cancel();
                                             addUserDialog.cancel();
                                         }
@@ -153,30 +162,37 @@ public class ContactsFragment extends Fragment {
                                     cancelUserFoundButton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            mProgressDialog.cancel();
                                             foundUserDialog.cancel();
                                         }
                                     });
+
                                 } else if (friend != null && friend.IsFriend) {
+                                    mProgressDialog.dismiss();
                                     Toast toast = Toast.makeText(getContext(), friend.Name + " is already in your contacts.", Toast.LENGTH_SHORT);
                                     toast.show();
+
                                 } else {
+                                    mProgressDialog.dismiss();
                                     Toast toast = Toast.makeText(getContext(), "That user could NOT be found.", Toast.LENGTH_SHORT);
                                     toast.show();
                                 }
                             }
+
                         }
                     });
 
                     cancelUserAddButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            mProgressDialog.dismiss();
                             addUserDialog.cancel();
                         }
                     });
                 }
             });
         }
-
+        mProgressDialog.getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
         return view;
     }
 
