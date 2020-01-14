@@ -54,18 +54,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mViewModel = ViewModelProviders.of(main).get(MainActivityViewModel.class);
-                        //get dps width to adapt for screen size
-                        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-                        int width = displayMetrics.widthPixels < displayMetrics.heightPixels ? displayMetrics.widthPixels : displayMetrics.heightPixels;
-                        int dpWidth = (int)(width / displayMetrics.density + 0.5);
-                        mViewModel.screenWidthDp = dpWidth;
-                        if(dpWidth>= 600)
-                        {
-                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                        } else
-                        {
-                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                        }
                         setContentView(R.layout.activity_main);
                         NavController navController = Navigation.findNavController(main, R.id.nav_host_fragment);
                         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
