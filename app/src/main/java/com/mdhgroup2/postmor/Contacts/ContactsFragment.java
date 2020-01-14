@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class ContactsFragment extends Fragment {
     private Button cancelUserFoundButton = null;
 
     private List<Contact> contacts = null;
+    private ProgressDialog mProgressDialog;
 
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
@@ -65,6 +67,7 @@ public class ContactsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
+        mProgressDialog = new ProgressDialog(getContext());
 
         recyclerView = view.findViewById(R.id.contactsRecyclerView);
         // use a linear layout manager
