@@ -73,18 +73,6 @@ public class HomeFragment extends Fragment {
 
         final MainActivityViewModel mainViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
 
-        mainViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                Boolean result = aBoolean;
-                if (!result){
-                    Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_signInFragment);
-                }
-            }
-        });
-
-        mainViewModel.checkLoginStatus();
-
         navController = Navigation.findNavController(view);
 
         //display information on letters being sent on a top bar if relevant

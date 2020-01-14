@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import java.util.List;
 public class SignInFragment extends Fragment {
 
     private SignInViewModel mViewModel;
+    private ProgressDialog mProgressDialog;
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -40,6 +42,7 @@ public class SignInFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.sign_in_fragment, container, false);
+        mProgressDialog = new ProgressDialog(getContext());
         mViewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
 
         mViewModel.getResult().observe(this, new Observer<List<String>>() {
@@ -47,9 +50,15 @@ public class SignInFragment extends Fragment {
             public void onChanged(List<String> aBoolean) {
                 List<String> result = aBoolean;
                 if (result.get(0).equals("Ok")){
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
                 }
                 else{
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Toast toast = Toast.makeText(getContext(), result.get(0) , Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -99,14 +108,23 @@ public class SignInFragment extends Fragment {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
+
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
+
                 String validity = mViewModel.checkValidity();
                 if(validity.equals("True")){
                     mViewModel.login();
+
                 }
                 else{
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Toast toast = Toast.makeText(getContext(), "You need to enter your " + validity, Toast.LENGTH_SHORT);
                     toast.show();
                 }
+
             }
         });
 

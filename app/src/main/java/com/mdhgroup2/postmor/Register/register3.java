@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor.Register;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,8 @@ import java.util.List;
 
 public class register3 extends Fragment {
 
+    private ProgressDialog mProgressDialog;
+
 public static register3 newInstance() {
     return new register3();
 }
@@ -36,6 +39,7 @@ public static register3 newInstance() {
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.register3_fragment, container, false);
         final RegisterViewModel mViewModel = ViewModelProviders.of(getActivity()).get(RegisterViewModel.class);
+        mProgressDialog = new ProgressDialog(getContext());
 
         /* Checks if a submit has gone through as intended. */
         mViewModel.getResults().observe(this, new Observer<List<String>>() {
@@ -43,9 +47,15 @@ public static register3 newInstance() {
             public void onChanged(List<String> strings) {
                 String temp = strings.get(0);
                 if(temp.equals("Ok")){
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Navigation.findNavController(view).navigate(register3Directions.actionRegister3ToHomeFragment());
                 }
                 else {
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Toast toast = Toast.makeText(getContext(), temp, Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -100,6 +110,8 @@ public static register3 newInstance() {
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View onView){
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
                 AccountRepository.PasswordStatus status = mViewModel.checkPasswordValidity();
                 if(status == AccountRepository.PasswordStatus.Ok){
                     String validity = mViewModel.validateAccountInformation();
@@ -107,11 +119,17 @@ public static register3 newInstance() {
                         mViewModel.register();
                     }
                     else {
+                        if(mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        }
                         Toast toast = Toast.makeText(getContext(), validity, Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
                 else {
+                    if(mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
                     Toast toast = Toast.makeText(getContext(), status.toString(), Toast.LENGTH_SHORT);
                     toast.show();
                 }
