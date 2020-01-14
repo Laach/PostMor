@@ -44,7 +44,7 @@ public class Converters {
             return "";
         }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, outputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, outputStream);
 
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }

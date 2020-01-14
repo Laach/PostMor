@@ -394,6 +394,7 @@ public class AccountRepository implements IAccountRepository {
             }
             m.ExternalMessageID = message.getInt("messageId");
             m.InternalMessageID = manageDb.getNewMsgId();
+            m.TimeStamp = Utils.parseDate(message.getString("timestamp"));
 
             String type = message.getString("type");
             if(type.equals("text")){
