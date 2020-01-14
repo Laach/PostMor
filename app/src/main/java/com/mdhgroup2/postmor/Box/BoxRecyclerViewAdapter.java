@@ -230,7 +230,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             cvHolder.contentImage3.setVisibility(View.GONE);
         }
 
-        /*
+
         cvHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +245,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                     cvHolder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
                 }
             }
-        });*/
+        });
 
         cvHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +255,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                 bundle.putInt("id", id);
                 Navigation.findNavController(view).navigate(R.id.action_boxFragment_to_userToUserFragment, bundle);
             }
-        });*/
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
