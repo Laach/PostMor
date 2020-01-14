@@ -19,8 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mdhgroup2.postmor.Compose.Compose1Choice;
-import com.mdhgroup2.postmor.Compose.ComposeViewModel;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
@@ -187,7 +185,7 @@ public class ContactsFragment extends Fragment {
         popupAddInputDialogView = layoutInflater.inflate(R.layout.add_contact_popup, null);
 
         // Get user input edittext and button ui controls in the popup dialog.
-        userSearch = popupAddInputDialogView.findViewById(R.id.userName);
+        userSearch = popupAddInputDialogView.findViewById(R.id.userAddresss);
         searchUserbutton = popupAddInputDialogView.findViewById(R.id.button_search_user);
         cancelUserAddButton = popupAddInputDialogView.findViewById(R.id.button_cancel_user_add);
     }

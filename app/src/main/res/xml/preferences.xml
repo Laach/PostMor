@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Settings.SettingsFragment">
-    <PreferenceCategory
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout="@layout/settings_fragment"
-        android:tile="Profile"
-        android:visibility="visible" ></PreferenceCategory>
+
     <Preference
         app:key="profile_picture"
         app:title="Profile picture"
@@ -16,8 +11,9 @@
         />
     <Preference
         app:key="changePassword"
+        app:title="Password"
         app:summary="Change Password"
-        app:title="Password" />
+        />
     <SwitchPreferenceCompat
         app:key="notifications"
         app:title="Notifications"

@@ -80,7 +80,7 @@
     <!-- settings fragment -->
     <string name="old_password_text">Old Password:</string>
     <string name="new_password_text">New Password:</string>
-    <string name="repeat_new_password_text">Repeat New Password:</string>
+    <string name="confirm_new_password_text">Confirm New Password:</string>
 
     <!-- sign in fragment -->
     <string name="sign_in_description">Sign in with an already existing account</string>
