@@ -3,12 +3,16 @@ package com.mdhgroup2.postmor.Contacts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mdhgroup2.postmor.MainActivityViewModel;
 import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Contact;
+import com.mdhgroup2.postmor.database.repository.DatabaseClient;
+
+import java.util.List;
 
 
 public class ContactsFragment extends Fragment {
@@ -45,6 +52,8 @@ public class ContactsFragment extends Fragment {
     private Button addUserbutton = null;
     private Button cancelUserFoundButton = null;
 
+    private List<Contact> contacts = null;
+
     public static ContactsFragment newInstance() {
         return new ContactsFragment();
     }
@@ -56,13 +65,13 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.contactsRecyclerView);
-
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(container.getContext());
         recyclerView.setLayoutManager(layoutManager);
         final MainActivityViewModel mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        contacts = mViewModel.getContactList();
         // specify an adapter (see also next example)
-        mAdapter = new ContactsAdapter(mViewModel.getContactList(), false, mViewModel);
+        mAdapter = new ContactsAdapter(contacts, false, mViewModel);
         recyclerView.setAdapter(mAdapter);
 
         boolean isFromCompose = getArguments().getBoolean("isFromCompose");
@@ -73,7 +82,7 @@ public class ContactsFragment extends Fragment {
             addContact.hide();
 
             // If opened from compose, set argument to true
-            mAdapter = new ContactsAdapter(mViewModel.getContactList(), true, mViewModel);
+            mAdapter = new ContactsAdapter(contacts, true, mViewModel);
             recyclerView.setAdapter(mAdapter);
 
 
@@ -82,7 +91,7 @@ public class ContactsFragment extends Fragment {
             addContact.show();
 
             // If NOT opened from compose, set argument to false
-            mAdapter = new ContactsAdapter(mViewModel.getContactList(), false, mViewModel);
+            mAdapter = new ContactsAdapter(contacts, false, mViewModel);
             recyclerView.setAdapter(mAdapter);
 
             addContact.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +142,8 @@ public class ContactsFragment extends Fragment {
                                     addUserbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            mViewModel.addUserToContacts(friend);
+                                            new AddFriendAsync(mViewModel, friend).execute();
+                                            ContactsAdapter.contacts.add(friend);
                                             mAdapter.notifyDataSetChanged();
                                             Toast toast = Toast.makeText(getContext(), friend.Name + " has been added to your contacts.", Toast.LENGTH_SHORT);
                                             toast.show();
@@ -207,6 +217,22 @@ public class ContactsFragment extends Fragment {
 
         addUserbutton = popupFoundUserView.findViewById(R.id.button_add_user);
         cancelUserFoundButton = popupFoundUserView.findViewById(R.id.button_cancel_user_found);
+    }
+
+    private class AddFriendAsync extends AsyncTask<Void, Void, Void>{
+        private MainActivityViewModel mvm;
+        private Contact contact;
+
+        public AddFriendAsync(MainActivityViewModel m, Contact friend){
+            mvm = m;
+            contact = friend;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mvm.addUserToContacts(contact);
+            return null;
+        }
     }
 
 }

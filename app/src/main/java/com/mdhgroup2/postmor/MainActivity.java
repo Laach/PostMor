@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.os.SystemClock;
 import android.view.View;
 
+import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.repository.DatabaseClient;
 
 import static com.mdhgroup2.postmor.Notifications.CHANNEL_1_ID;
@@ -69,23 +70,24 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-                Runnable myRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        while (true) {
-                            if(mViewModel != null) {
-                                amountOfNewMessages = mViewModel.checkForNewMessages();
-                                if (amountOfNewMessages > 0) {
-                                    sendNotification(amountOfNewMessages);
-                                    amountOfNewMessages = 0;
-                                }
-                            }
-                            SystemClock.sleep(5000);
-                        }
-                    }
-                };
-                Thread myThread = new Thread(myRunnable);
-                myThread.start();
+//                Runnable myRunnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        IAccountRepository repo = DatabaseClient.getAccountRepository();
+//                        while (true) {
+//                            if(mViewModel != null && repo.isLoggedIn()) {
+//                                amountOfNewMessages = mViewModel.checkForNewMessages();
+//                                if (amountOfNewMessages > 0) {
+//                                    sendNotification(amountOfNewMessages);
+//                                    amountOfNewMessages = 0;
+//                                }
+//                            }
+//                            SystemClock.sleep(5000);
+//                        }
+//                    }
+//                };
+//                Thread myThread = new Thread(myRunnable);
+//                myThread.start();
             }
         }).start();
 
