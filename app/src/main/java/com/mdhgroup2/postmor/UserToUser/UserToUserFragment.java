@@ -120,12 +120,17 @@ public class UserToUserFragment extends Fragment {
             remove.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    Contact contact = viewModel.getContactById(id);
-                    if (viewModel.addUserToContacts(contact)){
-                        Toast.makeText(view.getContext(),String.format("%s was successfully added", contact.Name), Toast.LENGTH_SHORT).show();
+                    try{
+                        Contact contact = new GetContactByIdAsync(viewModel, id).execute(id).get();
+                        if (new AddFriendAsync(viewModel).execute(contact).get()){
+                            Toast.makeText(view.getContext(),String.format("%s was successfully added", contact.Name), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(view.getContext(),String.format("%s was NOT added", contact.Name), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else {
-                        Toast.makeText(view.getContext(),String.format("%s was NOT added", contact.Name), Toast.LENGTH_SHORT).show();
+                    catch (ExecutionException | InterruptedException e){
+                        Toast.makeText(view.getContext(),String.format("Contact was NOT added"), Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -175,6 +180,17 @@ public class UserToUserFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Contact... contact) {
             return mvm.removeContact(contact[0]);
+        }
+    }
+
+    public class AddFriendAsync extends AsyncTask<Contact, Void, Boolean>{
+        private MainActivityViewModel mvm;
+        public AddFriendAsync(MainActivityViewModel m){
+            mvm = m;
+        }
+        @Override
+        protected Boolean doInBackground(Contact... contact) {
+            return mvm.addUserToContacts(contact[0]);
         }
     }
 
