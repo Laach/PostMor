@@ -181,7 +181,22 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
                 if(editMsg.Images != null){
                     mAdapter.clear();
                     for (Bitmap image : editMsg.Images) {
-                        mAdapter.addItem(image, String.valueOf(i), String.valueOf(i));
+                        Bitmap scaledImage = image;
+                        int height = image.getHeight();
+                        int width = image.getWidth();
+
+                        //Downscale the image. Reduce width and height by the same factor
+                        if(height > 1500 ) {
+                            int heightReduction = height - 1500;
+                            float reductionPercent = (float)heightReduction / height;
+                            float reductionFactor = 1 - reductionPercent;
+                            int newHeight = 1500;
+                            int newWidth = Math.round(width*reductionFactor);
+
+                            scaledImage = Bitmap.createScaledBitmap(image, newWidth, newHeight, true);
+                        }
+
+                        mAdapter.addItem(scaledImage, String.valueOf(i), String.valueOf(i));
                         i++;
                     }
                     mAdapter.notifyDataSetChanged();
