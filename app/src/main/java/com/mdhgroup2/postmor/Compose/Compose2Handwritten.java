@@ -7,7 +7,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -16,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -206,6 +211,29 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
             }
         });
 
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Get all images
+
+                if(mainVM.getChosenRecipient() != null) {
+                    if (mViewModel.getMsg().Images != null) {
+
+                        Log.d("test", "onClick: send");
+                        //mViewModel.sendMessage();
+                        SendMessageTask2 sendMessageTask2 = new SendMessageTask2(getContext(), mViewModel);
+                        sendMessageTask2.execute(mViewModel.getMsg());
+                    } else {
+                        Toast.makeText(getActivity(),"No message!", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "No recipient selected!", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
         return view;
     }
 
@@ -330,5 +358,71 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         itemTouchHelper.startDrag(viewHolder);
+    }
+}
+
+
+class SendMessageTask2 extends AsyncTask<EditMsg, Void, Boolean> {
+
+    private ProgressDialog mProgressDialog;
+    private Context mContext;
+    private Compose2HandwrittenViewModel mViewModel;
+    private AlertDialog.Builder alertBuilder;
+
+    public SendMessageTask2(Context context,Compose2HandwrittenViewModel viewmodel){
+        mContext = context;
+        mProgressDialog = new ProgressDialog(mContext);
+        mViewModel = viewmodel;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        mProgressDialog.setMessage("Preparing letter...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+        alertBuilder = new AlertDialog.Builder(mContext);
+    }
+
+    @Override
+    protected Boolean doInBackground(EditMsg... editMsgs) {
+
+        boolean returnValue = false;
+        if(editMsgs != null){
+            Log.d("test", "doInBackground: text: "+editMsgs[0].Text);
+            Log.d("test", "doInBackground: recipient: "+editMsgs[0].RecipientID);
+            Log.d("test", "doInBackground: messageID: "+editMsgs[0].InternalMessageID);
+            editMsgs[0].Text = null;
+
+            returnValue = mViewModel.sendMessage(editMsgs[0]);
+            //returnValue = true;
+            Log.d("test", "doInBackground: return value: "+returnValue);
+        }
+        return returnValue;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+        if(mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
+
+        if(result){
+            //Update UI
+            alertBuilder.setTitle("Success!")
+                    .setMessage("Your letter will be sent at 16:00")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //dismiss
+                        }
+                    });
+            AlertDialog dialog = alertBuilder.create();
+            dialog.setCanceledOnTouchOutside(false);
+
+            dialog.show();
+
+        }else{
+            Toast.makeText(mContext, "Error: message could not be sent", Toast.LENGTH_SHORT).show();
+        }
     }
 }
