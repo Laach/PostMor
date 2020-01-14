@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 public class BoxContentFragment extends Fragment {
     private static final String VIEW_NUMBER = "section_number";
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private BoxRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private int boxIndex;
     private int id = 0;

@@ -1,5 +1,6 @@
 package com.mdhgroup2.postmor.Box;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +89,46 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.box_item, parent, false);
 
-        BoxItemsViewHolder vh = new BoxItemsViewHolder(v);
+        final BoxItemsViewHolder vh = new BoxItemsViewHolder(v);
+
+
+        vh.expandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View contents = vh.expandableContent;
+
+                if(contents.getVisibility() == View.VISIBLE){
+                    contents.setVisibility(View.GONE);
+                    vh.expandButton.setImageResource(R.drawable.ic_expand_more_black_24dp);
+                }else{
+                    contents.setVisibility(View.VISIBLE);
+                    vh.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
+                }
+            }
+        });
+
+        vh.sendButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Bundle bundle = new Bundle();
+                int id = messageDataset.get(vh.getAdapterPosition()).UserID;
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.composeFragment, bundle);
+            }
+        });
+
+        vh.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                int id = messageDataset.get(vh.getAdapterPosition()).UserID;
+                bundle.putInt("id", id);
+                Navigation.findNavController(view).navigate(R.id.action_boxFragment_to_userToUserFragment, bundle);
+            }
+        });
+
+
+
         return vh;
     }
 
@@ -172,6 +212,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
             cvHolder.contentText.setText(message.Text);
         }
 
+        /*
         cvHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,8 +227,9 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                     cvHolder.expandButton.setImageResource(R.drawable.ic_expand_less_black_24dp);
                 }
             }
-        });
+        });*/
 
+        /*
         cvHolder.sendButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -197,8 +239,9 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                 Navigation.findNavController(view).navigate(R.id.composeFragment, bundle);
 
             }
-        });
+        });*/
 
+        /*
         cvHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -207,7 +250,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
                 bundle.putInt("id", id);
                 Navigation.findNavController(view).navigate(R.id.action_boxFragment_to_userToUserFragment, bundle);
             }
-        });
+        });*/
     }
 
     // Return the size of your dataset (invoked by the layout manager)
