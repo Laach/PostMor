@@ -1,6 +1,7 @@
 package com.mdhgroup2.postmor;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
