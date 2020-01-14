@@ -27,12 +27,10 @@
                 android:id="@+id/profilePictureCardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
                 app:cardCornerRadius="60dp"
                 app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -48,13 +46,12 @@
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/profilePictureCardView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/profilePictureCardView"
                 tools:text="Name name" />
 
@@ -65,45 +62,48 @@
                 android:text="Address address"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/profilePictureCardView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@string/outbox_empty_info"
                 android:textColor="#E0E0E0"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
-                app:layout_constraintStart_toStartOf="@+id/textView2" />
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/profilePictureCardView"
+                app:layout_constraintTop_toBottomOf="@+id/profilePictureCardView" />
 
             <TextView
                 android:id="@+id/sendTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="32dp"
                 android:text="@string/sending_letters_time"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="#E0E0E0"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/textView13"
                 app:layout_constraintTop_toTopOf="@+id/textView13" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/sending_letters_text_1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#e0e0e0"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/profilePictureCardView"
-                app:layout_constraintStart_toEndOf="@+id/profilePictureCardView" />
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
             <TextView
                 android:id="@+id/nOfLetterToBeSent"
@@ -112,7 +112,7 @@
                 android:text="@string/nr_of_letters_to_be_sent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="#e0e0e0"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/sendTime"
                 app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -133,8 +133,8 @@
             android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
             android:clickable="true"
             android:src="@drawable/ic_settings_white_24dp"
             android:tint="#FFFFFF"
@@ -146,10 +146,13 @@
             android:id="@+id/card1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/card2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.69">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/boxButton"
@@ -190,7 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="64dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent">/>

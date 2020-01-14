@@ -61,20 +61,25 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public PasswordStatus isValidPassword(String pass) {
+    public List<PasswordStatus> isValidPassword(String pass) {
+        List<PasswordStatus> passwordStatuses = new ArrayList<PasswordStatus>();
+        if(pass == null){
+            passwordStatuses.add(PasswordStatus.Null);
+            return passwordStatuses;
+        }
         // Shorter than 6 letters
         if(pass.length() < 6){
-            return PasswordStatus.ShorterThan6;
+            passwordStatuses.add(PasswordStatus.ShorterThan6);
         }
 
         // One Lowercase
         if(pass.equals(pass.toUpperCase())){
-            return PasswordStatus.NeedsLowerCase;
+            passwordStatuses.add(PasswordStatus.NeedsLowerCase);
         }
 
         // One Uppercase
         if(pass.equals(pass.toLowerCase())){
-            return PasswordStatus.NeedsUppercase;
+            passwordStatuses.add(PasswordStatus.NeedsUppercase);
         }
 
         // One numeric
@@ -85,7 +90,7 @@ public class AccountRepository implements IAccountRepository {
             }
         }
         if(!hasdigit){
-            return PasswordStatus.NeedsNumeric;
+            passwordStatuses.add(PasswordStatus.NeedsNumeric);
         }
 
         // One non alpha-numeric
@@ -96,10 +101,9 @@ public class AccountRepository implements IAccountRepository {
             }
         }
         if(!hasNonAlNum){
-            return PasswordStatus.NeedsNonAlphaNumeric;
+            passwordStatuses.add(PasswordStatus.NeedsNonAlphaNumeric);
         }
-
-        return PasswordStatus.Ok;
+        return passwordStatuses;
     }
 
     public enum PasswordStatus{
@@ -109,7 +113,8 @@ public class AccountRepository implements IAccountRepository {
         NeedsNumeric,
         NeedsNonAlphaNumeric,
         ShorterThan6,
-        NotEqual
+        NotEqual,
+        Null
     }
 
     @Override
@@ -364,7 +369,6 @@ public class AccountRepository implements IAccountRepository {
                 m.DeliveryTime  = Utils.parseDate(message.getString("deliveryTime"));
             }
             m.ExternalMessageID = message.getInt("messageId");
-            m.InternalMessageID = manageDb.getNewMsgId();
             m.TimeStamp = Utils.parseDate(message.getString("timestamp"));
 
             String type = message.getString("type");

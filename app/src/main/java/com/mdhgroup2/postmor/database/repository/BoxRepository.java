@@ -179,7 +179,7 @@ public class BoxRepository implements IBoxRepository {
         msg.ExternalMessageID = json.getInt("messageId");
         msg.UserID = senderId;
         msg.WrittenBy = senderId;
-        msg.InternalMessageID = managedb.getNewMsgId();
+//        msg.InternalMessageID;
         msg.IsDraft = false;
         msg.IsRead = false;
         msg.IsOutgoing = false;

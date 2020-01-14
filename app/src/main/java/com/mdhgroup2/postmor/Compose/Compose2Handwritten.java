@@ -212,7 +212,8 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
             }
         });
 
-        final SendMessageTask2 sendMessageTask2 = new SendMessageTask2(getContext(),this, mViewModel);
+        final Compose2Handwritten dis = this;
+        final Context cont = getContext();
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,11 +222,17 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
 
                 if(mainVM.getChosenRecipient() != null) {
                     if (mViewModel.getMsg().Images != null) {
+                        if (mViewModel.getMsg().InternalMessageID != 0) {
 
-                        Log.d("test", "onClick: send");
-                        //mViewModel.sendMessage();
+                            Log.d("test", "onClick: send");
+                            //mViewModel.sendMessage();
 
-                        sendMessageTask2.execute(mViewModel.getMsg());
+                            SendMessageTask2 sendMessageTask2 = new SendMessageTask2(cont, dis, mViewModel);
+                            sendMessageTask2.execute(mViewModel.getMsg());
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Error! Please try again", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(getActivity(),"No message!", Toast.LENGTH_SHORT).show();
                     }
@@ -404,6 +411,9 @@ class SendMessageTask2 extends AsyncTask<EditMsg, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(EditMsg... editMsgs) {
+        if(editMsgs[0].InternalMessageID == 0){
+            return false;
+        }
 
         boolean returnValue = false;
         if(editMsgs != null){

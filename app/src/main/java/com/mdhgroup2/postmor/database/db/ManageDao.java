@@ -1,15 +1,18 @@
 package com.mdhgroup2.postmor.database.db;
 
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.util.Base64;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Transaction;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
-import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+//import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.Entities.User;
@@ -33,7 +36,7 @@ public abstract class ManageDao {
     public abstract void addUser(User user);
 
     @Insert
-    public abstract void addMessage(Message msg);
+    public abstract long addMessage(Message msg);
 
     @Query("SELECT ID FROM Settings LIMIT 1")
     public abstract int getUserId();
@@ -53,15 +56,16 @@ public abstract class ManageDao {
     @Query("SELECT OutgoingLetterCount FROM Settings LIMIT 1")
     public abstract int getOutgoingLetterCount();
 
-    @Query("UPDATE InternalMsgID " +
-            "SET Num = Num + 1")
-    abstract void incrementInternalMsgID();
+//    @Query("UPDATE InternalMsgID " +
+//            "SET Num = Num + 1 " +
+//            "WHERE PK = 1")
+//    abstract void incrementInternalMsgID();
 
-    @Query("SELECT Num FROM InternalMsgID LIMIT 1")
-    abstract int getInternalMsgID();
+//    @Query("SELECT PK FROM InternalMsgID LIMIT 1")
+//    abstract int getInternalMsgID();
 
-    @Insert
-    public abstract void initInternalID(InternalMsgID i);
+//    @Insert
+//    public abstract void initInternalID(InternalMsgID i);
 
     @Query("SELECT AuthToken FROM Settings LIMIT 1")
     public abstract String getAuthToken();
@@ -85,11 +89,14 @@ public abstract class ManageDao {
     @Query("UPDATE Settings SET Password = :pass")
     public abstract void updatePassword(String pass);
 
-    @Transaction
-    public int getNewMsgId(){
-        incrementInternalMsgID();
-        return getInternalMsgID();
-    }
+//    @Transaction
+//    public int getNewMsgId(){
+////        incrementInternalMsgID();
+//        return getInternalMsgID();
+//    }
+
+    @RawQuery
+    public abstract int checkpoint(SupportSQLiteQuery supportSQLiteQuery);
 
     @Transaction
     public void nukeDbAndInsertNewData(Settings user,
@@ -97,6 +104,7 @@ public abstract class ManageDao {
                                        List<Message> messages,
                                        AccountDao accountdao){
         DatabaseClient.nukeDatabase();
+//        SystemClock.sleep(1000);
 
         accountdao.registerAccount(user);
 
@@ -202,4 +210,6 @@ public abstract class ManageDao {
         return;
     }
 
+    @Query("SELECT * FROM Messages")
+    public abstract List<Message> getAllMessagesFull();
 }

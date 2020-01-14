@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7217964be0aefdb23282779827cec177",
+    "identityHash": "2d862084fe1bfd82f33a27caeedefe59",
     "entities": [
       {
         "tableName": "Messages",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `Images` TEXT, `Text` TEXT, PRIMARY KEY(`InternalMessageID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`InternalMessageID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ExternalMessageID` INTEGER NOT NULL, `UserID` INTEGER, `WrittenBy` INTEGER NOT NULL, `IsDraft` INTEGER NOT NULL, `IsOutgoing` INTEGER NOT NULL, `IsRead` INTEGER NOT NULL, `TimeStamp` INTEGER, `DeliveryTime` INTEGER, `Images` TEXT, `Text` TEXT)",
         "fields": [
           {
             "fieldPath": "InternalMessageID",
@@ -79,33 +79,7 @@
           "columnNames": [
             "InternalMessageID"
           ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "InternalMsgID",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Key` INTEGER NOT NULL, `Num` INTEGER NOT NULL, PRIMARY KEY(`Key`))",
-        "fields": [
-          {
-            "fieldPath": "Key",
-            "columnName": "Key",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "Num",
-            "columnName": "Num",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "Key"
-          ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -262,7 +236,7 @@
     "views": [
       {
         "viewName": "BoxMessage",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID          as UserID, WrittenBy         as SenderID, Name              as Name, Address           as Address, ProfilePicture    as Picture, IsFriend          as IsFriend, TimeStamp         as DateStamp, InternalMessageID as MsgID, Text              as Text, Images            as Images, DeliveryTime      as DeliveryTime FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT Users.ID          as UserID, WrittenBy         as SenderID, Name              as Name, Address           as Address, ProfilePicture    as Picture, IsFriend          as IsFriend, TimeStamp         as DateStamp, InternalMessageID as MsgID, Text              as Text, Images            as Images, DeliveryTime      as DeliveryTime, IsDraft           as IsDraft, IsRead            as IsRead, IsOutgoing        as IsOutgoing FROM Users INNER JOIN Messages on Users.ID = Messages.UserID"
       },
       {
         "viewName": "MessageContent",
@@ -279,7 +253,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7217964be0aefdb23282779827cec177')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d862084fe1bfd82f33a27caeedefe59')"
     ]
   }
 }
