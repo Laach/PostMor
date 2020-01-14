@@ -259,27 +259,7 @@ public class AccountRepository implements IAccountRepository {
             try {
 
                 // Fix this. They can't be saved because there's no account
-                Settings s = new Settings();
-                s.ID = -1;
-                s.Email = "";
-                s.Password = "";
-                s.AuthToken = authToken;
-                s.RefreshToken = refreshToken;
-                s.Name = "";
-                s.Address = "";
-                s.PickupTime = Utils.makeTime(16, 0, 0);
-                s.DeliveryTime = Utils.makeTime(16, 0, 0);
-                s.OutgoingLetterCount = 0;
-                s.IsLoggedIn = false;
-                s.PublicKey = "";
-                s.PrivateKey = "";
-
-                manageDb.deleteSettings();
-                accountDb.registerAccount(s);
-
-//                manageDb.setAuthToken(authToken);
-//                manageDb.setRefreshToken(refreshToken);
-                json = Utils.APIPost(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb);
+                json = Utils.APIPostWithToken(Utils.baseURL + "/identity/fetchalldata", new JSONObject(data2), manageDb, authToken);
 
 
                 JSONArray contactsjson  = json.getJSONArray ("contacts");
@@ -310,10 +290,6 @@ public class AccountRepository implements IAccountRepository {
                 errors.add("Failed parsing fetch-all response");
                 return errors;
             }
-//             API "/user/fetchalldata"
-//             Save all data
-//            manageDb.setAuthToken(authToken);
-//            manageDb.setRefreshToken(refreshToken);
 
             if(errors.size() == 0){
                 errors.add("Ok");

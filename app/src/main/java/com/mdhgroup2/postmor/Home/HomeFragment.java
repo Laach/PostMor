@@ -94,39 +94,33 @@ public class HomeFragment extends Fragment {
     private void updateInfobar()
     {
         View view = getView();
-        if( ! mViewModel.getOutgoingLetterCount().equals("0"))
-        {
-            GetInfobarInfo gii = new GetInfobarInfo();
-            ProfileInfo pi = null;
-            try {
-                pi = gii.execute().get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            TextView sendTime = view.findViewById(R.id.sendTime);
-            TextView letterCount = getView().findViewById(R.id.nOfLetterToBeSent);
-            TextView nameText = view.findViewById(R.id.nameTextView);
-            TextView addressText = view.findViewById(R.id.addressTextView);
-            ImageView profilePicture = view.findViewById(R.id.profilePictureImageView);
-
-            sendTime.setText(pi.sendTime);
-            letterCount.setText(pi.nOfLetters);
-            nameText.setText(pi.name);
-            addressText.setText(pi.address);
-            if(pi.profilePicture == null)
-            {
-                profilePicture.setImageResource(R.drawable.anon_profile);
-            } else{
-                profilePicture.setImageBitmap(pi.profilePicture);
-            }
-            infoBar.setVisibility(View.VISIBLE);
-        } else
-        {
-            infoBar.setVisibility(View.GONE);
+        GetInfobarInfo gii = new GetInfobarInfo();
+        ProfileInfo pi = null;
+        try {
+            pi = gii.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        TextView sendTime = view.findViewById(R.id.sendTime);
+        TextView letterCount = getView().findViewById(R.id.nOfLetterToBeSent);
+        TextView nameText = view.findViewById(R.id.nameTextView);
+        TextView addressText = view.findViewById(R.id.addressTextView);
+        ImageView profilePicture = view.findViewById(R.id.profilePictureImageView);
+
+        sendTime.setText(pi.sendTime);
+        letterCount.setText(pi.nOfLetters);
+        nameText.setText(pi.name);
+        addressText.setText(pi.address);
+        if(pi.profilePicture == null)
+        {
+            profilePicture.setImageResource(R.drawable.anon_profile);
+        } else{
+            profilePicture.setImageBitmap(pi.profilePicture);
+        }
+        infoBar.setVisibility(View.VISIBLE);
     }
 
     private class ProfileInfo{
