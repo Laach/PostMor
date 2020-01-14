@@ -8,7 +8,7 @@ import com.mdhgroup2.postmor.database.DTO.BoxMessage;
 import com.mdhgroup2.postmor.database.DTO.Contact;
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
 import com.mdhgroup2.postmor.database.DTO.MessageContent;
-import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+//import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.Settings;
 import com.mdhgroup2.postmor.database.Entities.User;
@@ -18,7 +18,7 @@ import com.mdhgroup2.postmor.database.Entities.User;
 @Database(
         entities = {
                 Message.class,
-                InternalMsgID.class,
+//                InternalMsgID.class,
                 User.class,
                 Settings.class
 

@@ -3,6 +3,7 @@ package com.mdhgroup2.postmor.database.repository;
 import android.graphics.Bitmap;
 
 import com.mdhgroup2.postmor.database.DTO.EditMsg;
+import com.mdhgroup2.postmor.database.DTO.MsgCard;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.db.Converters;
 import com.mdhgroup2.postmor.database.db.LetterDao;
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class LetterRepository implements ILetterRepository {
@@ -38,7 +40,7 @@ public class LetterRepository implements ILetterRepository {
         EditMsg msg = letterdao.getGenericDraft();
         if(msg == null){
             msg = new EditMsg();
-            msg.InternalMessageID = managedao.getNewMsgId();
+//            msg.InternalMessageID = managedao.getNewMsgId();
             msg.RecipientID = 0;
             msg.IsDraft = true;
 
@@ -52,7 +54,8 @@ public class LetterRepository implements ILetterRepository {
         EditMsg msg = letterdao.getDraftById(recipientID);
         if(msg == null){
             msg = new EditMsg();
-            msg.InternalMessageID = managedao.getNewMsgId();
+            List<Message> ls = managedao.getAllMessagesFull();
+//            msg.InternalMessageID = managedao.getNewMsgId();
             msg.RecipientID = recipientID;
             msg.IsDraft = true;
 
