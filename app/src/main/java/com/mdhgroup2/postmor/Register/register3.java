@@ -129,6 +129,10 @@ public static register3 newInstance() {
                   if(validity.equals("True")){
                        mViewModel.register();
                    }
+                  else {
+                      Toast toast = Toast.makeText(getContext(), validity, Toast.LENGTH_SHORT);
+                      toast.show();
+                  }
                 }
             }
         });
