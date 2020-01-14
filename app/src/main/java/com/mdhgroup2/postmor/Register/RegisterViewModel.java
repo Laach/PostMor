@@ -1,7 +1,10 @@
 package com.mdhgroup2.postmor.Register;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.mdhgroup2.postmor.R;
 import com.mdhgroup2.postmor.database.DTO.Account;
 import com.mdhgroup2.postmor.database.interfaces.IAccountRepository;
 import com.mdhgroup2.postmor.database.repository.AccountRepository;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -57,6 +61,7 @@ public class RegisterViewModel extends ViewModel {
 
     public void setAddress(String address){
         choosenAddress = address;
+        myAccount.Address = address;
     }
 
     public String getAddress(){return myAccount.Address;}
@@ -92,18 +97,46 @@ public class RegisterViewModel extends ViewModel {
 
     public void setAccountConfirmPassword(String password){confirmPassword = password;}
 
-    public AccountRepository.PasswordStatus checkPasswordValidity(){
-        if(myAccount.Password == null || confirmPassword == null){
-            return AccountRepository.PasswordStatus.ShorterThan6;
-        }
-        AccountRepository.PasswordStatus valid = accountDB.isValidPassword(myAccount.Password);
-        if(valid == AccountRepository.PasswordStatus.Ok);
-        {
-            if(!myAccount.Password.equals(confirmPassword)) {
+    public AccountRepository.PasswordStatus checkPasswordValidity(List<TextView> passwordhints) {
+
+        List<AccountRepository.PasswordStatus> ErrorList = accountDB.isValidPassword(myAccount.Password);
+        passwordhints.get(0).setText("");
+        passwordhints.get(1).setText("");
+        passwordhints.get(2).setText("");
+        passwordhints.get(3).setText("");
+        passwordhints.get(4).setText("");
+        if (ErrorList.isEmpty()) {
+            if(!myAccount.Password.equals(confirmPassword))
+            {
+                passwordhints.get(0).setText(R.string.password_validity_feedback_match);
+
                 return AccountRepository.PasswordStatus.NotEqual;
             }
             return AccountRepository.PasswordStatus.Ok;
         }
+        for (int i = 0, j = 0; i < ErrorList.size(); i++)
+        {
+            switch (ErrorList.get(i))
+            {
+                case ShorterThan6:passwordhints.get(j).setText(R.string.password_validity_feedback_length);
+                    j++;
+                    break;
+                case NeedsLowerCase: passwordhints.get(j).setText(R.string.password_validity_feedback_lowercase);
+                    j++;
+                    break;
+                case NeedsUppercase: passwordhints.get(j).setText(R.string.password_validity_feedback_uppercase);
+                    j++;
+                    break;
+                case NeedsNumeric: passwordhints.get(j).setText(R.string.password_validity_feedback_numeric);
+                    j++;
+                    break;
+                case NeedsNonAlphaNumeric: passwordhints.get(j).setText(R.string.password_validity_feedback_char);
+                    j++;
+                    break;
+                default:
+            }
+        }
+        return AccountRepository.PasswordStatus.NotEqual;
     }
 
     public String validateAccountInformation(){
@@ -113,6 +146,10 @@ public class RegisterViewModel extends ViewModel {
             return "Address field cannot be empty, press the regenerate button.";
         else if (myAccount.Name == null || myAccount.Name.equals(""))
             return "Name field cannot be empty";
+        else if (myAccount.Password == null)
+            return "Password field cannot be empty";
+        else if (!myAccount.Password.equals(confirmPassword))
+            return "Password and comfirm password must match";
         return "True";
     }
 
@@ -155,6 +192,7 @@ public class RegisterViewModel extends ViewModel {
         protected void onPostExecute(List<String> addresses){
             myAddresses.setValue(addresses);
             recievedAddresses = addresses;
+            choosenAddress = recievedAddresses.get(0);
         }
     }
 }

@@ -76,7 +76,12 @@
 
 
     <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
-    <string name="password_validity_feedback">Password and confirm password needs to match.</string>
+    <string name="password_validity_feedback_match">Password and confirm password needs to match.</string>
+    <string name="password_validity_feedback_length">Password must contain at least 6 characters</string>
+    <string name="password_validity_feedback_lowercase">Password must contain at least 1 lowercase letter.</string>
+    <string name="password_validity_feedback_uppercase">Password must contain at least 1 uppercase letter.</string>
+    <string name="password_validity_feedback_numeric">Password must contain at least 1 numeric character.</string>
+    <string name="password_validity_feedback_char">Password must contain at least 1 non alphanumeric character.</string>
 
     <!-- settings fragment -->
     <string name="old_password_text">Old Password:</string>
