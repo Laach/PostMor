@@ -14,26 +14,10 @@
         app:title="Password"
         app:summary="Change Password"
         />
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Notifications"
-        />
-    <SwitchPreferenceCompat
-        app:key="contact_letters"
-        app:title="Contact letters only"
-        app:summary="Only accept incoming letters from contacts"
-        />
-
-
     <PreferenceCategory
         app:key="help_category"
         app:title="Help">
 
-        <Preference
-            app:key="contact_admin"
-            app:title="Contact Admin"
-            app:summary="Report technical issues or ask questions"
-            />
         <Preference
             app:key="about"
             app:title="About"
@@ -41,10 +25,6 @@
         <Preference
             app:key="sign_out"
             app:title="Sign out"
-            />
-        <Preference
-            app:key="delete_account"
-            app:title="Delete Account"
             />
     </PreferenceCategory>
 </PreferenceScreen>
