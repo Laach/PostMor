@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mdhgroup2.postmor.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +34,7 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
         Collections.sort(messageDataset, new Comparator<MsgCard>() {
             @Override
             public int compare(MsgCard u1, MsgCard u2) {
-                return u1.DateStamp.compareTo(u2.DateStamp);
+                return u2.DateStamp.compareTo(u1.DateStamp);
             }
         });
     }
@@ -112,7 +113,11 @@ class BoxRecyclerViewAdapter extends RecyclerView.Adapter {
 
         //format the date
         Date todayDate = new Date(System.currentTimeMillis());
-        Date messageDate = message.DateStamp;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(message.DateStamp);
+        cal.add(Calendar.HOUR, 1);
+//        Date messageDate = message.DateStamp;
+        Date messageDate = cal.getTime();
         long oneDay = 1000 * 60 * 60 * 24; //milliseconds in a day
         SimpleDateFormat x;
         if(todayDate.getDay() == messageDate.getDay())
