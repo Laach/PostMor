@@ -150,7 +150,7 @@ public class LetterRepository implements ILetterRepository {
             JSONObject json = Utils.APIPost(Utils.baseURL + "/message/send", new JSONObject(data), managedao);
 
             int msgId = json.getInt("messageId");
-            Date timestamp = Utils.parseDate(json.getString("timestamp"));
+            msg.TimeStamp = Utils.parseDate(json.getString("timestamp"));
             msg.ExternalMessageID = msgId;
             msg.IsDraft = false;
             msg.IsOutgoing = true;
