@@ -67,9 +67,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 mProgressDialog.show();
                 mViewModel.logOut();
                 getActivity().finishAffinity();
-//                if(mProgressDialog.isShowing()){
-//                    mProgressDialog.dismiss();
-//                }
                 return true;
             }
         });
