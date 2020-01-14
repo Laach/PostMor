@@ -24,8 +24,6 @@ public class MainActivityViewModel extends ViewModel {
     private final IBoxRepository boxRepo;
     private Contact chosenRecipient;
     private final IAccountRepository accountRepo;
-    public int screenWidthDp = 0;
-    public int selectedContact = 0;
     private MutableLiveData<Boolean> alreadyLoggedIn;
 
     public MainActivityViewModel(){
