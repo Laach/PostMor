@@ -116,16 +116,13 @@ public static register3 newInstance() {
             @Override
             public void onClick(View onView){
                 AccountRepository.PasswordStatus status = mViewModel.checkPasswordValidity(register_password_hints);
-                if(status == AccountRepository.PasswordStatus.Ok){
                 String validity = mViewModel.validateAccountInformation();
-
-                  if(validity.equals("True")){
-                       mViewModel.register();
-                   }
-                  else {
-                      Toast toast = Toast.makeText(getContext(), validity, Toast.LENGTH_SHORT);
-                      toast.show();
-                  }
+                if(validity.equals("True")&& status == AccountRepository.PasswordStatus.Ok){
+                    mViewModel.register();
+                }
+                else {
+                    Toast toast = Toast.makeText(getContext(), validity, Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         });

@@ -145,6 +145,8 @@ public class RegisterViewModel extends ViewModel {
             return "Address field cannot be empty, press the regenerate button.";
         else if (myAccount.Name == null || myAccount.Name.equals(""))
             return "Name field cannot be empty";
+        else if (!myAccount.Password.equals(confirmPassword))
+            return "Password and comfirm password must match";
         return "True";
     }
 
@@ -187,6 +189,7 @@ public class RegisterViewModel extends ViewModel {
         protected void onPostExecute(List<String> addresses){
             myAddresses.setValue(addresses);
             recievedAddresses = addresses;
+            choosenAddress = recievedAddresses.get(0);
         }
     }
 }
