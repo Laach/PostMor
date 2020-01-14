@@ -6,7 +6,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.mdhgroup2.postmor.database.DTO.MsgCard;
-import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
+//import com.mdhgroup2.postmor.database.Entities.InternalMsgID;
 import com.mdhgroup2.postmor.database.Entities.Message;
 import com.mdhgroup2.postmor.database.Entities.User;
 

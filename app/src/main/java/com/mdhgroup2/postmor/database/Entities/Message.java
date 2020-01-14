@@ -12,8 +12,8 @@ import java.util.List;
 
 @Entity(tableName = "Messages")
 public class Message {
-    @PrimaryKey
-    public int InternalMessageID;
+    @PrimaryKey(autoGenerate = true)
+    public int InternalMessageID = 0;
     @Nullable
     public int ExternalMessageID;
     @Nullable
