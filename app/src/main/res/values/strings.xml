@@ -98,4 +98,7 @@
     <string name="found_user_profile_pic_description">Profile pic</string>
     <string name="add_user_address_hint">Input user address</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

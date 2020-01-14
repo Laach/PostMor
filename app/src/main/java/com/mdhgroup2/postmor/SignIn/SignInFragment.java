@@ -41,17 +41,6 @@ public class SignInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.sign_in_fragment, container, false);
         mViewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
-        mViewModel.amILoggedIn().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                Boolean result = aBoolean;
-                if (result){
-                    Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
-                }
-            }
-        });
-
-        mViewModel.checkLoginStatus();
 
         mViewModel.getResult().observe(this, new Observer<List<String>>() {
             @Override
