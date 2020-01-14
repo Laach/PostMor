@@ -93,6 +93,8 @@
     <!-- user to user fragment -->
 
     <!-- about fragment -->
+    <string name="about_information">This app is used to send virtual mails between users. It has been constructed by five students from Mälardalens University: Alexander Andersson, Casper Andersson, Emil Elfström,
+    Philip Karlsson and Nick Grannas. This app has been part of an project in the course Mobile Application at Mälardalens University during the period 11-11-2019 to 15-1-2020.</string>
 
     <!-- User popup windows -->
     <string name="found_user_name">Name: </string>
