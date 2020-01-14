@@ -60,6 +60,15 @@ public class Compose2HandwrittenViewModel extends ViewModel {
         draftMsg.postValue(editMsgDraft);
     }
 
+    public EditMsg getMsg(){
+        return editMsgDraft;
+    }
+
+    public boolean sendMessage(EditMsg message){
+        return letterRepo.sendDraft(message);
+    }
+
+
     private class SaveDraftTask extends AsyncTask<EditMsg, Void, Void>{
         @Override
         protected Void doInBackground(EditMsg... editMsgs) {
