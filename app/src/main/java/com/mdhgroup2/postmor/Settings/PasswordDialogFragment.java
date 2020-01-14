@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,21 +32,34 @@ public class PasswordDialogFragment extends DialogFragment {
         final EditText newPassword = dialogView.findViewById(R.id.newPassword);
         final EditText confirmNewPassword = dialogView.findViewById(R.id.confirmNewPassword);
         final TextView passwordHint = dialogView.findViewById(R.id.passwordHint);
+        final Button confirmButton = dialogView.findViewById(R.id.change_pass_confirm_button);
+        final Button cancelButton = dialogView.findViewById(R.id.change_pass_cancel_button);
 
         builder.setView(dialogView)
-                .setMessage("Change Password")
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(mViewModel.checkOldPassword(oldPassword.getText().toString())){
-
-                        }
-                        Toast toast = Toast.makeText(getContext(),"Old password was incorrect.", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setMessage("Change Password");
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
+//                if(mViewModel.checkOldPassword(oldPassword.getText().toString()){
+//                            if(newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
+//                                mViewModel.setNewPassword(confirmNewPassword.getText().toString());
+//                                Toast toast = Toast.makeText(getContext(),"Your password has been updated.", Toast.LENGTH_SHORT);
+//                                toast.show();
+//                                dialog.cancel();
+//                            }
+//                        }
+                    if(newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
+                        Toast toast = Toast.makeText(getContext(),"Your password has been updated.", Toast.LENGTH_SHORT);
+                        toast.show();
+                        PasswordDialogFragment.this.getDialog().cancel();
+                    }
+                    Toast toast = Toast.makeText(getContext(),"Old password was incorrect.", Toast.LENGTH_SHORT);
+                    toast.show();
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 PasswordDialogFragment.this.getDialog().cancel();
             }
         });
