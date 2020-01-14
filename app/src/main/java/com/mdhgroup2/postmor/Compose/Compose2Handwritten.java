@@ -211,6 +211,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
             }
         });
 
+        final SendMessageTask2 sendMessageTask2 = new SendMessageTask2(getContext(),this, mViewModel);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +223,7 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
 
                         Log.d("test", "onClick: send");
                         //mViewModel.sendMessage();
-                        SendMessageTask2 sendMessageTask2 = new SendMessageTask2(getContext(), mViewModel);
+
                         sendMessageTask2.execute(mViewModel.getMsg());
                     } else {
                         Toast.makeText(getActivity(),"No message!", Toast.LENGTH_SHORT).show();
@@ -249,6 +250,16 @@ public class Compose2Handwritten extends Fragment implements OnStartDragListener
         mViewModel.saveDraft();
 
         super.onDestroy();
+    }
+
+    public void clearDraft(){
+        int count = mAdapter.getItemCount();
+
+        mAdapter.clear();
+        for(int i = 0; i < count; i++){
+            mViewModel.removeImage(0);
+            //mAdapter.removeItem(i);
+        }
     }
 
     public void removeFile(String fileName, int position){
@@ -368,11 +379,13 @@ class SendMessageTask2 extends AsyncTask<EditMsg, Void, Boolean> {
     private Context mContext;
     private Compose2HandwrittenViewModel mViewModel;
     private AlertDialog.Builder alertBuilder;
+    private Compose2Handwritten compose;
 
-    public SendMessageTask2(Context context,Compose2HandwrittenViewModel viewmodel){
+    public SendMessageTask2(Context context,Compose2Handwritten compose2Handwritten ,Compose2HandwrittenViewModel viewmodel){
         mContext = context;
         mProgressDialog = new ProgressDialog(mContext);
         mViewModel = viewmodel;
+        compose = compose2Handwritten;
     }
 
     @Override
@@ -408,6 +421,8 @@ class SendMessageTask2 extends AsyncTask<EditMsg, Void, Boolean> {
 
         if(result){
             //Update UI
+            compose.clearDraft();
+
             alertBuilder.setTitle("Success!")
                     .setMessage("Your letter will be sent at 16:00")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
