@@ -30,7 +30,7 @@ public class DatabaseClient {
 
         // ---------------------------------------------------------
         if(getAccountRepository().isLoggedIn()){
-            getBoxRepository().fetchNewMessages();
+//            getBoxRepository().fetchNewMessages();
         }
         // ---------------------------------------------------------
     }
