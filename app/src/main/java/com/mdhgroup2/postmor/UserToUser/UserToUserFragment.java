@@ -62,7 +62,12 @@ public class UserToUserFragment extends Fragment {
         tv.setText(contact.Address);
 
         ImageView iv = view.findViewById(R.id.cardImageView);
-        iv.setImageBitmap(contact.Picture);
+        if(contact.Picture == null){
+            iv.setImageResource(R.drawable.anon_profile);
+        }
+        else{
+            iv.setImageBitmap(contact.Picture);
+        }
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(String.format("%s", contact.Name));
 
