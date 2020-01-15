@@ -187,7 +187,7 @@ public class BoxRepository implements IBoxRepository {
         msg.TimeStamp = Utils.parseDate(json.getString("timestamp"));
 
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         dateFormat.setLenient(false);
         Date d = Utils.parseDate(json.getString("deliveryTime"));
         if(d == null){
