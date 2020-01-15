@@ -54,7 +54,7 @@ public class Converters {
 
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
 
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, outputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
 
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
