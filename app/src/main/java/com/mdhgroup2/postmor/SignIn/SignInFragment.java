@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ public class SignInFragment extends Fragment {
 
     private SignInViewModel mViewModel;
     private ProgressDialog mProgressDialog;
+    private InputMethodManager IMmanager;
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -43,6 +46,7 @@ public class SignInFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         final View view = inflater.inflate(R.layout.sign_in_fragment, container, false);
         mProgressDialog = new ProgressDialog(getContext());
+        IMmanager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
         mViewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
 
         mViewModel.getResult().observe(this, new Observer<List<String>>() {
@@ -108,8 +112,9 @@ public class SignInFragment extends Fragment {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View onView) {
-
+                IMmanager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Signing in...");
                 mProgressDialog.show();
 
                 String validity = mViewModel.checkValidity();
