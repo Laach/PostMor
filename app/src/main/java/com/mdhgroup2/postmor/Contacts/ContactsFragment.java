@@ -103,7 +103,7 @@ public class ContactsFragment extends Fragment {
                 public void onClick(View view) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                     alertDialogBuilder.setTitle("Search for a user by typing in their address");
-                    alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+                    //alertDialogBuilder.setIcon(R.drawable.ic_search_pink_24dp);
                     alertDialogBuilder.setCancelable(true);
 
                     // Init popup dialog view and it's ui controls.
