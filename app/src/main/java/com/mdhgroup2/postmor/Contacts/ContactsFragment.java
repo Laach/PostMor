@@ -224,7 +224,12 @@ public class ContactsFragment extends Fragment {
         userFoundAddress = popupFoundUserView.findViewById(R.id.found_user_address);
         userFoundAddress.setText(uc.Address);
         userProfilePic = popupFoundUserView.findViewById(R.id.found_user_profile_pic);
-        userProfilePic.setImageBitmap(uc.Picture);
+        if(uc.Picture == null){
+            userProfilePic.setImageResource(R.drawable.anon_profile);
+        }
+        else{
+            userProfilePic.setImageBitmap(uc.Picture);
+        }
 
         addUserbutton = popupFoundUserView.findViewById(R.id.button_add_user);
         cancelUserFoundButton = popupFoundUserView.findViewById(R.id.button_cancel_user_found);
