@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_markunread_black_24dp)
+                .setSmallIcon(R.drawable.ic_markunread_white_24dp)
                 .setContentTitle("You have received " + amountOfNewMessages + " new letter(s).")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
