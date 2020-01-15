@@ -60,7 +60,7 @@ public class RegisterViewModel extends ViewModel {
             }
             myAccount.Address = newAddress;
         } catch (NullPointerException e){
-            
+
         }
 
     }
