@@ -14,7 +14,7 @@
     <string name="remove_contact_button">Remove</string>
     <string name="open_button">Open</string>
     <string name="register_back">Back</string>
-    <string name="register_1_regenerate_button_title">Regenerate</string>
+    <string name="register_1_regenerate_button_title">New Address</string>
     <string name="register_2_upload_button_title">Upload</string>
     <string name="register_3_submit_button">Submit</string>
     <string name="register_button_text">Register</string>
@@ -25,7 +25,7 @@
     <string name="enter_email_label">Email:</string>
     <string name="enter_firstname_label">First Name:</string>
     <string name="enter_email_clue">Ex: johndoe@gmail.com</string>
-    <string name="enter_firstname_clue">Ex: John</string>
+    <string name="enter_firstname_clue">Ex: John Doe</string>
     <string name="enter_password_label">Password:</string>
     <string name="confirm_password_label">Confirm password:</string>
     <string name="register_2_description">Choose a profile picture</string>
@@ -55,33 +55,33 @@
 
 
     <!-- compose fragment -->
-    <string name="compose_type_text">Type a letter</string>
-    <string name="compose_handwrite_text">Write by hand</string>
+    <string name="compose_type_text">Type your letter</string>
+    <string name="compose_handwrite_text">Use handwritten letter</string>
     <string name="compose_or_text">or</string>
     <string name="compose_to_text">To:</string>
     <string name="compose_choose_recipient">Choose recipient</string>
     <string name="compose_pick_from_contacts">Pick from contacts</string>
-    <string name="compose_enter_their_address_label">Enter their address</string>
-    <string name="compose_address_hint">Ex: Masksnöskottargatan 123</string>
+    <string name="compose_enter_their_address_label">Enter their address:\ </string>
+    <string name="compose_address_hint">Ex: Blacksmith road</string>
     <string name="compose_choose_pictures">Choose pictures</string>
-    <string name="compose_type_instructions">Type your letter in the text field below. When you are ready to send it press the button:</string>
+    <string name="compose_type_instructions">Type your letter in the text field. When you are done, press send.</string>
     <string name="compose_add_picture">Add a picture</string>
-    <string name="compose_enter_text_hint">Write your letter here...</string>
+    <string name="compose_enter_text_hint">Dear friend. I write you ...</string>
 
     <!-- contacts fragment -->
 
     <!-- register fragment -->
-    <string name="register_1_description">In postmor, your real name and generated "home address" are used to send you letters.</string>
+    <string name="register_1_description">In PostMor you share your real name with your friends. Others can contact you if they have your unique "home address".</string>
     <string name="register_1_address_explanation_text">Choose an address</string>
 
 
-    <string name="register_3_description">Choose a password. Your password should be unique and not used anywhere else in order to be safe.</string>
-    <string name="password_validity_feedback_match">Password and confirm password needs to match.</string>
+    <string name="register_3_description">Please choose a password that is unique and not used elsewhere.</string>
+    <string name="password_validity_feedback_match">Password and confirm password does not match.</string>
     <string name="password_validity_feedback_length">Password must contain at least 6 characters</string>
-    <string name="password_validity_feedback_lowercase">Password must contain at least 1 lowercase letter.</string>
-    <string name="password_validity_feedback_uppercase">Password must contain at least 1 uppercase letter.</string>
-    <string name="password_validity_feedback_numeric">Password must contain at least 1 numeric character.</string>
-    <string name="password_validity_feedback_char">Password must contain at least 1 non alphanumeric character.</string>
+    <string name="password_validity_feedback_lowercase">Password must contain at least 1 lowercase letter (abcd).</string>
+    <string name="password_validity_feedback_uppercase">Password must contain at least 1 uppercase letter (ABCD).</string>
+    <string name="password_validity_feedback_numeric">Password must contain at least 1 numeric character (1234).</string>
+    <string name="password_validity_feedback_char">Password must contain at least 1 non alphanumeric character (!@#$).</string>
 
     <!-- settings fragment -->
     <string name="old_password_text">Old Password:</string>
@@ -105,9 +105,6 @@
     <string name="found_user_name">Name: </string>
     <string name="found_user_address">Address: </string>
     <string name="found_user_profile_pic_description">Profile pic</string>
-    <string name="add_user_address_hint">Input user address</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_user_address_hint">Search by address:</string>
 
 </resources>
