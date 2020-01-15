@@ -51,7 +51,18 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void generateAddresses(){
-        myAccount.Address = recievedAddresses.get(rand.nextInt(numberOfAddress));
+        try{
+            String oldAddress = myAccount.Address;
+            String newAddress = recievedAddresses.get(rand.nextInt(numberOfAddress));
+            while(newAddress.equals(oldAddress))
+            {
+                newAddress = recievedAddresses.get(rand.nextInt(numberOfAddress));
+            }
+            myAccount.Address = newAddress;
+        } catch (NullPointerException e){
+
+        }
+
     }
 
     public void getAddressesFromDB(int amount){
