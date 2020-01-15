@@ -126,6 +126,7 @@ public static register3 newInstance() {
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View onView){
+                mProgressDialog.setMessage("Registering...");
                 mProgressDialog.show();
                 mProgressDialog.setCancelable(false);
                         

@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,6 +56,7 @@ public class ContactsFragment extends Fragment {
     private Button addUserbutton = null;
     private Button cancelUserFoundButton = null;
 
+    private InputMethodManager IMmanager;
     private List<Contact> contacts = null;
 
 
@@ -67,7 +69,7 @@ public class ContactsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.contacts_fragment, container, false);
-
+        IMmanager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
         recyclerView = view.findViewById(R.id.contactsRecyclerView);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(container.getContext());
@@ -103,7 +105,7 @@ public class ContactsFragment extends Fragment {
                 public void onClick(View view) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                     alertDialogBuilder.setTitle("Search for a user by typing in their address");
-                    alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+                    //alertDialogBuilder.setIcon(R.drawable.ic_search_pink_24dp);
                     alertDialogBuilder.setCancelable(true);
 
                     // Init popup dialog view and it's ui controls.
@@ -122,6 +124,7 @@ public class ContactsFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
 
+                            IMmanager.hideSoftInputFromWindow(view.getWindowToken(),0);
                             String userAddress = userSearch.getText().toString();
 
                             if (userAddress.isEmpty()) {
@@ -179,6 +182,7 @@ public class ContactsFragment extends Fragment {
                     cancelUserAddButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            IMmanager.hideSoftInputFromWindow(view.getWindowToken(),1);
                             addUserDialog.cancel();
                         }
                     });

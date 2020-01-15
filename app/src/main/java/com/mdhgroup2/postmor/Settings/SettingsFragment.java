@@ -64,6 +64,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Signing out...");
                 mProgressDialog.show();
                 mViewModel.logOut();
                 getActivity().finishAffinity();

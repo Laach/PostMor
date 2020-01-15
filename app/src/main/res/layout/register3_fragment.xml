@@ -68,7 +68,6 @@
         android:layout_marginTop="16dp"
         android:text=""
         android:textColor="#F44336"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/register_password_confirm_text"
         app:layout_constraintTop_toBottomOf="@+id/register_password_confirm_input" />
 
