@@ -1,0 +1,260 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{17}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Ameri}{Ameri}{ND}]%
+        {lecturenotes-mobile}
+\bibfield{author}{\bibinfo{person}{Afshin Ameri}.}
+  \bibinfo{year}{N.D.}\natexlab{}.
+\newblock \bibinfo{title}{DVA232 Mobile Apps - Lecture 3}.
+  (\bibinfo{year}{N.D.}).
+\newblock
+\newblock
+\shownote{unpublished.}
+
+
+\bibitem[\protect\citeauthoryear{Blevis and Blevis}{Blevis and Blevis}{2018}]%
+        {design-inspiration}
+\bibfield{author}{\bibinfo{person}{Eli Blevis} {and}
+  \bibinfo{person}{Shunying~An Blevis}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Design Inspirations from the Wisdom of Years}.
+\newblock \bibinfo{journal}{\emph{DIS '18: Designing Interactive Systems
+  Conference 2018}} (\bibinfo{year}{2018}), \bibinfo{pages}{719--732}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3196709.3196816}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chang, Gouldstone, Zigelbaum, and Ishii}{Chang
+  et~al\mbox{.}}{2007}]%
+        {simplicity-in-interactiondesign}
+\bibfield{author}{\bibinfo{person}{Angela Chang}, \bibinfo{person}{James
+  Gouldstone}, \bibinfo{person}{Jamie Zigelbaum}, {and}
+  \bibinfo{person}{Hiroshi Ishii}.} \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{Simplicity in Interaction Design}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the 1st international
+  conference on Tangible and embedded interaction}} (\bibinfo{year}{2007}),
+  \bibinfo{pages}{135--138}.
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.1145/1226969.1226997}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]a}]%
+        {activity}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{a}.
+\newblock \bibinfo{title}{Activity}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://developer.android.com/reference/android/app/Activity}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]b}]%
+        {fragmentcommunication}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{b}.
+\newblock \bibinfo{title}{Communicate with other fragments}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://developer.android.com/training/basics/fragments/communicating}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]c}]%
+        {fragments}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{c}.
+\newblock \bibinfo{title}{Fragments}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://developer.android.com/guide/components/fragments}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]d}]%
+        {navigation}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{d}.
+\newblock \bibinfo{title}{Navigation}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://developer.android.com/guide/navigation}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]e}]%
+        {singleactivity}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{e}.
+\newblock \bibinfo{title}{Single Activity: Why, When, and How (Android Dev
+  Summit ‘18)}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://www.youtube.com/watch?v=2k8x8V77CrU}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]f}]%
+        {viewmodel}
+\bibfield{author}{\bibinfo{person}{Android Developers}.}
+  \bibinfo{year}{[n.d.]}\natexlab{f}.
+\newblock \bibinfo{title}{ViewModel Overview}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://developer.android.com/topic/libraries/architecture/viewmodel.html}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Lindell}{Lindell}{2019}]%
+        {lecturenotes-interaktion}
+\bibfield{author}{\bibinfo{person}{Rikard Lindell}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{title}{Lecture 1 - DVA123 Interaktionsdesign}.
+  (\bibinfo{year}{2019}).
+\newblock
+\newblock
+\shownote{unpublished.}
+
+
+\bibitem[\protect\citeauthoryear{Material}{Material}{[n.d.]a}]%
+        {materialdesign}
+\bibfield{author}{\bibinfo{person}{Material}.}
+  \bibinfo{year}{[n.d.]}\natexlab{a}.
+\newblock \bibinfo{title}{Design}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://material.io/design/}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Material}{Material}{[n.d.]b}]%
+        {materialicons}
+\bibfield{author}{\bibinfo{person}{Material}.}
+  \bibinfo{year}{[n.d.]}\natexlab{b}.
+\newblock \bibinfo{title}{Icons}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://material.io/resources/icons/?style=baseline}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Pausrr}{Pausrr}{[n.d.]}]%
+        {pausrr}
+\bibfield{author}{\bibinfo{person}{Pausrr}.} \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Pausrr Icon Set Sketch Resource}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://www.sketchappsources.com/free-source/1887-pausrr-icon-set-sketch-freebie-resource.html}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Slowly}{Slowly}{[n.d.]}]%
+        {slowly}
+\bibfield{author}{\bibinfo{person}{Slowly}.} \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Slowly}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://www.getslowly.com/en/}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Statcounter}{Statcounter}{[n.d.]}]%
+        {statcounter}
+\bibfield{author}{\bibinfo{person}{Statcounter}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Mobile vs Tablet Market Share Worldwide - December
+  2019}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://gs.statcounter.com/platform-market-share/mobile-tablet/worldwide/#monthly-201812-201912}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wikipedia}{Wikipedia}{[n.d.]}]%
+        {gantt}
+\bibfield{author}{\bibinfo{person}{Wikipedia}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{title}{Gantt chart}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://en.wikipedia.org/wiki/Gantt_chart}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wikipedia}{Wikipedia}{2019}]%
+        {adodotnet}
+\bibfield{author}{\bibinfo{person}{Wikipedia}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{title}{ADO.NET}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://en.wikipedia.org/wiki/ADO.NET}
+\showURL{%
+Retrieved January 17, 2020 from \tempurl}
+
+
+\end{thebibliography}
