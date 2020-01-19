@@ -48,33 +48,28 @@
 \shownote{unpublished.}
 
 
-\bibitem[\protect\citeauthoryear{Blevis and Blevis}{Blevis and Blevis}{2018}]%
+\bibitem[\protect\citeauthoryear{Blevis and Blevis}{Blevis and
+  Blevis}{[n.d.]}]%
         {design-inspiration}
 \bibfield{author}{\bibinfo{person}{Eli Blevis} {and}
-  \bibinfo{person}{Shunying~An Blevis}.} \bibinfo{year}{2018}\natexlab{}.
+  \bibinfo{person}{Shunying~An Blevis}.} \bibinfo{year}{[n.d.]}\natexlab{}.
 \newblock \showarticletitle{Design Inspirations from the Wisdom of Years}.
 \newblock \bibinfo{journal}{\emph{DIS '18: Designing Interactive Systems
-  Conference 2018}} (\bibinfo{year}{2018}), \bibinfo{pages}{719--732}.
+  Conference 2018}} (\bibinfo{year}{[n.\,d.]}), \bibinfo{pages}{719--732}.
 \newblock
-\urldef\tempurl%
-\url{https://doi.org/10.1145/3196709.3196816}
-\showDOI{\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Chang, Gouldstone, Zigelbaum, and Ishii}{Chang
-  et~al\mbox{.}}{2007}]%
+  et~al\mbox{.}}{[n.d.]}]%
         {simplicity-in-interactiondesign}
 \bibfield{author}{\bibinfo{person}{Angela Chang}, \bibinfo{person}{James
   Gouldstone}, \bibinfo{person}{Jamie Zigelbaum}, {and}
-  \bibinfo{person}{Hiroshi Ishii}.} \bibinfo{year}{2007}\natexlab{}.
+  \bibinfo{person}{Hiroshi Ishii}.} \bibinfo{year}{[n.d.]}\natexlab{}.
 \newblock \showarticletitle{Simplicity in Interaction Design}.
 \newblock \bibinfo{journal}{\emph{Proceedings of the 1st international
-  conference on Tangible and embedded interaction}} (\bibinfo{year}{2007}),
+  conference on Tangible and embedded interaction}} (\bibinfo{year}{[n.\,d.]}),
   \bibinfo{pages}{135--138}.
 \newblock
-\urldef\tempurl%
-\url{https://doi.org/10.1145/1226969.1226997}
-\showDOI{\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Developers}{Developers}{[n.d.]a}]%
